@@ -1,6 +1,12 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
+
+@font-face {
+  font-family: 'Roboto-Regular';
+  src: local('Roboto-Regular'), url(./assets/fonts/Roboto-Regular.tff) format('truetype');
+}
+
 html {
   box-sizing: border-box;
   height: 100%;
@@ -17,6 +23,7 @@ html {
 body {
   height: 100%;
   background-color: #efeeee;
+  font-family: 'Roboto-Regular', sans-serif;
 }
 
 #root {
