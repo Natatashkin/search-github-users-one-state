@@ -1,28 +1,24 @@
-import axios from 'axios';
-// import { Octokit } from 'octokit';
+import axios from "axios";
 
-axios.defaults.baseURL = 'https://api.github.com';
-axios.defaults.headers.common['Authorization'] =
-  // 'token ';
-  axios.defaults.headers.accept = 'application/vnd.github+json';
+axios.defaults.baseURL = "https://api.github.com";
+axios.defaults.headers.common["Authorization"] =
+  "token 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";
+axios.defaults.headers.accept = "application/vnd.github+json";
 
-const controller = new AbortController();
-
-const getUser = async username => {
+const getUser = async (username) => {
   const { data } = await axios.get(`/users/${username}`);
   return data;
 };
 
 const getRateLimit = async () => {
-  const response = await axios.get('/rate_limit');
+  const response = await axios.get("/rate_limit");
   return response;
 };
 
 const searchUsers = async (name, page) => {
   try {
     const { data } = await axios.get(
-      `/search/users?q=${name}&type=user&in=name&per_page=15&page=${page}`,
-      { signal: controller.signal }
+      `/search/users?q=${name}&type=user&in=name&per_page=15&page=${page}`
     );
     const findUsers = data.items.map(({ login }) => {
       const response = getUser(login);
@@ -35,4 +31,4 @@ const searchUsers = async (name, page) => {
   }
 };
 
-export { getRateLimit, searchUsers, getUser, controller };
+export { getRateLimit, searchUsers, getUser };

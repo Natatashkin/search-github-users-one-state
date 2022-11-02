@@ -1,11 +1,16 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { useSearchParams, useLocation } from 'react-router-dom';
-import { UsersList, UsersListItem } from '../../components';
-import debounce from 'lodash.debounce';
-import * as ghApi from '../../api/ghApi';
+import React, { useState, useCallback, useEffect } from "react";
+import {
+  useSearchParams,
+  useLocation,
+  useOutletContext,
+} from "react-router-dom";
+import { UsersList, UsersListItem } from "../../components";
+import debounce from "lodash.debounce";
+import * as ghApi from "../../api/ghApi";
 
-const SearchPage = ({ query, getCurrentUser }) => {
+const SearchPage = ({ getCurrentUser }) => {
   const location = useLocation();
+  const { searchQuery: query } = useOutletContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const [userList, setUserList] = useState([]);
   const [searchQuery, setSearchQuery] = useState(query);
@@ -13,11 +18,12 @@ const SearchPage = ({ query, getCurrentUser }) => {
   const [loading, setIsLoading] = useState(false);
 
   const removeSearchParams = useCallback(() => {
-    searchParams.delete('q');
+    searchParams.delete("q");
     setSearchParams(searchParams);
   }, [searchParams, setSearchParams]);
 
   const makeSearchQuery = useCallback(async (data, page) => {
+    console.log("вызов");
     setUserList([]);
     try {
       setIsLoading(true);
@@ -29,32 +35,28 @@ const SearchPage = ({ query, getCurrentUser }) => {
     setIsLoading(false);
   }, []);
 
-  const debounceRequest = useCallback(
-    () => debounce(makeSearchQuery, 500),
-    [makeSearchQuery]
-  );
+  const debounceRequest = useCallback(debounce(makeSearchQuery, 500));
 
   useEffect(() => {
     setSearchQuery(query);
   }, [query]);
 
   useEffect(() => {
+    console.log(searchQuery);
     if (searchQuery.length >= 3) {
       setSearchParams({ q: searchQuery });
       debounceRequest(searchQuery, page);
       return;
     }
-    // ghApi.controller.abort();
     removeSearchParams();
     setUserList([]);
-  }, [searchQuery, page, debounceRequest, removeSearchParams, setSearchParams]);
-
+  }, [searchQuery, page]);
   return (
     <div>
       {loading && <h3>Loading...</h3>}
       {userList && searchQuery && (
         <UsersList>
-          {userList.map(item => (
+          {userList.map((item) => (
             <UsersListItem key={item.id} item={item} location={location} />
           ))}
         </UsersList>
