@@ -13,7 +13,7 @@ const App = () => {
         <Route index element={<HomePage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/user" element={<UserPage />} />
+        <Route path="/user/:userId" element={<UserPage />} />
       </Route>
     </Routes>
   );

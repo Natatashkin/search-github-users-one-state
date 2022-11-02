@@ -1,7 +1,8 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const HeaderContainer = styled.header`
-  position: relative;
+  position: sticky;
+  top: 0;
   display: flex;
   align-items: center;
   width: 100%;
