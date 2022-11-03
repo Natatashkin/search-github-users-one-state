@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 const List = styled.ul`
-  width: 100%;
   height: 100%;
-  margin: 0;
-  padding: 0;
+  margin-left: auto;
+  margin-right: auto;
   list-style: none;
+  overflow: auto;
 
   @media (min-width: 768px) {
     width: 400px;

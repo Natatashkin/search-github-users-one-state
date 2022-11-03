@@ -1,8 +1,8 @@
-import React from 'react';
-import { List } from './UsersList.styled';
+import React, { forwardRef } from "react";
+import { List } from "./UsersList.styled";
 
-const UsersList = ({ children }) => {
-  return <List>{children}</List>;
-};
+const UsersList = forwardRef(({ children }, ref) => {
+  return <List ref={ref}>{children}</List>;
+});
 
 export default UsersList;

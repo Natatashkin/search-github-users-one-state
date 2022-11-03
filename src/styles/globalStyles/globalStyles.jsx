@@ -7,8 +7,11 @@ const GlobalStyles = createGlobalStyle`
   src: local('Roboto-Regular'), url(./assets/fonts/Roboto-Regular.tff) format('truetype');
 }
 
+:root{
+--header-height: 60px;
+}
+
 html {
-  box-sizing: border-box;
   height: 100%;
   
 }
@@ -18,7 +21,8 @@ html {
 *::after {
   margin: 0;
   padding: 0;
-  box-sizing: inherit;
+  box-sizing: border-box;
+  /* box-sizing: inherit; */
 }
 
 body {
