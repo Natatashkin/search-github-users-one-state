@@ -10,6 +10,7 @@ const GlobalStyles = createGlobalStyle`
 html {
   box-sizing: border-box;
   height: 100%;
+  
 }
 
 *,
@@ -21,7 +22,6 @@ html {
 }
 
 body {
-  height: 100%;
   background-color: #efeeee;
   font-family: 'Roboto-Regular', sans-serif;
 }

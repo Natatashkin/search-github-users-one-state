@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import { useLocation, useMatch } from "react-router-dom";
 import { TextField } from "../TextField";
 import { PageTitle } from "../PageTitle";
@@ -8,6 +8,7 @@ import { HeaderContainer, InputWrapper } from "./Header.styled";
 const Header = ({ onGetQuery }) => {
   const location = useLocation();
   const match = useMatch("/user/*");
+
   const [showSearch, setShowSearch] = useState(false);
   const [query, setQuery] = useState("");
 

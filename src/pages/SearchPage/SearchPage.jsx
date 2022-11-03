@@ -1,14 +1,43 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+} from "react";
 import {
   useSearchParams,
   useLocation,
   useOutletContext,
 } from "react-router-dom";
-import { UsersList, UsersListItem } from "../../components";
+import { UsersList, UsersListItem, Container } from "../../components";
 import debounce from "lodash.debounce";
 import * as ghApi from "../../api/ghApi";
+import styled from "styled-components";
+
+const PageContainer = styled.div`
+  margin: 0 "auto";
+  height: ${({ height }) => (height ? `${height}px` : "auto")};
+`;
+
+function useWindowSize() {
+  const [size, setSize] = useState([0, 0]);
+
+  function updateSize() {
+    setSize([window.innerWidth, window.innerHeight]);
+  }
+
+  useLayoutEffect(() => {
+    window.addEventListener("resize", updateSize);
+    updateSize();
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
+  return size;
+}
 
 const SearchPage = ({ getCurrentUser }) => {
+  const [width, height] = useWindowSize();
+
   const location = useLocation();
   const { searchQuery: query } = useOutletContext();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -23,7 +52,6 @@ const SearchPage = ({ getCurrentUser }) => {
   }, [searchParams, setSearchParams]);
 
   const makeSearchQuery = useCallback(async (data, page) => {
-    console.log("вызов");
     setUserList([]);
     try {
       setIsLoading(true);
@@ -51,17 +79,26 @@ const SearchPage = ({ getCurrentUser }) => {
     removeSearchParams();
     setUserList([]);
   }, [searchQuery, page]);
+  console.log(height);
+
+  const containerHeight = useMemo(() => {
+    const blockHeight = height - 60;
+    return blockHeight;
+  }, [height]);
+
   return (
-    <div>
-      {loading && <h3>Loading...</h3>}
-      {userList && searchQuery && (
-        <UsersList>
-          {userList.map((item) => (
-            <UsersListItem key={item.id} item={item} location={location} />
-          ))}
-        </UsersList>
-      )}
-    </div>
+    <PageContainer height={containerHeight}>
+      <Container>
+        {loading && <h3>Loading...</h3>}
+        {userList && searchQuery && (
+          <UsersList>
+            {userList.map((item) => (
+              <UsersListItem key={item.id} item={item} location={location} />
+            ))}
+          </UsersList>
+        )}
+      </Container>
+    </PageContainer>
   );
 };
 

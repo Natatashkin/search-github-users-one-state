@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
-import { Container } from "../Container";
 import { Header } from "../Header";
 import styled from "styled-components";
+import { useEffect } from "react";
 
 const LayoutContainer = styled.div`
   position: relative;
@@ -10,7 +10,6 @@ const LayoutContainer = styled.div`
 
 const PageLayout = () => {
   const [searchQuery, setSearchQuery] = useState("");
-
   const getQuery = (query) => {
     setSearchQuery(query);
   };
@@ -18,9 +17,8 @@ const PageLayout = () => {
   return (
     <LayoutContainer>
       <Header onGetQuery={getQuery} />
-      <Container>
-        <Outlet context={{ searchQuery }} />
-      </Container>
+
+      <Outlet context={{ searchQuery }} />
     </LayoutContainer>
   );
 };
