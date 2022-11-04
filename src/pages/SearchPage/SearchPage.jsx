@@ -7,9 +7,16 @@ import {
 import { UsersList, UsersListItem, Container } from "../../components";
 import debounce from "lodash.debounce";
 import * as ghApi from "../../api/ghApi";
+import styled from "styled-components";
+
+const UserListContainer = styled.div`
+  height: 100%;
+  overflow: auto;
+`;
 
 const SearchPage = ({ getCurrentUser }) => {
   const listHeightRef = useRef(null);
+  const listContainerHeight = useRef(null);
   const location = useLocation();
   const { searchQuery: query } = useOutletContext();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -31,8 +38,9 @@ const SearchPage = ({ getCurrentUser }) => {
       setUserList(users);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, []);
 
   const debounceRequest = useCallback(debounce(makeSearchQuery, 500));
@@ -42,7 +50,6 @@ const SearchPage = ({ getCurrentUser }) => {
   }, [query]);
 
   useEffect(() => {
-    console.log(searchQuery);
     if (searchQuery.length >= 3) {
       setSearchParams({ q: searchQuery });
       debounceRequest(searchQuery, page);
@@ -52,35 +59,37 @@ const SearchPage = ({ getCurrentUser }) => {
     setUserList([]);
   }, [searchQuery, page]);
 
-  const handleScroll = ({ target }) => {
-    const shouldLoadMoreUsers =
-      target.scrollHeight - target.scrollTop - target.offsetHeight < 50;
-    console.log(shouldLoadMoreUsers);
+  const handleScroll = (e) => {
+    // console.dir(e.target);
+    // console.log("e.target.scrollHeight", e.target.scrollHeight);
+    // console.log("e.target.scrollTop", e.target.scrollTop);
+    // console.log("e.target.clientHeight", e.target.clientHeight);
+    // console.log(loading);
 
-    if (shouldLoadMoreUsers) {
-      setPage((prev) => prev + 1);
+    const shouldUpdate =
+      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    if (loading && shouldUpdate) return;
+
+    console.log(shouldUpdate);
+    if (shouldUpdate) {
+      setPage((prevPage) => {
+        console.log(prevPage);
+        return prevPage + 1;
+      });
     }
-    // if (target.scrollHeight - target.scrollTo > 50) {
-
-    // }
-    // const bottom = listHeight -
   };
-
-  useEffect(() => {
-    if (listHeightRef.current) {
-      listHeightRef.current.addEventListener("scroll", handleScroll);
-    }
-  }, []);
 
   return (
     <Container>
       {loading && <h3>Loading...</h3>}
       {userList && searchQuery && (
-        <UsersList ref={listHeightRef}>
-          {userList.map((item) => (
-            <UsersListItem key={item.id} item={item} location={location} />
-          ))}
-        </UsersList>
+        <UserListContainer onScroll={handleScroll}>
+          <UsersList ref={listHeightRef}>
+            {userList.map((item) => (
+              <UsersListItem key={item.id} item={item} location={location} />
+            ))}
+          </UsersList>
+        </UserListContainer>
       )}
     </Container>
   );
