@@ -15,8 +15,6 @@ const UserListContainer = styled.div`
 `;
 
 const SearchPage = ({ getCurrentUser }) => {
-  const listHeightRef = useRef(null);
-  const listContainerHeight = useRef(null);
   const location = useLocation();
   const { searchQuery: query } = useOutletContext();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -31,49 +29,49 @@ const SearchPage = ({ getCurrentUser }) => {
   }, [searchParams, setSearchParams]);
 
   const makeSearchQuery = useCallback(async (data, page) => {
-    setUserList([]);
     try {
       setIsLoading(true);
       const users = await ghApi.searchUsers(data, page);
+      if (page > 1) {
+        setUserList((prevList) => {
+          return [...prevList, ...users];
+        });
+        setIsLoading(false);
+        return;
+      }
       setUserList(users);
     } catch (error) {
       console.log(error);
-    } finally {
-      setIsLoading(false);
     }
+    setIsLoading(false);
   }, []);
 
-  const debounceRequest = useCallback(debounce(makeSearchQuery, 500));
+  const debouncedRequest = useCallback(debounce(makeSearchQuery, 500));
 
   useEffect(() => {
     setSearchQuery(query);
+    setUserList([]);
+    setPage(1);
   }, [query]);
 
   useEffect(() => {
     if (searchQuery.length >= 3) {
       setSearchParams({ q: searchQuery });
-      debounceRequest(searchQuery, page);
+      debouncedRequest(searchQuery, page);
       return;
     }
     removeSearchParams();
     setUserList([]);
   }, [searchQuery, page]);
 
-  const handleScroll = (e) => {
-    // console.dir(e.target);
-    // console.log("e.target.scrollHeight", e.target.scrollHeight);
-    // console.log("e.target.scrollTop", e.target.scrollTop);
-    // console.log("e.target.clientHeight", e.target.clientHeight);
-    // console.log(loading);
-
+  const handleScroll = ({ target }) => {
+    console.dir(target);
+    // target.scroll({ behavior: "smooth" });
     const shouldUpdate =
-      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+      target.scrollHeight - target.scrollTop === target.clientHeight;
     if (loading && shouldUpdate) return;
-
-    console.log(shouldUpdate);
     if (shouldUpdate) {
       setPage((prevPage) => {
-        console.log(prevPage);
         return prevPage + 1;
       });
     }
@@ -81,14 +79,21 @@ const SearchPage = ({ getCurrentUser }) => {
 
   return (
     <Container>
-      {loading && <h3>Loading...</h3>}
+      {loading && page < 2 && <h3>Loading...</h3>}
       {userList && searchQuery && (
         <UserListContainer onScroll={handleScroll}>
-          <UsersList ref={listHeightRef}>
-            {userList.map((item) => (
-              <UsersListItem key={item.id} item={item} location={location} />
-            ))}
+          <UsersList>
+            {userList.map((item) => {
+              return (
+                <UsersListItem
+                  key={item.node_id || item.id || item.login}
+                  item={item}
+                  location={location}
+                />
+              );
+            })}
           </UsersList>
+          {loading && page > 1 && <h3>Loading...</h3>}
         </UserListContainer>
       )}
     </Container>
