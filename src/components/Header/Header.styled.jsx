@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const HeaderContainer = styled.header`
-  position: sticky;
+  position: relative;
   top: 0;
   display: flex;
   align-items: center;

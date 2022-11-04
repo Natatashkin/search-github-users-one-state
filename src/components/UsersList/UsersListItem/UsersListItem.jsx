@@ -1,6 +1,6 @@
-import React from 'react';
-import { FaStar } from 'react-icons/fa';
-import { IconButton } from '../../IconButton';
+import React from "react";
+import { FaStar } from "react-icons/fa";
+import { IconButton } from "../../IconButton";
 import {
   UserCard,
   UserLink,
@@ -17,11 +17,19 @@ import {
   UserInfoWrapper,
   Favorite,
   User,
-} from './UsersListItem.styled';
+} from "./UsersListItem.styled";
 
 const UsersListItem = ({ item, location }) => {
-  const { name, login, avatar_url, bio, followers, following, public_repos } =
-    item;
+  const {
+    id,
+    name,
+    login,
+    avatar_url,
+    bio,
+    followers,
+    following,
+    public_repos,
+  } = item;
 
   const username = name ? name : login;
 

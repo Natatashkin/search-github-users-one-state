@@ -11,7 +11,11 @@ import styled from "styled-components";
 
 const UserListContainer = styled.div`
   height: 100%;
-  overflow: auto;
+  overflow-y: auto;
+`;
+
+const OptionsContainer = styled.div`
+  height: 40px;
 `;
 
 const SearchPage = ({ getCurrentUser }) => {
@@ -65,8 +69,6 @@ const SearchPage = ({ getCurrentUser }) => {
   }, [searchQuery, page]);
 
   const handleScroll = ({ target }) => {
-    console.dir(target);
-    // target.scroll({ behavior: "smooth" });
     const shouldUpdate =
       target.scrollHeight - target.scrollTop === target.clientHeight;
     if (loading && shouldUpdate) return;
@@ -86,14 +88,16 @@ const SearchPage = ({ getCurrentUser }) => {
             {userList.map((item) => {
               return (
                 <UsersListItem
-                  key={item.node_id || item.id || item.login}
+                  key={String(item.id)}
                   item={item}
                   location={location}
                 />
               );
             })}
           </UsersList>
-          {loading && page > 1 && <h3>Loading...</h3>}
+          <OptionsContainer>
+            {loading && page > 1 && <h3>Loading...</h3>}
+          </OptionsContainer>
         </UserListContainer>
       )}
     </Container>
