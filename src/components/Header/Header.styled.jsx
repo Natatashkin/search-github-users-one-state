@@ -12,6 +12,10 @@ const HeaderContainer = styled.header`
   height: var(--header-height);
 `;
 
+const TitleContainer = styled.div`
+  display: ${({ titleVisibility }) => (titleVisibility ? "none" : "block")};
+`;
+
 const InputWrapper = styled.div`
   position: absolute;
   left: 50%;
@@ -19,4 +23,4 @@ const InputWrapper = styled.div`
   width: 30%;
 `;
 
-export { HeaderContainer, InputWrapper };
+export { HeaderContainer, TitleContainer, InputWrapper };

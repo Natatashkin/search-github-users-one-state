@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { IoPeopleCircleSharp } from "react-icons/io5";
 import { useTheme } from "styled-components";
 import { StyledLink } from "./Logo.styled";

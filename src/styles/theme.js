@@ -1,5 +1,6 @@
 const theme = {
   typography: {
+    h2: "28px",
     h3: "38px",
     p: "16px",
   },
@@ -9,10 +10,10 @@ const theme = {
     bodyColor: "#efeeee",
   },
   breakpoints: {
-    decktop: "1200px",
-    laptop: "1024px",
-    tablet: "768px",
-    mobile: "320px",
+    decktop: "1200",
+    laptop: "1024",
+    tablet: "768",
+    mobile: "480",
   },
 };
 
