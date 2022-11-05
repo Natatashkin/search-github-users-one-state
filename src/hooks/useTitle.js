@@ -27,9 +27,12 @@ const useTitle = () => {
     },
     [theme.breakpoints.tablet]
   );
-  const handleHideTitle = useCallback((e) => {
-    checkTabletBreakpoint(e.target);
-  });
+  const handleHideTitle = useCallback(
+    (e) => {
+      checkTabletBreakpoint(e.target);
+    },
+    [checkTabletBreakpoint]
+  );
 
   useEffect(() => {
     if (isSearchPage) {

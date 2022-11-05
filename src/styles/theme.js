@@ -10,7 +10,7 @@ const theme = {
     bodyColor: "#efeeee",
   },
   breakpoints: {
-    decktop: "1200",
+    desktop: "1200",
     laptop: "1024",
     tablet: "768",
     mobile: "480",

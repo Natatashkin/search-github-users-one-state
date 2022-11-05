@@ -9,7 +9,7 @@ import { HeaderContainer, InputWrapper, TitleContainer } from "./Header.styled";
 const Header = ({ onGetQuery }) => {
   const { hideTitle, showSearch, pageTitle } = useTitle();
   const [query, setQuery] = useState("");
-  const isSearchPage = useMatch("/search");
+  const isSearchPage = Boolean(useMatch("/search"));
   const titleVisibility = isSearchPage ? hideTitle : null;
 
   const handleOnChange = ({ target: { value } }) => {
