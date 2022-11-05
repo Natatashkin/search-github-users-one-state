@@ -26,7 +26,7 @@ html {
 }
 
 body {
-  background-color: #efeeee;
+  background-color: ${({ theme: { colors } }) => colors.bodyColor};
   font-family: 'Roboto-Regular', sans-serif;
 }
 

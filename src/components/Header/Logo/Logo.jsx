@@ -1,36 +1,16 @@
-import React, { useEffect, useState, useMemo } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { IconContext } from "react-icons";
+import React from "react";
+import { Link } from "react-router-dom";
 import { IoPeopleCircleSharp } from "react-icons/io5";
+import { useTheme } from "styled-components";
+import { StyledLink } from "./Logo.styled";
 
 const Logo = () => {
-  const location = useLocation();
-  const [click, setClick] = useState(false);
-
-  const iconColor = useMemo(() => {
-    return click ? "lightgrey" : "#000000";
-  }, [click]);
-
-  const handleClick = () => {
-    setClick(true);
-  };
-
-  useEffect(() => {
-    setClick(false);
-  }, [location]);
+  const theme = useTheme();
 
   return (
-    <Link to="/" onClick={handleClick}>
-      <IconContext.Provider
-        value={{
-          style: {
-            color: iconColor,
-          },
-        }}
-      >
-        <IoPeopleCircleSharp size={28} />
-      </IconContext.Provider>
-    </Link>
+    <StyledLink to="/">
+      <IoPeopleCircleSharp size={28} color={theme.colors.black} />
+    </StyledLink>
   );
 };
 

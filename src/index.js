@@ -3,16 +3,20 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { GlobalStyles } from "./styles/globalStyles";
 import UserProvider from "./context/UserContext";
+import { ThemeProvider } from "styled-components";
+import theme from "./styles/theme";
 import App from "./components/App";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <GlobalStyles />
-      <UserProvider>
-        <App />
-      </UserProvider>
+      <ThemeProvider theme={theme}>
+        <GlobalStyles />
+        <UserProvider>
+          <App />
+        </UserProvider>
+      </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
