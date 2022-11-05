@@ -8,6 +8,7 @@ const theme = {
     black: "#000000",
     white: "#ffffff",
     bodyColor: "#efeeee",
+    lightgrey: "#9f9f9f",
   },
   breakpoints: {
     desktop: "1200",

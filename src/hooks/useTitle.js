@@ -4,18 +4,18 @@ import { useTheme } from "styled-components";
 import { PAGES_DATA } from "../pages/constans";
 
 const useTitle = () => {
-  const theme = useTheme();
   const location = useLocation();
   const isUserPage = useMatch("/user/*");
   const isSearchPage = Boolean(useMatch("/search"));
-
+  const theme = useTheme();
   const [hideTitle, setHideTitle] = useState(false);
+
+  const tabletBreakpoint = Number(theme.breakpoints.tablet);
   const [showSearch, setShowSearch] = useState(false);
 
   const checkTabletBreakpoint = useCallback(
     (elem) => {
       const screenWidth = elem.innerWidth;
-      const tabletBreakpoint = Number(theme.breakpoints.tablet);
       const shouldHideTitle = screenWidth < tabletBreakpoint;
 
       if (shouldHideTitle) {
@@ -25,8 +25,9 @@ const useTitle = () => {
 
       setHideTitle(false);
     },
-    [theme.breakpoints.tablet]
+    [tabletBreakpoint]
   );
+
   const handleHideTitle = useCallback(
     (e) => {
       checkTabletBreakpoint(e.target);

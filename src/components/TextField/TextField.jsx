@@ -1,19 +1,22 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Label, Input } from './TexyField.styled';
+import React from "react";
+import PropTypes from "prop-types";
+import { Label, Input, InputWrapper, Adornment } from "./TextField.styled";
 
 const TextField = ({
   onChange,
-  value = '',
-  label = '',
-  type = 'text',
+  value = "",
+  label = "",
+  type = "text",
   name,
+  children,
+  titleVisibility = false,
 }) => {
   return (
-    <div>
+    <InputWrapper titleVisibility={titleVisibility} name={name}>
+      <Adornment>{children}</Adornment>
       {label && <Label htmlFor={name}>{label}</Label>}
       <Input type={type} name={name} onChange={onChange} value={value} />
-    </div>
+    </InputWrapper>
   );
 };
 
