@@ -14,17 +14,18 @@ const getRateLimit = async () => {
   return response;
 };
 
-const searchUsers = async (name, page) => {
+const searchUsers = async (name, page, per_page) => {
   try {
     const { data } = await axios.get(
-      `/search/users?q=${name}&type=user&in=name&per_page=15&page=${page}`
+      `/search/users?q=${name}&type=user&in=name&per_page=${per_page}&page=${page}`
     );
+
     const findUsers = data.items.map(({ login }) => {
       const response = getUser(login);
       return response;
     });
     const usersData = await Promise.all(findUsers);
-    return usersData;
+    return { usersData, total: data.total_count };
   } catch (error) {
     console.log(error);
   }

@@ -26,29 +26,57 @@ const SearchPage = ({ getCurrentUser }) => {
   const [searchQuery, setSearchQuery] = useState(query);
   const [page, setPage] = useState(1);
   const [loading, setIsLoading] = useState(false);
+  const [totalPages, setTotalPages] = useState(0);
+  const [error, setError] = useState("");
+  const PER_PAGE = 15;
 
   const removeSearchParams = useCallback(() => {
     searchParams.delete("q");
     setSearchParams(searchParams);
   }, [searchParams, setSearchParams]);
 
-  const makeSearchQuery = useCallback(async (data, page) => {
-    try {
-      setIsLoading(true);
-      const users = await ghApi.searchUsers(data, page);
-      if (page > 1) {
-        setUserList((prevList) => {
-          return [...prevList, ...users];
-        });
-        setIsLoading(false);
+  const getTotalPages = useCallback(
+    (totalCount) => {
+      let pagesCount = 0;
+      if (pagesCount === totalCount) {
+        setError(`No users with username "${searchQuery}"`);
         return;
       }
-      setUserList(users);
-    } catch (error) {
-      console.log(error);
-    }
-    setIsLoading(false);
-  }, []);
+      pagesCount = Math.round(totalCount / PER_PAGE);
+      console.log(pagesCount);
+      setTotalPages(pagesCount);
+    },
+    [searchQuery, PER_PAGE]
+  );
+
+  const makeSearchQuery = useCallback(
+    async (data, page, per_page) => {
+      setError("");
+      try {
+        setIsLoading(true);
+        const { usersData, total } = await ghApi.searchUsers(
+          data,
+          page,
+          per_page
+        );
+        getTotalPages(total);
+
+        if (page > 1) {
+          setUserList((prevList) => {
+            return [...prevList, ...usersData];
+          });
+          setIsLoading(false);
+          return;
+        }
+
+        setUserList(usersData);
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+    },
+    [getTotalPages, totalPages]
+  );
 
   const debouncedRequest = useCallback(debounce(makeSearchQuery, 500));
 
@@ -61,7 +89,7 @@ const SearchPage = ({ getCurrentUser }) => {
   useEffect(() => {
     if (searchQuery.length >= 3) {
       setSearchParams({ q: searchQuery });
-      debouncedRequest(searchQuery, page);
+      debouncedRequest(searchQuery, page, PER_PAGE);
       return;
     }
     removeSearchParams();
@@ -70,8 +98,9 @@ const SearchPage = ({ getCurrentUser }) => {
 
   const handleScroll = ({ target }) => {
     const shouldUpdate =
-      target.scrollHeight - target.scrollTop === target.clientHeight;
-    if (loading && shouldUpdate) return;
+      target.scrollHeight - Math.round(target.scrollTop) ===
+      target.clientHeight;
+    // if (loading && shouldUpdate) return;
     if (shouldUpdate) {
       setPage((prevPage) => {
         return prevPage + 1;
@@ -82,6 +111,7 @@ const SearchPage = ({ getCurrentUser }) => {
   return (
     <Container>
       {loading && page < 2 && <h3>Loading...</h3>}
+      {error && !loading && <h3>{error}</h3>}
       {userList && searchQuery && (
         <UserListContainer onScroll={handleScroll}>
           <UsersList>
@@ -95,9 +125,9 @@ const SearchPage = ({ getCurrentUser }) => {
               );
             })}
           </UsersList>
-          <OptionsContainer>
+          {/* <OptionsContainer>
             {loading && page > 1 && <h3>Loading...</h3>}
-          </OptionsContainer>
+          </OptionsContainer> */}
         </UserListContainer>
       )}
     </Container>
