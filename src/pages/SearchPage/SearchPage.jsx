@@ -5,7 +5,8 @@ import {
   useOutletContext,
 } from "react-router-dom";
 import { UsersList, UsersListItem, Container } from "../../components";
-import debounce from "lodash.debounce";
+// import debounce from "lodash.debounce";
+import { useDebouncedCallback } from "use-debounce";
 import * as ghApi from "../../api/ghApi";
 import styled from "styled-components";
 
@@ -28,6 +29,7 @@ const SearchPage = ({ getCurrentUser }) => {
   const [loading, setIsLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [error, setError] = useState("");
+  const [showButton, setShowButton] = useState(false);
   const PER_PAGE = 15;
 
   const removeSearchParams = useCallback(() => {
@@ -49,36 +51,33 @@ const SearchPage = ({ getCurrentUser }) => {
     [searchQuery, PER_PAGE]
   );
 
-  const makeSearchQuery = useCallback(
-    async (data, page, per_page) => {
-      setError("");
-      try {
-        setIsLoading(true);
-        const { usersData, total } = await ghApi.searchUsers(
-          data,
-          page,
-          per_page
-        );
-        getTotalPages(total);
+  const makeSearchQuery = useCallback(async (data, page, per_page) => {
+    setError("");
+    try {
+      setIsLoading(true);
+      const { usersData, total } = await ghApi.searchUsers(
+        data,
+        page,
+        per_page
+      );
+      getTotalPages(total);
 
-        if (page > 1) {
-          setUserList((prevList) => {
-            return [...prevList, ...usersData];
-          });
-          setIsLoading(false);
-          return;
-        }
-
-        setUserList(usersData);
-      } catch (error) {
-        console.log(error);
+      if (page > 1) {
+        setUserList((prevList) => {
+          return [...prevList, ...usersData];
+        });
+        setIsLoading(false);
+        return;
       }
-      setIsLoading(false);
-    },
-    [getTotalPages, totalPages]
-  );
 
-  const debouncedRequest = useCallback(debounce(makeSearchQuery, 500));
+      setUserList(usersData);
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  }, []);
+
+  const debouncedRequest = useDebouncedCallback(makeSearchQuery, 1000);
 
   useEffect(() => {
     setSearchQuery(query);
@@ -100,9 +99,11 @@ const SearchPage = ({ getCurrentUser }) => {
     const shouldUpdate =
       target.scrollHeight - Math.round(target.scrollTop) ===
       target.clientHeight;
-    // if (loading && shouldUpdate) return;
     if (shouldUpdate) {
       setPage((prevPage) => {
+        if (totalPages === page) {
+          return prevPage;
+        }
         return prevPage + 1;
       });
     }
