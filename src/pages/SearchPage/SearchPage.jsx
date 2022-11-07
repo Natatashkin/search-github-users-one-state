@@ -45,6 +45,7 @@ const SearchPage = ({ getCurrentUser }) => {
       top: 0,
       behavior: "smooth",
     });
+    setPage(1);
   };
 
   return (

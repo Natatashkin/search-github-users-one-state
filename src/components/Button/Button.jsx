@@ -1,11 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
+import { TextButton } from "./Button.styled";
 
-const Button = ({ title, type = 'submit', onClick = () => {} }) => {
+const Button = ({ title, type = "submit", onClick = () => {} }) => {
   return (
-    <button type={type} onClick={onClick}>
+    <TextButton type={type} onClick={onClick}>
       {title}
-    </button>
+    </TextButton>
   );
 };
 
