@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef } from "react";
-import { useSearchParams, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import { useFetchUsers } from "../../hooks";
 import {
@@ -13,6 +13,8 @@ import { UserListContainer, ListOptions } from "./SearchPage.styled";
 
 const SearchPage = ({ getCurrentUser }) => {
   const location = useLocation();
+  const listRef = useRef(null);
+  const [showButton, setShowButton] = useState(false);
   const {
     error,
     userList,
@@ -21,27 +23,22 @@ const SearchPage = ({ getCurrentUser }) => {
     showUserList,
     showListSpinner,
     setPage,
-  } = useFetchUsers();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [showButton, setShowButton] = useState(false);
-  const listRef = useRef(null);
+  } = useFetchUsers({ setShowButton });
 
-  const removeSearchParams = useCallback(() => {
-    searchParams.delete("q");
-    setSearchParams(searchParams);
-  }, [searchParams, setSearchParams]);
+  const handleScroll = useCallback(
+    ({ target }) => {
+      const shouldUpdate =
+        target.scrollHeight - Math.ceil(target.scrollTop) <=
+        target.clientHeight;
 
-  const handleScroll = ({ target }) => {
-    const shouldUpdate =
-      target.scrollHeight - Math.round(target.scrollTop) ===
-      target.clientHeight;
-
-    if (shouldUpdate) {
-      setPage((prevPage) => {
-        return prevPage + 1;
-      });
-    }
-  };
+      if (shouldUpdate) {
+        setPage((prevPage) => {
+          return prevPage + 1;
+        });
+      }
+    },
+    [setPage]
+  );
 
   const handleScrollToTop = (e) => {
     listRef.current.scrollTo({

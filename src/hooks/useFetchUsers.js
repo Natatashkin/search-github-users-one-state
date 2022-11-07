@@ -1,12 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 import { useDebouncedCallback } from "use-debounce";
 import * as ghApi from "../api/ghApi";
 
 const PER_PAGE = 15;
 
-const useFetchUsers = () => {
+const useFetchUsers = ({ setShowButton }) => {
   const { searchQuery: query } = useOutletContext();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [userList, setUserList] = useState([]);
   const [searchQuery, setSearchQuery] = useState(query);
   const [page, setPage] = useState(1);
@@ -19,11 +20,17 @@ const useFetchUsers = () => {
   const showUserList = userList && searchQuery;
   const showListSpinner = loading && page > 1;
 
+  const removeSearchParams = useCallback(() => {
+    searchParams.delete("q");
+    setSearchParams(searchParams);
+  }, [searchParams, setSearchParams]);
+
   const getTotalPages = useCallback(
     (totalCount) => {
       let pagesCount = 0;
       if (pagesCount === totalCount) {
         setError(`No users with username "${searchQuery}"`);
+        setUserList([]);
         return;
       }
       pagesCount = Math.ceil(totalCount / PER_PAGE);
@@ -36,6 +43,7 @@ const useFetchUsers = () => {
     async (data, page, per_page) => {
       setError("");
       try {
+        await ghApi.getRateLimit();
         setIsLoading(true);
         const { usersData, total } = await ghApi.searchUsers(
           data,
@@ -67,7 +75,7 @@ const useFetchUsers = () => {
     setUserList([]);
     setTotalPages(0);
     setPage(1);
-    //   setShowButton(false);
+    setShowButton(false);
   };
 
   useEffect(() => {
@@ -77,19 +85,19 @@ const useFetchUsers = () => {
 
   useEffect(() => {
     if (searchQuery.length >= 3) {
-      // setSearchParams({ q: searchQuery });
+      setSearchParams({ q: searchQuery });
 
       if (totalPages > 0 && totalPages < page) {
-        //   setShowButton(true);
+        setShowButton(true);
         return;
       }
       debouncedRequest(searchQuery, page, PER_PAGE);
       return;
     }
-    // removeSearchParams();
+    removeSearchParams();
     setUserList([]);
   }, [searchQuery, page]);
-
+  console.log(page);
   return {
     error,
     userList,
