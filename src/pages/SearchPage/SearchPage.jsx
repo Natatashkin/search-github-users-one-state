@@ -18,6 +18,7 @@ const UserListContainer = styled.div`
 const OptionsContainer = styled.div`
   height: 40px;
 `;
+const PER_PAGE = 15;
 
 const SearchPage = ({ getCurrentUser }) => {
   const location = useLocation();
@@ -30,7 +31,6 @@ const SearchPage = ({ getCurrentUser }) => {
   const [totalPages, setTotalPages] = useState(0);
   const [error, setError] = useState("");
   const [showButton, setShowButton] = useState(false);
-  const PER_PAGE = 15;
 
   const removeSearchParams = useCallback(() => {
     searchParams.delete("q");
@@ -39,7 +39,6 @@ const SearchPage = ({ getCurrentUser }) => {
 
   const getTotalPages = useCallback(
     (totalCount) => {
-      // console.log("searchQuery in count pages", searchQuery);
       let pagesCount = 0;
       if (pagesCount === totalCount) {
         setError(`No users with username "${searchQuery}"`);
@@ -48,36 +47,39 @@ const SearchPage = ({ getCurrentUser }) => {
       pagesCount = Math.ceil(totalCount / PER_PAGE);
       setTotalPages(pagesCount);
     },
-    [searchQuery, PER_PAGE]
+    [searchQuery]
   );
 
-  const makeSearchQuery = useCallback(async (data, page, per_page) => {
-    setError("");
-    try {
-      setIsLoading(true);
-      const { usersData, total } = await ghApi.searchUsers(
-        data,
-        page,
-        per_page
-      );
-      getTotalPages(total);
+  const makeSearchQuery = useCallback(
+    async (data, page, per_page) => {
+      setError("");
+      try {
+        setIsLoading(true);
+        const { usersData, total } = await ghApi.searchUsers(
+          data,
+          page,
+          per_page
+        );
+        getTotalPages(total);
 
-      if (page > 1) {
-        setUserList((prevList) => {
-          return [...prevList, ...usersData];
-        });
-        setIsLoading(false);
-        return;
+        if (page > 1) {
+          setUserList((prevList) => {
+            return [...prevList, ...usersData];
+          });
+          setIsLoading(false);
+          return;
+        }
+
+        setUserList(usersData);
+      } catch (error) {
+        console.log(error);
       }
+      setIsLoading(false);
+    },
+    [getTotalPages]
+  );
 
-      setUserList(usersData);
-    } catch (error) {
-      console.log(error);
-    }
-    setIsLoading(false);
-  }, []);
-
-  const debouncedRequest = useDebouncedCallback(makeSearchQuery, 1000);
+  const debouncedRequest = useDebouncedCallback(makeSearchQuery, 500);
 
   const resetSearchState = () => {
     setUserList([]);
@@ -86,7 +88,6 @@ const SearchPage = ({ getCurrentUser }) => {
   };
 
   useEffect(() => {
-    console.log("query >>>", query);
     setSearchQuery(query);
     resetSearchState();
   }, [query]);
@@ -115,6 +116,8 @@ const SearchPage = ({ getCurrentUser }) => {
       });
     }
   };
+  console.log("query >>>", query);
+  console.log("searchQuery", searchQuery);
 
   return (
     <Container>
