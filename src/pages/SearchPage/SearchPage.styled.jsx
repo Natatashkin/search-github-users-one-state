@@ -8,7 +8,10 @@ const UserListContainer = styled.div`
 `;
 
 const ListOptions = styled.div`
-  height: 40px;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  min-height: 40px;
 `;
 
 export { UserListContainer, ListOptions };

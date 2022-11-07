@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useRef } from "react";
 import { useLocation } from "react-router-dom";
-
 import { useFetchUsers } from "../../hooks";
 import {
   UsersList,
@@ -8,6 +7,7 @@ import {
   Container,
   Spinner,
   Button,
+  ErrorMessage,
 } from "../../components";
 import { UserListContainer, ListOptions } from "./SearchPage.styled";
 
@@ -50,7 +50,7 @@ const SearchPage = ({ getCurrentUser }) => {
   return (
     <Container>
       {showSpinner && <Spinner />}
-      {showError && <h3>{error}</h3>}
+      {showError && <ErrorMessage message={error} />}
       {showUserList && (
         <UserListContainer ref={listRef} onScroll={handleScroll}>
           <UsersList>

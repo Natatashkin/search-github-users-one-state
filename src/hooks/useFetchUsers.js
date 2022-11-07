@@ -17,7 +17,7 @@ const useFetchUsers = ({ setShowButton }) => {
 
   const showSpinner = loading && page < 2;
   const showError = error && !loading;
-  const showUserList = userList && searchQuery;
+  const showUserList = !loading && !error && userList && searchQuery;
   const showListSpinner = loading && page > 1;
 
   const removeSearchParams = useCallback(() => {
@@ -42,6 +42,7 @@ const useFetchUsers = ({ setShowButton }) => {
   const makeSearchQuery = useCallback(
     async (data, page, per_page) => {
       setError("");
+      // setShowButton(false);
       try {
         await ghApi.getRateLimit();
         setIsLoading(true);

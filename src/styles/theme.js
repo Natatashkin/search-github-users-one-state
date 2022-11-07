@@ -1,7 +1,7 @@
 const theme = {
   typography: {
     h2: "28px",
-    h3: "38px",
+    h3: "22px",
     p: "16px",
   },
   colors: {
