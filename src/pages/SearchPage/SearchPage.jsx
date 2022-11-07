@@ -39,13 +39,13 @@ const SearchPage = ({ getCurrentUser }) => {
 
   const getTotalPages = useCallback(
     (totalCount) => {
+      // console.log("searchQuery in count pages", searchQuery);
       let pagesCount = 0;
       if (pagesCount === totalCount) {
         setError(`No users with username "${searchQuery}"`);
         return;
       }
-      pagesCount = Math.round(totalCount / PER_PAGE);
-      console.log(pagesCount);
+      pagesCount = Math.ceil(totalCount / PER_PAGE);
       setTotalPages(pagesCount);
     },
     [searchQuery, PER_PAGE]
@@ -79,15 +79,23 @@ const SearchPage = ({ getCurrentUser }) => {
 
   const debouncedRequest = useDebouncedCallback(makeSearchQuery, 1000);
 
-  useEffect(() => {
-    setSearchQuery(query);
+  const resetSearchState = () => {
     setUserList([]);
+    setTotalPages(0);
     setPage(1);
+  };
+
+  useEffect(() => {
+    console.log("query >>>", query);
+    setSearchQuery(query);
+    resetSearchState();
   }, [query]);
 
   useEffect(() => {
     if (searchQuery.length >= 3) {
       setSearchParams({ q: searchQuery });
+
+      if (totalPages > 0 && totalPages < page) return;
       debouncedRequest(searchQuery, page, PER_PAGE);
       return;
     }
@@ -99,11 +107,10 @@ const SearchPage = ({ getCurrentUser }) => {
     const shouldUpdate =
       target.scrollHeight - Math.round(target.scrollTop) ===
       target.clientHeight;
+    console.log(shouldUpdate);
     if (shouldUpdate) {
+      console.log("надо обновлять");
       setPage((prevPage) => {
-        if (totalPages === page) {
-          return prevPage;
-        }
         return prevPage + 1;
       });
     }
