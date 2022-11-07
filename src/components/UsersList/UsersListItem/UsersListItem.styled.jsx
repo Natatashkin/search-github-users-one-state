@@ -1,14 +1,18 @@
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const UserCard = styled.div`
-  width: 400px;
+  width: 100%;
   border-radius: 4px;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
   background-color: #ffffff;
 
   &:not(:last-child) {
     margin-bottom: 15px;
+  }
+
+  @media (min-width: 450px) {
+    width: 400px;
   }
 `;
 
@@ -21,7 +25,7 @@ const Block = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
-  padding: ${props => (props.noPadding ? '0' : '10px 10px 0')};
+  padding: ${(props) => (props.noPadding ? "0" : "10px 10px 0")};
 `;
 
 const UserInfoWrapper = styled.div`

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Header } from "../Header";
 import styled from "styled-components";
-import { useEffect } from "react";
 
 const LayoutContainer = styled.div`
   position: relative;

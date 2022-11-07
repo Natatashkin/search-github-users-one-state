@@ -4,18 +4,25 @@ import {
   useLocation,
   useOutletContext,
 } from "react-router-dom";
-import { UsersList, UsersListItem, Container } from "../../components";
-// import debounce from "lodash.debounce";
 import { useDebouncedCallback } from "use-debounce";
+import {
+  UsersList,
+  UsersListItem,
+  Container,
+  Spinner,
+  Button,
+} from "../../components";
 import * as ghApi from "../../api/ghApi";
 import styled from "styled-components";
 
 const UserListContainer = styled.div`
   height: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
 `;
 
-const OptionsContainer = styled.div`
+const ListOptions = styled.div`
   height: 40px;
 `;
 const PER_PAGE = 15;
@@ -31,6 +38,11 @@ const SearchPage = ({ getCurrentUser }) => {
   const [totalPages, setTotalPages] = useState(0);
   const [error, setError] = useState("");
   const [showButton, setShowButton] = useState(false);
+  const listRef = useRef(null);
+  const showSpinner = loading && page < 2;
+  const showError = error && !loading;
+  const showUserList = userList && searchQuery;
+  const showListSpinner = loading && page > 1;
 
   const removeSearchParams = useCallback(() => {
     searchParams.delete("q");
@@ -79,12 +91,13 @@ const SearchPage = ({ getCurrentUser }) => {
     [getTotalPages]
   );
 
-  const debouncedRequest = useDebouncedCallback(makeSearchQuery, 500);
+  const debouncedRequest = useDebouncedCallback(makeSearchQuery, 350);
 
   const resetSearchState = () => {
     setUserList([]);
     setTotalPages(0);
     setPage(1);
+    setShowButton(false);
   };
 
   useEffect(() => {
@@ -96,7 +109,10 @@ const SearchPage = ({ getCurrentUser }) => {
     if (searchQuery.length >= 3) {
       setSearchParams({ q: searchQuery });
 
-      if (totalPages > 0 && totalPages < page) return;
+      if (totalPages > 0 && totalPages < page) {
+        setShowButton(true);
+        return;
+      }
       debouncedRequest(searchQuery, page, PER_PAGE);
       return;
     }
@@ -108,23 +124,27 @@ const SearchPage = ({ getCurrentUser }) => {
     const shouldUpdate =
       target.scrollHeight - Math.round(target.scrollTop) ===
       target.clientHeight;
-    console.log(shouldUpdate);
+
     if (shouldUpdate) {
-      console.log("надо обновлять");
       setPage((prevPage) => {
         return prevPage + 1;
       });
     }
   };
-  console.log("query >>>", query);
-  console.log("searchQuery", searchQuery);
+
+  const handleScrollToTop = (e) => {
+    listRef.current.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <Container>
-      {loading && page < 2 && <h3>Loading...</h3>}
-      {error && !loading && <h3>{error}</h3>}
-      {userList && searchQuery && (
-        <UserListContainer onScroll={handleScroll}>
+      {showSpinner && <Spinner />}
+      {showError && <h3>{error}</h3>}
+      {showUserList && (
+        <UserListContainer ref={listRef} onScroll={handleScroll}>
           <UsersList>
             {userList.map((item) => {
               return (
@@ -136,9 +156,16 @@ const SearchPage = ({ getCurrentUser }) => {
               );
             })}
           </UsersList>
-          {/* <OptionsContainer>
-            {loading && page > 1 && <h3>Loading...</h3>}
-          </OptionsContainer> */}
+          <ListOptions>
+            {showListSpinner && <Spinner size={7} />}
+            {showButton && (
+              <Button
+                title="Back to top"
+                type="button"
+                onClick={handleScrollToTop}
+              />
+            )}
+          </ListOptions>
         </UserListContainer>
       )}
     </Container>
