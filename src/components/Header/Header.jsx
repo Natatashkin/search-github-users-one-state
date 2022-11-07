@@ -5,12 +5,7 @@ import { Logo } from "./Logo";
 import { useTitle } from "../../hooks";
 import { TextField } from "../TextField";
 import { PageTitle } from "../PageTitle";
-import {
-  HeaderContainer,
-  InputWrapper,
-  TitleContainer,
-  IconWrapper,
-} from "./Header.styled";
+import { HeaderContainer, TitleContainer } from "./Header.styled";
 import { IoSearchOutline } from "react-icons/io5";
 
 const Header = ({ onGetQuery }) => {
