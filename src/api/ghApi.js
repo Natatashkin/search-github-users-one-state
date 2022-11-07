@@ -1,8 +1,7 @@
 import axios from "axios";
 
 axios.defaults.baseURL = "https://api.github.com";
-axios.defaults.headers.common["Authorization"] =
-  "token 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";
+axios.defaults.headers.common["Authorization"] = "token ";
 axios.defaults.headers.accept = "application/vnd.github+json";
 
 const getUser = async (username) => {
