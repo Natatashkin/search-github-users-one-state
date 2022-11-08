@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useOutletContext, useSearchParams } from "react-router-dom";
 import { useDebouncedCallback } from "use-debounce";
+import { filterNewUsers } from "../helpers";
 import * as ghApi from "../api/ghApi";
 
 const PER_PAGE = 15;
@@ -25,35 +26,35 @@ const useFetchUsers = ({ setShowButton }) => {
     setSearchParams(searchParams);
   }, [searchParams, setSearchParams]);
 
-  const getTotalPages = useCallback(
-    (totalCount) => {
-      let pagesCount = 0;
-      if (pagesCount === totalCount) {
-        setError(`No users with username "${searchQuery}"`);
-        setUserList([]);
-        return;
-      }
-      pagesCount = Math.ceil(totalCount / PER_PAGE);
-      setTotalPages(pagesCount);
-    },
-    [searchQuery]
-  );
+  const getTotalPages = useCallback(({ query, totalCount }) => {
+    let pagesCount = 0;
+    if (pagesCount === totalCount) {
+      setError(`No users with username "${query}"`);
+      setUserList([]);
+      return;
+    }
+    pagesCount = Math.ceil(totalCount / PER_PAGE);
+    setTotalPages(pagesCount);
+  }, []);
 
   const makeSearchQuery = useCallback(
-    async (data, page, per_page) => {
+    async (query, page, per_page) => {
       setError("");
       try {
-        await ghApi.getRateLimit();
+        // await ghApi.getRateLimit();
         setIsLoading(true);
         const { usersData, total } = await ghApi.searchUsers(
-          data,
+          query,
           page,
           per_page
         );
-        getTotalPages(total);
+        getTotalPages({ query, total });
 
         if (page > 1) {
-          setUserList((prevList) => [...prevList, ...usersData]);
+          setUserList((prevList) => {
+            const newUniqueUsers = filterNewUsers(prevList, usersData);
+            return [...prevList, ...newUniqueUsers];
+          });
           setIsLoading(false);
           return;
         }

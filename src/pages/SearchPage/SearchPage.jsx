@@ -40,12 +40,11 @@ const SearchPage = ({ getCurrentUser }) => {
     [setPage]
   );
 
-  const handleScrollToTop = (e) => {
+  const handleScrollToTop = () => {
     listRef.current.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-    setPage(1);
   };
 
   return (

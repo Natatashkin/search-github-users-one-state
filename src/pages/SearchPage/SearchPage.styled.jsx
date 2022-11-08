@@ -10,6 +10,7 @@ const UserListContainer = styled.div`
 const ListOptions = styled.div`
   display: flex;
   justify-content: center;
+  margin: 0 0 10px;
   min-height: 40px;
 `;
 
