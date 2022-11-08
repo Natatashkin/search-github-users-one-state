@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React from "react";
 import { List } from "./UsersList.styled";
 
 const UsersList = ({ children }) => {

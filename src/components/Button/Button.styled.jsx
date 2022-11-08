@@ -10,13 +10,13 @@ export const TextButton = styled.button`
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 
   &:hover {
-    border: 1px solid ${({ theme: { colors } }) => colors.black};
+    outline: 1px solid ${({ theme: { colors } }) => colors.black};
     background-color: ${({ theme: { colors } }) => colors.white};
     color: ${({ theme: { colors } }) => colors.black};
   }
 
   &:active {
-    border: 1px solid ${({ theme: { colors } }) => colors.black};
+    outline: 1px solid ${({ theme: { colors } }) => colors.black};
     background-color: ${({ theme: { colors } }) => colors.white};
     color: ${({ theme: { colors } }) => colors.black};
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5) inset;
