@@ -1,9 +1,14 @@
-import React from 'react';
-import { Button } from './IconButton.styled';
+import React from "react";
+import { Button } from "./IconButton.styled";
 
-const IconButton = ({ type = 'submit', onClick = () => {}, children }) => {
+const IconButton = ({
+  type = "submit",
+  onClick = () => {},
+  children,
+  click,
+}) => {
   return (
-    <Button type={type} onClick={onClick}>
+    <Button type={type} onClick={onClick} click={click}>
       {children}
     </Button>
   );

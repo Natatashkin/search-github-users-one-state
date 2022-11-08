@@ -18,4 +18,25 @@ const HeaderContainer = styled.header`
   }
 `;
 
-export { HeaderContainer, TitleContainer };
+const TextFieldContainer = styled.div`
+  position: ${({ titleVisibility }) =>
+    titleVisibility ? "static" : "absolute"};
+  left: ${({ titleVisibility }) => (titleVisibility ? "0" : "50%")};
+  transform: ${({ titleVisibility }) =>
+    titleVisibility ? "translateX(0)" : "translateX(-50%)"};
+  display: flex;
+  width: ${({ titleVisibility }) => (titleVisibility ? "100%" : "40%")};
+  flex-wrap: nowrap;
+`;
+
+const FavButtonContainer = styled.div`
+  width: 40px;
+  height: 40px;
+`;
+
+export {
+  HeaderContainer,
+  TitleContainer,
+  FavButtonContainer,
+  TextFieldContainer,
+};

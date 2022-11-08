@@ -39,7 +39,6 @@ const useFetchUsers = ({ setShowButton }) => {
 
   const makeSearchQuery = useCallback(
     async (query, page, per_page) => {
-      setError("");
       try {
         // await ghApi.getRateLimit();
         setIsLoading(true);
@@ -73,6 +72,7 @@ const useFetchUsers = ({ setShowButton }) => {
   const resetSearchState = () => {
     setUserList([]);
     setTotalPages(0);
+    setError("");
     setPage(1);
     setShowButton(false);
   };

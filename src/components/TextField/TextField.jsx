@@ -12,7 +12,7 @@ const TextField = ({
   titleVisibility = false,
 }) => {
   return (
-    <InputWrapper titleVisibility={titleVisibility} name={name}>
+    <InputWrapper name={name}>
       <Adornment>{children}</Adornment>
       {label && <Label htmlFor={name}>{label}</Label>}
       <Input type={type} name={name} onChange={onChange} value={value} />
