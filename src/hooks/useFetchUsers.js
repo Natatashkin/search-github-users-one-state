@@ -17,7 +17,7 @@ const useFetchUsers = ({ setShowButton }) => {
 
   const showSpinner = loading && page < 2;
   const showError = error && !loading;
-  const showUserList = !loading && !error && userList && searchQuery;
+  const showUserList = userList && searchQuery;
   const showListSpinner = loading && page > 1;
 
   const removeSearchParams = useCallback(() => {

@@ -10,7 +10,6 @@ const UserListContainer = styled.div`
 const ListOptions = styled.div`
   display: flex;
   justify-content: center;
-  padding: 10px;
   min-height: 40px;
 `;
 
