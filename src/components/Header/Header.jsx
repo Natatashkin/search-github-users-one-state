@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState, useMemo, useRef, useCallback } from "react";
 import { useMatch } from "react-router-dom";
 import { useTheme } from "styled-components";
 import { IoSearchOutline } from "react-icons/io5";
@@ -32,10 +32,13 @@ const Header = ({ onGetQuery }) => {
     [isSearchPage, hideTitle]
   );
 
-  const handleOnChange = ({ target: { value } }) => {
-    setQuery(value);
-    onGetQuery(value);
-  };
+  const handleOnChange = useCallback(
+    ({ target: { value } }) => {
+      setQuery(value);
+      onGetQuery(value);
+    },
+    [onGetQuery]
+  );
 
   return (
     <HeaderContainer titleVisibility={titleVisibility}>
