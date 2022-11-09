@@ -23,6 +23,9 @@ const Header = ({ onGetQuery }) => {
 
   const [click, setClick] = useState(false);
   const toggleFavoriteClick = () => setClick(!click);
+  const handleFavoriteClick = () => {
+    toggleFavoriteClick();
+  };
 
   const titleVisibility = useMemo(
     () => (isSearchPage ? hideTitle : null),
@@ -33,6 +36,7 @@ const Header = ({ onGetQuery }) => {
     setQuery(value);
     onGetQuery(value);
   };
+
   return (
     <HeaderContainer titleVisibility={titleVisibility}>
       <Logo />
@@ -41,20 +45,15 @@ const Header = ({ onGetQuery }) => {
       </TitleContainer>
 
       {showSearch && (
-        <TextFieldContainer titleVisibility={titleVisibility}>
-          <TextField
-            titleVisibility={titleVisibility}
-            name="search"
-            value={query}
-            onChange={handleOnChange}
-          >
+        <TextFieldContainer>
+          <TextField name="search" value={query} onChange={handleOnChange}>
             <IoSearchOutline size={20} color={theme.colors.lightgrey} />
           </TextField>
           <FavButtonContainer>
             <IconButton
               click={click}
               type="button"
-              onClick={toggleFavoriteClick}
+              onClick={handleFavoriteClick}
             >
               <IoStar size={28} />
             </IconButton>

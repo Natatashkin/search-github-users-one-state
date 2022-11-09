@@ -9,7 +9,7 @@ const theme = {
     white: "#ffffff",
     bodyColor: "#efeeee",
     lightgrey: "#9f9f9f",
-    yellow: "#f5f507",
+    yellow: "#e8dc14",
   },
   breakpoints: {
     desktop: "1200",

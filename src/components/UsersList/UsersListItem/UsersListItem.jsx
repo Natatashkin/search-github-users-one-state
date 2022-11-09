@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
+import { useTheme } from "styled-components";
 import { IconButton } from "../../IconButton";
 import {
   UserCard,
@@ -20,6 +21,7 @@ import {
 } from "./UsersListItem.styled";
 
 const UsersListItem = ({ item, location }) => {
+  const theme = useTheme();
   const {
     id,
     name,
@@ -30,8 +32,12 @@ const UsersListItem = ({ item, location }) => {
     following,
     public_repos,
   } = item;
-
+  const [click, setClick] = useState(false);
   const username = name ? name : login;
+  const toggleFavoriteClick = () => setClick(!click);
+  const handleFavoriteClick = () => {
+    toggleFavoriteClick();
+  };
 
   return (
     <UserCard>
@@ -49,8 +55,11 @@ const UsersListItem = ({ item, location }) => {
                 <Bio>{bio}</Bio>
               </UserInfo>
               <Favorite>
-                <IconButton>
-                  <FaStar color="#ece751" size={24} />
+                <IconButton onClick={handleFavoriteClick}>
+                  <FaStar
+                    color={click ? theme.colors.yellow : theme.colors.lightgrey}
+                    size={24}
+                  />
                 </IconButton>
               </Favorite>
             </User>

@@ -9,7 +9,6 @@ const TextField = ({
   type = "text",
   name,
   children,
-  titleVisibility = false,
 }) => {
   return (
     <InputWrapper name={name}>

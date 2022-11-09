@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const TitleContainer = styled.div``;
+const TextFieldContainer = styled.div``;
 
 const HeaderContainer = styled.header`
   position: relative;
@@ -16,22 +17,23 @@ const HeaderContainer = styled.header`
   & ${TitleContainer} {
     display: ${({ titleVisibility }) => (titleVisibility ? "none" : "block")};
   }
-`;
 
-const TextFieldContainer = styled.div`
-  position: ${({ titleVisibility }) =>
-    titleVisibility ? "static" : "absolute"};
-  left: ${({ titleVisibility }) => (titleVisibility ? "0" : "50%")};
-  transform: ${({ titleVisibility }) =>
-    titleVisibility ? "translateX(0)" : "translateX(-50%)"};
-  display: flex;
-  width: ${({ titleVisibility }) => (titleVisibility ? "100%" : "40%")};
-  flex-wrap: nowrap;
+  & ${TextFieldContainer} {
+    position: ${({ titleVisibility }) =>
+      titleVisibility ? "static" : "absolute"};
+    left: ${({ titleVisibility }) => (titleVisibility ? "0" : "50%")};
+    transform: ${({ titleVisibility }) =>
+      titleVisibility ? "translateX(0)" : "translateX(-50%)"};
+    display: flex;
+    width: ${({ titleVisibility }) => (titleVisibility ? "100%" : "40%")};
+    flex-wrap: nowrap;
+  }
 `;
 
 const FavButtonContainer = styled.div`
   width: 40px;
   height: 40px;
+  margin-right: -8px;
 `;
 
 export {

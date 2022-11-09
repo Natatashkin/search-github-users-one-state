@@ -28,18 +28,11 @@ const Button = styled.button`
   justify-content: center;
   width: 100%;
   height: 100%;
-  padding: 4px;
+  padding: 8px;
   border: none;
   background-color: ${({ theme: { colors } }) => colors.white};
   color: ${({ click, theme: { colors } }) =>
     click ? colors.yellow : colors.lightgrey};
-
-  /* &:active {
-    animation-name: ${activeColor};
-    animation-duration: 1000ms;
-    animation-fill-mode: backwards;
-    animation-timing-function: linear;
-  } */
 `;
 
 export { Button };
