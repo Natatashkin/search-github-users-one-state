@@ -1,8 +1,8 @@
-import React, { useState, useMemo, useRef, useCallback } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { useMatch } from "react-router-dom";
 import { useTheme } from "styled-components";
 import { IoSearchOutline } from "react-icons/io5";
-import { IoStar } from "react-icons/io5";
+import { FaStar } from "react-icons/fa";
 import { Logo } from "./Logo";
 import { useTitle } from "../../hooks";
 import { TextField } from "../TextField";
@@ -15,17 +15,12 @@ import {
 } from "./Header.styled";
 import { IconButton } from "../IconButton";
 
-const Header = ({ onGetQuery }) => {
+const Header = ({ onGetQuery, isFavoritesActive, onClick }) => {
   const theme = useTheme();
+
   const { hideTitle, showSearch, pageTitle } = useTitle();
   const [query, setQuery] = useState("");
   const isSearchPage = Boolean(useMatch("/search"));
-
-  const [click, setClick] = useState(false);
-  const toggleFavoriteClick = () => setClick(!click);
-  const handleFavoriteClick = () => {
-    toggleFavoriteClick();
-  };
 
   const titleVisibility = useMemo(
     () => (isSearchPage ? hideTitle : null),
@@ -54,11 +49,18 @@ const Header = ({ onGetQuery }) => {
           </TextField>
           <FavButtonContainer>
             <IconButton
-              click={click}
+              click={isFavoritesActive}
               type="button"
-              onClick={handleFavoriteClick}
+              onClick={onClick}
             >
-              <IoStar size={28} />
+              <FaStar
+                color={
+                  isFavoritesActive
+                    ? theme.colors.yellow
+                    : theme.colors.lightgrey
+                }
+                size={24}
+              />
             </IconButton>
           </FavButtonContainer>
         </TextFieldContainer>

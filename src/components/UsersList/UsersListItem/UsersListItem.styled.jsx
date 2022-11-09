@@ -18,6 +18,7 @@ const UserCard = styled.div`
 
 const UserLink = styled(Link)`
   display: block;
+  width: 100%;
   text-decoration: none;
   color: #000000;
 `;
@@ -52,7 +53,8 @@ const Image = styled.img`
 
 const User = styled.div`
   display: flex;
-  flex-grow: 1;
+  align-items: "center";
+  width: 100%;
 `;
 
 const UserInfo = styled.div`
