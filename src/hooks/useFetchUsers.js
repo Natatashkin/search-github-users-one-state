@@ -26,27 +26,28 @@ const useFetchUsers = ({ setShowButton }) => {
     setSearchParams(searchParams);
   }, [searchParams, setSearchParams]);
 
-  const getTotalPages = useCallback(({ query, totalCount }) => {
+  const getTotalPages = useCallback(({ query, total }) => {
     let pagesCount = 0;
-    if (pagesCount === totalCount) {
+    if (pagesCount === total) {
       setError(`No users with username "${query}"`);
       setUserList([]);
       return;
     }
-    pagesCount = Math.ceil(totalCount / PER_PAGE);
+    pagesCount = Math.ceil(total / PER_PAGE);
+    console.log(pagesCount);
     setTotalPages(pagesCount);
   }, []);
 
   const makeSearchQuery = useCallback(
     async (query, page, per_page) => {
       try {
-        // await ghApi.getRateLimit();
         setIsLoading(true);
         const { usersData, total } = await ghApi.searchUsers(
           query,
           page,
           per_page
         );
+        console.log(total);
         getTotalPages({ query, total });
 
         if (page > 1) {
