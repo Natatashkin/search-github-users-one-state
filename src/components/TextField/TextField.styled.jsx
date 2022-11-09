@@ -9,6 +9,8 @@ const Label = styled.label`
 const Input = styled.input``;
 
 const InputWrapper = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
   width: 100%;
   height: 40px;
   box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.3) inset;
@@ -35,7 +37,7 @@ const Adornment = styled.div`
   justify-content: center;
   width: 40px;
   height: 100%;
-  /* pointer-events: none; */
+  pointer-events: none;
 `;
 
 export { Label, Input, InputWrapper, Adornment };
