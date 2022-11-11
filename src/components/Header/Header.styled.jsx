@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { FaStar } from "react-icons/fa";
 
 const TitleContainer = styled.div``;
 const TextFieldContainer = styled.div``;
@@ -30,15 +32,18 @@ const HeaderContainer = styled.header`
   }
 `;
 
-const FavButtonContainer = styled.div`
+const FavLink = styled(Link)`
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   width: 40px;
   height: 40px;
   margin-right: -8px;
+  color: ${({ theme: { colors } }) => colors.lightgrey};
+
+  &:hover {
+    color: ${({ theme: { colors } }) => colors.yellow};
+  }
 `;
 
-export {
-  HeaderContainer,
-  TitleContainer,
-  FavButtonContainer,
-  TextFieldContainer,
-};
+export { HeaderContainer, TitleContainer, FavLink, TextFieldContainer };

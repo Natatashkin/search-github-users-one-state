@@ -34,7 +34,6 @@ const useFetchUsers = ({ setShowButton }) => {
       return;
     }
     pagesCount = Math.ceil(total / PER_PAGE);
-    console.log(pagesCount);
     setTotalPages(pagesCount);
   }, []);
 
@@ -47,7 +46,6 @@ const useFetchUsers = ({ setShowButton }) => {
           page,
           per_page
         );
-        console.log(total);
         getTotalPages({ query, total });
 
         if (page > 1) {

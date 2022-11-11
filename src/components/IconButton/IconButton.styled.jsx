@@ -1,26 +1,26 @@
 import styled, { keyframes } from "styled-components";
 
-const activeColor = keyframes`
-from {
-color : ${({ theme: { colors } }) => colors.lightgrey};
+// const activeColor = keyframes`
+// from {
+// color : ${({ theme: { colors } }) => colors.lightgrey};
 
-}
+// }
 
-to{
-color: ${({ theme: { colors } }) => colors.yellow};
-}
-`;
+// to{
+// color: ${({ theme: { colors } }) => colors.yellow};
+// }
+// `;
 
-const normalColor = keyframes`
-from {
-color : ${({ theme: { colors } }) => colors.yellow};
+// const normalColor = keyframes`
+// from {
+// color : ${({ theme: { colors } }) => colors.yellow};
 
-}
+// }
 
-to{
-color: ${({ theme: { colors } }) => colors.lightgrey};
-}
-`;
+// to{
+// color: ${({ theme: { colors } }) => colors.lightgrey};
+// }
+// `;
 
 const Button = styled.button`
   display: flex;
@@ -31,8 +31,6 @@ const Button = styled.button`
   padding: 8px;
   border: none;
   background-color: ${({ theme: { colors } }) => colors.white};
-  color: ${({ click, theme: { colors } }) =>
-    click ? colors.yellow : colors.lightgrey};
 `;
 
 export { Button };

@@ -5,7 +5,7 @@ const IconButton = ({
   type = "submit",
   onClick = () => {},
   children,
-  click,
+  click = false,
 }) => {
   return (
     <Button type={type} onClick={onClick} click={click}>

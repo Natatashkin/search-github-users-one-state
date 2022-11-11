@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { useTheme } from "styled-components";
-// import { useLocalStorage } from "../../../hooks";
+import { useFavoriteClick } from "../../../hooks";
 import { IconButton } from "../../IconButton";
 import {
   UserCard,
@@ -23,15 +23,12 @@ import {
 
 const UsersListItem = ({ item, location }) => {
   const theme = useTheme();
-  // const [favorites, setFavorites] = useLocalStorage("favorites");
   const { name, login, avatar_url, bio, followers, following, public_repos } =
     item;
-  const [click, setClick] = useState(false);
+
+  const { favClick, isFavButtonActive, handleFavoriteClick } =
+    useFavoriteClick();
   const username = name ? name : login;
-  const toggleFavoriteClick = () => setClick(!click);
-  const handleFavoriteClick = (e) => {
-    toggleFavoriteClick();
-  };
 
   return (
     <UserCard>
@@ -52,11 +49,8 @@ const UsersListItem = ({ item, location }) => {
             </User>
           </UserLink>
           <Favorite>
-            <IconButton onClick={handleFavoriteClick}>
-              <FaStar
-                color={click ? theme.colors.yellow : theme.colors.lightgrey}
-                size={24}
-              />
+            <IconButton onClick={(e) => handleFavoriteClick(e, item)}>
+              <FaStar color={isFavButtonActive} size={24} />
             </IconButton>
           </Favorite>
         </UserInfoWrapper>

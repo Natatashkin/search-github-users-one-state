@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { useFetchUsers } from "../../hooks";
+import { useFetchUsers, useLocalStorage } from "../../hooks";
 import {
   UsersList,
   UsersListItem,
@@ -67,11 +67,13 @@ const SearchPage = ({ getCurrentUser }) => {
           <ListOptions>
             {showListSpinner && <Spinner size={7} />}
             {showButton && (
-              <Button
-                title="Back to top"
-                type="button"
-                onClick={handleScrollToTop}
-              />
+              <div>
+                <Button
+                  title="Back to top"
+                  type="button"
+                  onClick={handleScrollToTop}
+                />
+              </div>
             )}
           </ListOptions>
         </UserListContainer>
