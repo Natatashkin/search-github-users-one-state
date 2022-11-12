@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useFetchUsers, useLocalStorage } from "../../hooks";
+import { useFetchUsers } from "../../hooks";
 import {
   UsersList,
   UsersListItem,
@@ -46,7 +46,7 @@ const SearchPage = ({ getCurrentUser }) => {
       behavior: "smooth",
     });
   };
-
+  // console.log(favorites);
   return (
     <Container>
       {showSpinner && <Spinner />}

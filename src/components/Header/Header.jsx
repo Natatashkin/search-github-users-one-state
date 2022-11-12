@@ -1,10 +1,10 @@
-import React, { useState, useMemo, useCallback, useEffect } from "react";
-import { useMatch, redirect } from "react-router-dom";
+import React, { useState, useMemo, useCallback } from "react";
+import { useMatch, useSearchParams } from "react-router-dom";
 import { useTheme } from "styled-components";
 import { IoSearchOutline } from "react-icons/io5";
 import { FaStar } from "react-icons/fa";
 import { Logo } from "./Logo";
-import { useTitle, useLocalStorage } from "../../hooks";
+import { useTitle } from "../../hooks";
 import { TextField } from "../TextField";
 import { PageTitle } from "../PageTitle";
 
@@ -16,19 +16,16 @@ import {
 } from "./Header.styled";
 
 const Header = ({ onGetQuery }) => {
-  useLocalStorage("favorites", []);
   const theme = useTheme();
+  const [searchParams] = useSearchParams("");
   const { hideTitle, showSearch, pageTitle } = useTitle();
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(searchParams.get("q") ?? "");
   const isSearchPage = Boolean(useMatch("/search"));
 
-  const handleOnChange = useCallback(
-    ({ target: { value } }) => {
-      setQuery(value);
-      onGetQuery(value);
-    },
-    [onGetQuery]
-  );
+  const handleOnChange = useCallback(({ target: { value } }) => {
+    setQuery(value);
+    onGetQuery(value);
+  }, []);
 
   const titleVisibility = useMemo(
     () => (isSearchPage ? hideTitle : null),

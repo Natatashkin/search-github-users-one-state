@@ -9,7 +9,7 @@ const useLocalStorage = (key, defaultValue) => {
     window.localStorage.setItem(key, JSON.stringify(favorites));
   }, [favorites, key]);
 
-  return [favorites, setFavorites];
+  return { favorites, setFavorites };
 };
 
 export default useLocalStorage;

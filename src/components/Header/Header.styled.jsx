@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { FaStar } from "react-icons/fa";
 
 const TitleContainer = styled.div``;
 const TextFieldContainer = styled.div``;

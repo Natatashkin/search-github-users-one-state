@@ -8,9 +8,9 @@ const PER_PAGE = 15;
 
 const useFetchUsers = ({ setShowButton }) => {
   const { searchQuery: query } = useOutletContext();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams("");
   const [userList, setUserList] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(query);
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
   const [page, setPage] = useState(1);
   const [loading, setIsLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(0);

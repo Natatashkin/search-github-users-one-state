@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import { useTheme } from "styled-components";
-import { useFavoriteClick } from "../../../hooks";
+import { useLocalStorage } from "../../../hooks";
 import { IconButton } from "../../IconButton";
 import {
   UserCard,
@@ -23,12 +24,32 @@ import {
 
 const UsersListItem = ({ item, location }) => {
   const theme = useTheme();
+  const { setFavorites } = useOutletContext();
   const { name, login, avatar_url, bio, followers, following, public_repos } =
     item;
+  const [favClick, setFavClick] = useState(false);
+  const toggleFavoriteClick = () => setFavClick(!favClick);
 
-  const { favClick, isFavButtonActive, handleFavoriteClick } =
-    useFavoriteClick();
+  const isFavButtonActive = useMemo(
+    () => (favClick ? theme.colors.yellow : theme.colors.lightgrey),
+    [favClick, theme]
+  );
+
   const username = name ? name : login;
+
+  useEffect(() => {
+    if (favClick) {
+      setFavorites((prevItems) => [...prevItems, item]);
+      return;
+    }
+
+    setFavorites((prevItems) => {
+      return prevItems.filter(({ login }) => login !== item.login);
+      // const itemIdx = prevItems.findIndex(({ login }) => login === item.login);
+      // prevItems.splice(itemIdx, 1);
+      // return prevItems;
+    });
+  }, [favClick]);
 
   return (
     <UserCard>
@@ -49,7 +70,7 @@ const UsersListItem = ({ item, location }) => {
             </User>
           </UserLink>
           <Favorite>
-            <IconButton onClick={(e) => handleFavoriteClick(e, item)}>
+            <IconButton onClick={toggleFavoriteClick}>
               <FaStar color={isFavButtonActive} size={24} />
             </IconButton>
           </Favorite>
