@@ -11,7 +11,7 @@ import {
 } from "../../components";
 import { UserListContainer, ListOptions } from "./SearchPage.styled";
 
-const SearchPage = ({ getCurrentUser }) => {
+const SearchPage = () => {
   const location = useLocation();
   const listRef = useRef(null);
   const [showButton, setShowButton] = useState(false);
@@ -46,7 +46,6 @@ const SearchPage = ({ getCurrentUser }) => {
       behavior: "smooth",
     });
   };
-  // console.log(favorites);
   return (
     <Container>
       {showSpinner && <Spinner />}

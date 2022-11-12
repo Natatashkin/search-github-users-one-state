@@ -7,3 +7,5 @@ export { UsersList } from "./UsersList";
 export { UsersListItem } from "./UsersList/UsersListItem";
 export { Spinner } from "./Spinner";
 export { ErrorMessage } from "./ErrorMessage";
+export { UserAvatar } from "./UserAvatar";
+export { PersonalInfo } from "./PersonalInfo";

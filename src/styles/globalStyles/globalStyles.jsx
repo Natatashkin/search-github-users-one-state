@@ -28,6 +28,7 @@ html {
 body {
   background-color: ${({ theme: { colors } }) => colors.bodyColor};
   font-family: 'Roboto-Regular', sans-serif;
+  font-size: 16px;
 }
 
 #root {
@@ -37,6 +38,8 @@ body {
 h1, h2, h3, h4, h5, h6, p {
   margin: 0
 }
+
+
 
 ul {
   margin: 0;

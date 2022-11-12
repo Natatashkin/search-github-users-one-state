@@ -2,6 +2,7 @@ const theme = {
   typography: {
     h2: "28px",
     h3: "22px",
+    h4: "18px",
     p: "16px",
   },
   colors: {
@@ -9,6 +10,7 @@ const theme = {
     white: "#ffffff",
     bodyColor: "#efeeee",
     lightgrey: "#9f9f9f",
+    grey: "#686868",
     yellow: "#e8dc14",
   },
   breakpoints: {

@@ -6,7 +6,13 @@ axios.defaults.headers.accept = "application/vnd.github+json";
 
 const getUser = async (username) => {
   const { data } = await axios.get(`/users/${username}`);
+  console.log(data);
   return data;
+};
+
+const getUserRepos = async (username) => {
+  const { data } = await axios.get(`/users/${username}/repos`);
+  return { data };
 };
 
 const getRateLimit = async () => {
@@ -31,4 +37,4 @@ const searchUsers = async (name, page, per_page) => {
   }
 };
 
-export { getRateLimit, searchUsers, getUser };
+export { getRateLimit, searchUsers, getUser, getUserRepos };

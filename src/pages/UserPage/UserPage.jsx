@@ -1,25 +1,31 @@
-import React from 'react';
-import { useCallback } from 'react';
-import { useEffect, useState } from 'react';
-import { useParams, useLocation, Link } from 'react-router-dom';
-import * as ghApi from '../../api/ghApi';
+import React from "react";
+import { useCallback } from "react";
+import { useEffect, useState } from "react";
+import { useParams, useLocation } from "react-router-dom";
+import { IoArrowBack } from "react-icons/io5";
 
+import * as ghApi from "../../api/ghApi";
+import { Container, UserAvatar, PersonalInfo } from "../../components";
+import { BackLink, UserContainer, AvatarContainer } from "./UserPage.styled";
+// https://api.github.com/users/CatanaRaulAndrei/repos
 const UserPage = () => {
   const location = useLocation();
-  const { login } = useParams();
+  const { username } = useParams();
   const [userData, setUserData] = useState({});
   const [loading, setIsLoading] = useState(false);
 
   const getCurrentUser = useCallback(async () => {
     try {
       setIsLoading(true);
-      const response = await ghApi.getUser(login);
+      const response = await ghApi.getUser(username);
       setUserData(response);
+      const { data } = await ghApi.getUserRepos(username);
+      setUserData({ ...response, repos: data });
     } catch (error) {
       console.log(error);
     }
     setIsLoading(false);
-  }, [login]);
+  }, [username]);
 
   useEffect(() => {
     getCurrentUser();
@@ -28,16 +34,60 @@ const UserPage = () => {
 
   // Спросить Андрея как работает возврат запроса в инпут?????
   return (
-    <div>
+    <Container>
       {loading && <h3>Loading...</h3>}
       {userData?.login && (
         <>
-          <Link to={location?.state?.from || '/search'}>"Back to search"</Link>
-          <h2>{userData.name}</h2>
+          <BackLink to={location?.state?.from || "/search"}>
+            <IoArrowBack />
+            <span>
+              Back <span> to search</span>{" "}
+            </span>
+          </BackLink>
+
+          <UserContainer>
+            <AvatarContainer>
+              <UserAvatar url={userData.avatar_url} name={userData.name} />
+            </AvatarContainer>
+            <PersonalInfo data={userData} />
+          </UserContainer>
         </>
       )}
-    </div>
+    </Container>
   );
 };
 
 export default UserPage;
+
+// avatar_url: "https://avatars.githubusercontent.com/u/5754073?v=4";
+// bio: "Developer Advocate and Augmented Reality-er.\r\n\r\nDeveloper experience is :key:";
+// blog: "https://medium.com/@maxxfrazer";
+// company: "@AgoraIO ";
+// created_at: "2013-10-23T07:43:20Z";
+// email: null;
+// events_url: "https://api.github.com/users/maxxfrazer/events{/privacy}";
+// followers: 306;
+// followers_url: "https://api.github.com/users/maxxfrazer/followers";
+// following: 24;
+// following_url: "https://api.github.com/users/maxxfrazer/following{/other_user}";
+// gists_url: "https://api.github.com/users/maxxfrazer/gists{/gist_id}";
+// gravatar_id: "";
+// hireable: true;
+// html_url: "https://github.com/maxxfrazer";
+// id: 5754073;
+// location: "London, UK";
+// login: "maxxfrazer";
+// name: "Max Cobb";
+// node_id: "MDQ6VXNlcjU3NTQwNzM=";
+// organizations_url: "https://api.github.com/users/maxxfrazer/orgs";
+// public_gists: 5;
+// public_repos: 60;
+// received_events_url: "https://api.github.com/users/maxxfrazer/received_events";
+// repos_url: "https://api.github.com/users/maxxfrazer/repos";
+// site_admin: false;
+// starred_url: "https://api.github.com/users/maxxfrazer/starred{/owner}{/repo}";
+// subscriptions_url: "https://api.github.com/users/maxxfrazer/subscriptions";
+// twitter_username: "maxxfrazer";
+// type: "User";
+// updated_at: "2022-11-11T07:34:37Z";
+// url: "https://api.github.com/users/maxxfrazer";
