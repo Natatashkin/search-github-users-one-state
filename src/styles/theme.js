@@ -13,6 +13,11 @@ const theme = {
     grey: "#686868",
     yellow: "#e8dc14",
   },
+  shadow: {
+    outerShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)",
+    innerShadow: "2px 2px 5px rgba(0, 0, 0, 0.5) inset",
+  },
+
   breakpoints: {
     desktop: "1200",
     laptop: "1024",

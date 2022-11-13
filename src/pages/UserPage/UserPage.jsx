@@ -5,22 +5,33 @@ import { useParams, useLocation } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 
 import * as ghApi from "../../api/ghApi";
-import { Container, UserAvatar, PersonalInfo } from "../../components";
+import {
+  Container,
+  UserAvatar,
+  PersonalInfo,
+  UserRepos,
+} from "../../components";
 import { BackLink, UserContainer, AvatarContainer } from "./UserPage.styled";
 // https://api.github.com/users/CatanaRaulAndrei/repos
+
+const PER_PAGE_REPOS = 10;
+
 const UserPage = () => {
   const location = useLocation();
   const { username } = useParams();
   const [userData, setUserData] = useState({});
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPAges] = useState(0);
   const [loading, setIsLoading] = useState(false);
+  // public_repos;
 
   const getCurrentUser = useCallback(async () => {
     try {
       setIsLoading(true);
       const response = await ghApi.getUser(username);
-      setUserData(response);
-      const { data } = await ghApi.getUserRepos(username);
-      setUserData({ ...response, repos: data });
+      const repos = await ghApi.getUserRepos(username, PER_PAGE_REPOS, page);
+      setTotalPAges(response.public_repos);
+      setUserData({ ...response, repos });
     } catch (error) {
       console.log(error);
     }
@@ -50,6 +61,10 @@ const UserPage = () => {
               <UserAvatar url={userData.avatar_url} name={userData.name} />
             </AvatarContainer>
             <PersonalInfo data={userData} />
+            <UserRepos
+              reposQuantity={userData.public_repos}
+              repos={userData.repos}
+            />
           </UserContainer>
         </>
       )}

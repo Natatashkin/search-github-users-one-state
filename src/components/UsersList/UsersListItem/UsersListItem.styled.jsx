@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const UserCard = styled.div`
   width: 100%;
   border-radius: 4px;
-  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: ${({ theme: { shadow } }) => shadow.outerShadow};
   background-color: #ffffff;
 
   &:not(:last-child) {
@@ -20,7 +20,7 @@ const UserLink = styled(Link)`
   display: block;
   width: 100%;
   text-decoration: none;
-  color: #000000;
+  color: ${({ theme: { colors } }) => colors.black};
 `;
 const Block = styled.div`
   display: flex;

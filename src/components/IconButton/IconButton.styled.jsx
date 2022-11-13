@@ -30,7 +30,9 @@ const Button = styled.button`
   height: 100%;
   padding: 8px;
   border: none;
+  border-radius: 4px;
   background-color: ${({ theme: { colors } }) => colors.white};
+  cursor: pointer;
 `;
 
 export { Button };
