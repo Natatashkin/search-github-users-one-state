@@ -13,6 +13,7 @@ import {
   TitleContainer,
   FavLink,
   TextFieldContainer,
+  LogoContainer,
 } from "./Header.styled";
 
 const Header = ({ onGetQuery }) => {
@@ -34,7 +35,9 @@ const Header = ({ onGetQuery }) => {
 
   return (
     <HeaderContainer titleVisibility={titleVisibility}>
-      <Logo />
+      <LogoContainer>
+        <Logo />
+      </LogoContainer>
       <TitleContainer>
         <PageTitle title={pageTitle} />
       </TitleContainer>

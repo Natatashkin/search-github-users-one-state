@@ -1,5 +1,14 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
+
+// const hideTitle = keyframes`
+// from{
+//   transform: translateX(100%);
+// }
+// to {
+// transform: translate(0%);
+// }
+// `;
 
 const TitleContainer = styled.div``;
 const TextFieldContainer = styled.div``;
@@ -10,7 +19,6 @@ const HeaderContainer = styled.header`
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 0px 10px;
   background-color: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
   height: var(--header-height);
@@ -31,6 +39,16 @@ const HeaderContainer = styled.header`
   }
 `;
 
+const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  height: 100%;
+  padding: 10px;
+  background-color: #fff;
+  z-index: 2;
+`;
+
 const FavLink = styled(Link)`
   display: inline-flex;
   justify-content: center;
@@ -45,4 +63,10 @@ const FavLink = styled(Link)`
   }
 `;
 
-export { HeaderContainer, TitleContainer, FavLink, TextFieldContainer };
+export {
+  HeaderContainer,
+  TitleContainer,
+  FavLink,
+  TextFieldContainer,
+  LogoContainer,
+};

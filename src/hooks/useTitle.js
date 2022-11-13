@@ -64,9 +64,6 @@ const useTitle = () => {
     return title;
   }, [location, isUserPage, isSearchPage]);
 
-  // console.log(location.pathname);
-  // console.log(isUserPage);
-
   return { hideTitle, showSearch, pageTitle };
 };
 
