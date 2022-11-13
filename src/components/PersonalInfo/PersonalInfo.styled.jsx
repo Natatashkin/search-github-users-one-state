@@ -15,6 +15,10 @@ const PersonalInfoContainer = styled.div`
     }
   }
 `;
+const NameContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
 const SubscriptionsContainer = styled.div`
   margin-top: 15px;
@@ -33,4 +37,5 @@ export {
   SubscriptionsContainer,
   BioContainer,
   ContactsContainer,
+  NameContainer,
 };

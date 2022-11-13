@@ -1,16 +1,21 @@
 import React from "react";
+import { FaStar } from "react-icons/fa";
 import { UserContacts } from "../UserContacts";
 import { UserBio } from "../UserBio";
 import { UserSubscriptions } from "../UserSubscriptions";
+import { UserName } from "../UserName";
+import { IconButton } from "../IconButton";
+import { useFavorites } from "../../hooks";
 import {
   PersonalInfoContainer,
   SubscriptionsContainer,
   BioContainer,
   ContactsContainer,
+  NameContainer,
 } from "./PersonalInfo.styled";
 
 const PersonalInfo = ({ data }) => {
-  console.log(data);
+  const { isFavButtonActive, toggleFavoriteClick } = useFavorites(data);
   const {
     login,
     name,
@@ -23,15 +28,18 @@ const PersonalInfo = ({ data }) => {
     location,
   } = data;
 
-  const hasUsername = name ? name : "No username";
   const shouldRenderContacts = Boolean(email ?? company ?? location);
 
   return (
     <PersonalInfoContainer>
-      {<h3>{hasUsername}</h3>}
-      <h4>
-        <a href={html_url} target="_blank" rel="noreferrer">{`@${login}`}</a>
-      </h4>
+      <NameContainer>
+        <UserName name={name} login={login} url={html_url} />
+        <div>
+          <IconButton onClick={toggleFavoriteClick}>
+            <FaStar color={isFavButtonActive} size={24} />
+          </IconButton>
+        </div>
+      </NameContainer>
       <SubscriptionsContainer>
         <UserSubscriptions followers={followers} following={following} />
       </SubscriptionsContainer>

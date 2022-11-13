@@ -1,6 +1,4 @@
-import React from "react";
-import { useCallback } from "react";
-import { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 
@@ -12,7 +10,6 @@ import {
   UserRepos,
 } from "../../components";
 import { BackLink, UserContainer, AvatarContainer } from "./UserPage.styled";
-// https://api.github.com/users/CatanaRaulAndrei/repos
 
 const PER_PAGE_REPOS = 10;
 
@@ -23,7 +20,6 @@ const UserPage = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPAges] = useState(0);
   const [loading, setIsLoading] = useState(false);
-  // public_repos;
 
   const getCurrentUser = useCallback(async () => {
     try {

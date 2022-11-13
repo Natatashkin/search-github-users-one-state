@@ -12,7 +12,6 @@ import {
 
 const UserRepos = ({ reposQuantity, repos }) => {
   const showDropdownIcon = Boolean(repos.length);
-  const openRef = useRef(null);
   const [open, setOpen] = useState(false);
   const toggleOpenClick = () => setOpen(!open);
 
@@ -38,8 +37,10 @@ const UserRepos = ({ reposQuantity, repos }) => {
 
               return (
                 <RepoListItem>
-                  <h4>{repo.name}</h4>
-                  <p>{showDescription}</p>
+                  <a href={repo.html_url} target="_blank" rel="noreferrer">
+                    <h4>{repo.name}</h4>
+                    <p>{showDescription}</p>
+                  </a>
                 </RepoListItem>
               );
             })}

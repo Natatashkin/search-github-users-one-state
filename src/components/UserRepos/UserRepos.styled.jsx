@@ -52,12 +52,17 @@ const RepoListItem = styled.li`
   border-radius: 4px;
   box-shadow: ${({ theme: { shadow } }) => shadow.outerShadow};
 
+  & a {
+    text-decoration: none;
+  }
+
   &:not(:last-child) {
     margin-bottom: 15px;
   }
 
   & h4 {
     margin-bottom: 10px;
+    color: ${({ theme: { colors } }) => colors.black};
   }
 
   & p {
