@@ -1,11 +1,14 @@
 import { useState, useEffect, useMemo } from "react";
 import { useOutletContext } from "react-router-dom";
 import { useTheme } from "styled-components";
+import { checkFavorites } from "../helpers";
 
 const useFavorites = (user) => {
-  const { setFavorites } = useOutletContext();
+  const { favorites, setFavorites } = useOutletContext();
   const theme = useTheme();
-  const [favClick, setFavClick] = useState(false);
+  const [favClick, setFavClick] = useState(() =>
+    checkFavorites(favorites, user)
+  );
   const toggleFavoriteClick = () => setFavClick(!favClick);
 
   const isFavButtonActive = useMemo(
@@ -21,9 +24,6 @@ const useFavorites = (user) => {
 
     setFavorites((prevItems) => {
       return prevItems.filter(({ login }) => login !== user.login);
-      // const itemIdx = prevItems.findIndex(({ login }) => login === item.login);
-      // prevItems.splice(itemIdx, 1);
-      // return prevItems;
     });
   }, [favClick]);
 

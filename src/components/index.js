@@ -11,3 +11,6 @@ export { UserName } from "./UserName";
 export { UserAvatar } from "./UserAvatar";
 export { PersonalInfo } from "./PersonalInfo";
 export { UserRepos } from "./UserRepos";
+export { UserBio } from "./UserBio";
+export { UserSubscriptions } from "./UserSubscriptions";
+export { UserContacts } from "./UserContacts";

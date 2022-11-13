@@ -30,6 +30,7 @@ const BioContainer = styled.div`
 
 const ContactsContainer = styled.div`
   margin-top: 15px;
+  margin-bottom: 15px;
 `;
 
 export {

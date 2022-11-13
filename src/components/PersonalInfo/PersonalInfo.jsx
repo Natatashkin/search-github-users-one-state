@@ -1,10 +1,13 @@
 import React from "react";
 import { FaStar } from "react-icons/fa";
-import { UserContacts } from "../UserContacts";
-import { UserBio } from "../UserBio";
-import { UserSubscriptions } from "../UserSubscriptions";
-import { UserName } from "../UserName";
-import { IconButton } from "../IconButton";
+import {
+  UserContacts,
+  UserBio,
+  UserSubscriptions,
+  UserName,
+  IconButton,
+} from "../../components";
+
 import { useFavorites } from "../../hooks";
 import {
   PersonalInfoContainer,
