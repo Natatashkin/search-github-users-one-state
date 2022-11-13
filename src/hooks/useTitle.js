@@ -50,9 +50,11 @@ const useTitle = () => {
 
   const pageTitle = useMemo(() => {
     const { title } = PAGES_DATA.find(({ pathname }) => {
-      return pathname === location.pathname || isUserPage?.pattern?.path;
+      return (
+        pathname === location.pathname || pathname === isUserPage?.pattern?.path
+      );
     });
-
+    console.log(title);
     if (isSearchPage) {
       setShowSearch(true);
     } else {
@@ -61,6 +63,9 @@ const useTitle = () => {
 
     return title;
   }, [location, isUserPage, isSearchPage]);
+
+  // console.log(location.pathname);
+  // console.log(isUserPage);
 
   return { hideTitle, showSearch, pageTitle };
 };

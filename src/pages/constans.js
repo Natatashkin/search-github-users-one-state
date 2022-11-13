@@ -20,11 +20,11 @@ const PAGES_DATA = [
     title: PAGES_TITLES.dashboardPage,
   },
   {
-    pathname: `/user/*`,
+    pathname: "/user/*",
     title: PAGES_TITLES.userPage,
   },
   {
-    pathname: `/favorites`,
+    pathname: "/favorites",
     title: PAGES_TITLES.favoritePage,
   },
 ];
