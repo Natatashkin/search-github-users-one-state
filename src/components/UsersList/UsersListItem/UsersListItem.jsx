@@ -23,8 +23,9 @@ import {
 const UsersListItem = ({ item, location }) => {
   const { name, login, avatar_url, bio, followers, following, public_repos } =
     item;
-  const { isFavButtonActive, toggleFavoriteClick } = useFavorites(item);
-
+  const { isFavorite, favButtonColor, toggleFavoriteClick } =
+    useFavorites(item);
+  console.log(isFavorite);
   const username = name ? name : login;
 
   return (
@@ -47,7 +48,7 @@ const UsersListItem = ({ item, location }) => {
           </UserLink>
           <Favorite>
             <IconButton onClick={toggleFavoriteClick}>
-              <FaStar color={isFavButtonActive} size={24} />
+              <FaStar color={favButtonColor} size={24} />
             </IconButton>
           </Favorite>
         </UserInfoWrapper>

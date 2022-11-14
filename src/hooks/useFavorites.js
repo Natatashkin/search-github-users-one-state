@@ -16,7 +16,7 @@ const useFavorites = (user) => {
     setIsFavorite(!isFavorite);
   };
 
-  const isFavButtonActive = useMemo(
+  const favButtonColor = useMemo(
     () => (isFavorite ? theme.colors.yellow : theme.colors.lightgrey),
     [isFavorite, theme]
   );
@@ -34,7 +34,7 @@ const useFavorites = (user) => {
     }
   }, [favClick, isFavorite]);
 
-  return { isFavButtonActive, toggleFavoriteClick };
+  return { isFavorite, favButtonColor, toggleFavoriteClick };
 };
 
 export default useFavorites;
