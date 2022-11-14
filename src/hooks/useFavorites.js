@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import { useOutletContext } from "react-router-dom";
 import { useTheme } from "styled-components";
 import { checkFavorites } from "../helpers";
 
-const useFavorites = (user) => {
-  const { favorites, setFavorites } = useOutletContext();
+const useFavorites = (user, favoritesOptions) => {
+  const { favorites, setFavorites } = favoritesOptions;
   const theme = useTheme();
   const isInFavorite = checkFavorites(favorites, user);
   const [isFavorite, setIsFavorite] = useState(isInFavorite);

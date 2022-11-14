@@ -1,12 +1,11 @@
-import React, { useRef } from "react";
-import { useLocation, useOutletContext } from "react-router-dom";
-import { useFavorites } from "../../hooks";
+import React from "react";
+import { useLocation } from "react-router-dom";
 import { UsersList, UsersListItem, Container } from "../../components";
 import { UserListContainer } from "./FavoritesPage.styled";
 
-const FavoritesPage = () => {
+const FavoritesPage = ({ favoritesOptions }) => {
   const location = useLocation();
-  const { favorites } = useOutletContext();
+  const { favorites } = favoritesOptions;
 
   return (
     <Container>
@@ -18,6 +17,7 @@ const FavoritesPage = () => {
                 key={String(item.id)}
                 item={item}
                 location={location}
+                favoritesOptions={favoritesOptions}
               />
             );
           })}

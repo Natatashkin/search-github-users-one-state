@@ -20,11 +20,13 @@ import {
   User,
 } from "./UsersListItem.styled";
 
-const UsersListItem = ({ item, location }) => {
+const UsersListItem = ({ item, location, favoritesOptions }) => {
   const { name, login, avatar_url, bio, followers, following, public_repos } =
     item;
-  const { isFavorite, favButtonColor, toggleFavoriteClick } =
-    useFavorites(item);
+  const { favButtonColor, toggleFavoriteClick } = useFavorites(
+    item,
+    favoritesOptions
+  );
   const username = name ? name : login;
 
   return (

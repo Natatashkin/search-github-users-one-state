@@ -1,13 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
-import { useOutletContext, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useDebouncedCallback } from "use-debounce";
 import { filterNewUsers } from "../helpers";
 import * as ghApi from "../api/ghApi";
 
 const PER_PAGE = 15;
 
-const useFetchUsers = ({ setShowButton }) => {
-  const { searchQuery: query } = useOutletContext();
+const useFetchUsers = ({ query, setShowButton }) => {
   const [searchParams, setSearchParams] = useSearchParams("");
   const [userList, setUserList] = useState([]);
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
@@ -96,13 +95,17 @@ const useFetchUsers = ({ setShowButton }) => {
     setUserList([]);
   }, [searchQuery, page]);
 
-  return {
+  const searchPageOptions = {
     error,
     userList,
     showSpinner,
     showError,
     showUserList,
     showListSpinner,
+  };
+
+  return {
+    searchPageOptions,
     setPage,
   };
 };
