@@ -34,9 +34,6 @@ const useFavorites = (user) => {
     }
   }, [favClick, isFavorite]);
 
-  console.log("isFavorite", isFavorite);
-  console.log("favClick", favClick);
-
   return { isFavButtonActive, toggleFavoriteClick };
 };
 
