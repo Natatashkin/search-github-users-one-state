@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import { useTheme } from "styled-components";
 import { checkFavorites } from "../helpers";
@@ -6,33 +6,27 @@ import { checkFavorites } from "../helpers";
 const useFavorites = (user) => {
   const { favorites, setFavorites } = useOutletContext();
   const theme = useTheme();
-  const [isFavorite, setIsFavorite] = useState(() =>
-    checkFavorites(favorites, user)
-  );
-  const [favClick, setFavClick] = useState(false);
+  const isInFavorite = checkFavorites(favorites, user);
+  const [isFavorite, setIsFavorite] = useState(isInFavorite);
 
   const toggleFavoriteClick = () => {
-    setFavClick(!favClick);
-    setIsFavorite(!isFavorite);
+    setIsFavorite((prev) => !prev);
   };
 
-  const favButtonColor = useMemo(
-    () => (isFavorite ? theme.colors.yellow : theme.colors.lightgrey),
-    [isFavorite, theme]
-  );
+  const favButtonColor = isFavorite
+    ? theme.colors.yellow
+    : theme.colors.lightgrey;
 
   useEffect(() => {
-    if (favClick) {
+    if (isInFavorite && isFavorite) return;
+    if (isFavorite) {
       setFavorites((prevItems) => [...prevItems, user]);
       return;
     }
-
-    if (!favClick && !isFavorite) {
-      setFavorites((prevItems) => {
-        return prevItems.filter(({ login }) => login !== user.login);
-      });
-    }
-  }, [favClick, isFavorite]);
+    setFavorites((prevItems) =>
+      prevItems.filter(({ login }) => login !== user.login)
+    );
+  }, [isFavorite]);
 
   return { isFavorite, favButtonColor, toggleFavoriteClick };
 };
