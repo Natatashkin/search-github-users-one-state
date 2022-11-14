@@ -6,14 +6,19 @@ import { checkFavorites } from "../helpers";
 const useFavorites = (user) => {
   const { favorites, setFavorites } = useOutletContext();
   const theme = useTheme();
-  const [favClick, setFavClick] = useState(() =>
+  const [isFavorite, setIsFavorite] = useState(() =>
     checkFavorites(favorites, user)
   );
-  const toggleFavoriteClick = () => setFavClick(!favClick);
+  const [favClick, setFavClick] = useState(false);
+
+  const toggleFavoriteClick = () => {
+    setFavClick(!favClick);
+    setIsFavorite(!isFavorite);
+  };
 
   const isFavButtonActive = useMemo(
-    () => (favClick ? theme.colors.yellow : theme.colors.lightgrey),
-    [favClick, theme]
+    () => (isFavorite ? theme.colors.yellow : theme.colors.lightgrey),
+    [isFavorite, theme]
   );
 
   useEffect(() => {
@@ -22,10 +27,15 @@ const useFavorites = (user) => {
       return;
     }
 
-    setFavorites((prevItems) => {
-      return prevItems.filter(({ login }) => login !== user.login);
-    });
-  }, [favClick]);
+    if (!favClick && !isFavorite) {
+      setFavorites((prevItems) => {
+        return prevItems.filter(({ login }) => login !== user.login);
+      });
+    }
+  }, [favClick, isFavorite]);
+
+  console.log("isFavorite", isFavorite);
+  console.log("favClick", favClick);
 
   return { isFavButtonActive, toggleFavoriteClick };
 };

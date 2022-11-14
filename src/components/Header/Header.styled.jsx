@@ -15,7 +15,6 @@ const TextFieldContainer = styled.div``;
 
 const HeaderContainer = styled.header`
   position: relative;
-  top: 0;
   display: flex;
   align-items: center;
   width: 100%;
@@ -34,7 +33,8 @@ const HeaderContainer = styled.header`
     transform: ${({ titleVisibility }) =>
       titleVisibility ? "translateX(0)" : "translateX(-50%)"};
     display: flex;
-    width: ${({ titleVisibility }) => (titleVisibility ? "100%" : "40%")};
+    /* width: ${({ titleVisibility }) => (titleVisibility ? "100%" : "40%")}; */
+    flex-grow: 1;
     flex-wrap: nowrap;
   }
 `;
@@ -50,12 +50,12 @@ const LogoContainer = styled.div`
 `;
 
 const FavLink = styled(Link)`
-  display: inline-flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   width: 40px;
   height: 40px;
-  margin-right: -8px;
+  /* margin-right: -8px; */
   color: ${({ theme: { colors } }) => colors.lightgrey};
 
   &:hover {

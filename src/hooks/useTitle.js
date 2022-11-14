@@ -54,7 +54,7 @@ const useTitle = () => {
         pathname === location.pathname || pathname === isUserPage?.pattern?.path
       );
     });
-    console.log(title);
+
     if (isSearchPage) {
       setShowSearch(true);
     } else {
