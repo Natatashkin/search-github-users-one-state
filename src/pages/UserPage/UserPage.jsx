@@ -69,36 +69,3 @@ const UserPage = () => {
 };
 
 export default UserPage;
-
-// avatar_url: "https://avatars.githubusercontent.com/u/5754073?v=4";
-// bio: "Developer Advocate and Augmented Reality-er.\r\n\r\nDeveloper experience is :key:";
-// blog: "https://medium.com/@maxxfrazer";
-// company: "@AgoraIO ";
-// created_at: "2013-10-23T07:43:20Z";
-// email: null;
-// events_url: "https://api.github.com/users/maxxfrazer/events{/privacy}";
-// followers: 306;
-// followers_url: "https://api.github.com/users/maxxfrazer/followers";
-// following: 24;
-// following_url: "https://api.github.com/users/maxxfrazer/following{/other_user}";
-// gists_url: "https://api.github.com/users/maxxfrazer/gists{/gist_id}";
-// gravatar_id: "";
-// hireable: true;
-// html_url: "https://github.com/maxxfrazer";
-// id: 5754073;
-// location: "London, UK";
-// login: "maxxfrazer";
-// name: "Max Cobb";
-// node_id: "MDQ6VXNlcjU3NTQwNzM=";
-// organizations_url: "https://api.github.com/users/maxxfrazer/orgs";
-// public_gists: 5;
-// public_repos: 60;
-// received_events_url: "https://api.github.com/users/maxxfrazer/received_events";
-// repos_url: "https://api.github.com/users/maxxfrazer/repos";
-// site_admin: false;
-// starred_url: "https://api.github.com/users/maxxfrazer/starred{/owner}{/repo}";
-// subscriptions_url: "https://api.github.com/users/maxxfrazer/subscriptions";
-// twitter_username: "maxxfrazer";
-// type: "User";
-// updated_at: "2022-11-11T07:34:37Z";
-// url: "https://api.github.com/users/maxxfrazer";

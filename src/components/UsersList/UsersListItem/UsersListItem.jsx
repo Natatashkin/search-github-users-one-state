@@ -25,7 +25,6 @@ const UsersListItem = ({ item, location }) => {
     item;
   const { isFavorite, favButtonColor, toggleFavoriteClick } =
     useFavorites(item);
-  console.log(isFavorite);
   const username = name ? name : login;
 
   return (

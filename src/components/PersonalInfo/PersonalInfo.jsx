@@ -18,7 +18,7 @@ import {
 } from "./PersonalInfo.styled";
 
 const PersonalInfo = ({ data }) => {
-  const { isFavButtonActive, toggleFavoriteClick } = useFavorites(data);
+  const { favButtonColor, toggleFavoriteClick } = useFavorites(data);
   const {
     login,
     name,
@@ -39,7 +39,7 @@ const PersonalInfo = ({ data }) => {
         <UserName name={name} login={login} url={html_url} />
         <div>
           <IconButton onClick={toggleFavoriteClick}>
-            <FaStar color={isFavButtonActive} size={24} />
+            <FaStar color={favButtonColor} size={24} />
           </IconButton>
         </div>
       </NameContainer>
