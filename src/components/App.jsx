@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Routes, Route, useSearchParams, useLocation } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useSearchParams,
+  useLocation,
+  useMatch,
+} from "react-router-dom";
 import { useLocalStorage, useFetchUsers } from "../hooks";
 import HomePage from "../pages/HomePage/HomePage";
 import SearchPage from "../pages/SearchPage/SearchPage";
@@ -12,6 +18,8 @@ const App = () => {
   const listRef = useRef(null);
   const location = useLocation();
   const [searchParams] = useSearchParams("");
+  const isUserPage = useMatch("/user/*");
+  const isSearchPage = Boolean(useMatch("/search"));
   const { favorites, setFavorites } = useLocalStorage("favorites", []);
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") ?? "");
   const [showButton, setShowButton] = useState(false);
@@ -24,8 +32,6 @@ const App = () => {
   const getQuery = (query) => {
     setSearchQuery(query);
   };
-
-  const getUserName = () => {};
 
   const handleScroll = useCallback(
     ({ target }) => {
@@ -51,7 +57,18 @@ const App = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<PageLayout onGetQuery={getQuery} />}>
+      <Route
+        path="/"
+        element={
+          <PageLayout
+            onGetQuery={getQuery}
+            location={location}
+            searchParams={searchParams}
+            isUserPage={isUserPage}
+            isSearchPage={isSearchPage}
+          />
+        }
+      >
         <Route index element={<HomePage />} />
         <Route
           path="/search"

@@ -1,10 +1,9 @@
-import React, { useState, useMemo, useCallback } from "react";
-import { useMatch, useSearchParams } from "react-router-dom";
+import React, { useState, useCallback } from "react";
 import { useTheme } from "styled-components";
 import { IoSearchOutline } from "react-icons/io5";
 import { FaStar } from "react-icons/fa";
 import { Logo } from "./Logo";
-import { useTitle } from "../../hooks";
+import { pageTitle } from "../../helpers";
 import { TextField } from "../TextField";
 import { PageTitle } from "../PageTitle";
 
@@ -16,33 +15,32 @@ import {
   LogoContainer,
 } from "./Header.styled";
 
-const Header = ({ onGetQuery }) => {
+const Header = ({
+  onGetQuery,
+  location,
+  searchParams,
+  isSearchPage,
+  isUserPage,
+}) => {
   const theme = useTheme();
-  const [searchParams] = useSearchParams("");
-  const { hideTitle, showSearch, pageTitle } = useTitle();
+  const title = pageTitle(location, isUserPage);
   const [query, setQuery] = useState(searchParams.get("q") ?? "");
-  const isSearchPage = Boolean(useMatch("/search"));
 
   const handleOnChange = useCallback(({ target: { value } }) => {
     setQuery(value);
     onGetQuery(value);
   }, []);
 
-  const titleVisibility = useMemo(
-    () => (isSearchPage ? hideTitle : null),
-    [isSearchPage, hideTitle]
-  );
-
   return (
-    <HeaderContainer titleVisibility={titleVisibility}>
+    <HeaderContainer>
       <LogoContainer>
         <Logo />
       </LogoContainer>
       <TitleContainer>
-        <PageTitle title={pageTitle} />
+        <PageTitle title={title} />
       </TitleContainer>
 
-      {showSearch && (
+      {isSearchPage && (
         <TextFieldContainer>
           <TextField name="search" value={query} onChange={handleOnChange}>
             <IoSearchOutline size={20} color={theme.colors.lightgrey} />
