@@ -9,6 +9,7 @@ import { PageTitle } from "../PageTitle";
 
 import {
   HeaderContainer,
+  LogoAndTitleContainer,
   TitleContainer,
   FavLink,
   TextFieldContainer,
@@ -24,7 +25,7 @@ const Header = ({
 }) => {
   const theme = useTheme();
   const title = pageTitle(location, isUserPage);
-  const [query, setQuery] = useState(searchParams.get("q") ?? "");
+  const [query, setQuery] = useState("");
 
   const handleOnChange = useCallback(({ target: { value } }) => {
     setQuery(value);
@@ -32,14 +33,15 @@ const Header = ({
   }, []);
 
   return (
-    <HeaderContainer>
-      <LogoContainer>
-        <Logo />
-      </LogoContainer>
-      <TitleContainer>
-        <PageTitle title={title} />
-      </TitleContainer>
-
+    <HeaderContainer isSearchPage={isSearchPage}>
+      <LogoAndTitleContainer>
+        <LogoContainer>
+          <Logo />
+        </LogoContainer>
+        <TitleContainer>
+          <PageTitle title={title} />
+        </TitleContainer>
+      </LogoAndTitleContainer>
       {isSearchPage && (
         <TextFieldContainer>
           <TextField name="search" value={query} onChange={handleOnChange}>

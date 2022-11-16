@@ -1,42 +1,78 @@
 import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 
-// const hideTitle = keyframes`
-// from{
-//   transform: translateX(100%);
-// }
-// to {
-// transform: translate(0%);
-// }
-// `;
+const showTitle = keyframes`
+from {
+  width: 0;
+  visibility: hidden;
+  padding-right: 0;
+  opacity: 0;
+}
+to {
+  width: 100%;
+ visibility: visible;
+ opacity: 1;
+}
+`;
+
+const hideTitle = keyframes`
+from {
+  width: 100%;
+  padding-right: 8px;
+   visibility: visible;
+    opacity: 1;
+}
+to {
+  width: 0;
+  visibility: hidden;
+  opacity: 0;
+}
+`;
 
 const TitleContainer = styled.div``;
 const TextFieldContainer = styled.div``;
 
 const HeaderContainer = styled.header`
-  position: relative;
-  display: flex;
+  display: grid;
+  grid-template-columns: ${({ isSearchPage }) =>
+    isSearchPage ? "0.5fr 7.5fr" : "1fr "};
+  grid-template-rows: var(--header-height);
   align-items: center;
   width: 100%;
   background-color: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
-  height: var(--header-height);
+
+  @media (min-width: 768px) {
+    grid-template-columns: ${({ isSearchPage }) =>
+      isSearchPage ? "1fr 1.5fr 1fr" : "1fr "};
+  }
 
   & ${TitleContainer} {
-    display: ${({ titleVisibility }) => (titleVisibility ? "none" : "block")};
+    visibility: ${({ isSearchPage }) => (isSearchPage ? "hidden" : "visible")};
+    padding-right: ${({ isSearchPage }) => (isSearchPage ? "0" : "8px")};
+    width: ${({ isSearchPage }) => (isSearchPage ? "0" : "100%")};
+    animation-name: ${({ isSearchPage }) => isSearchPage && hideTitle};
+    animation-duration: 250ms;
+    animation-timing-function: ease-in;
+
+    @media (min-width: 768px) {
+      visibility: visible;
+      width: 100%;
+      padding-right: 8px;
+      animation-name: ${({ isSearchPage }) => isSearchPage && showTitle};
+      animation-duration: 250ms;
+      animation-timing-function: ease-in;
+    }
   }
 
   & ${TextFieldContainer} {
-    position: ${({ titleVisibility }) =>
-      titleVisibility ? "static" : "absolute"};
-    left: ${({ titleVisibility }) => (titleVisibility ? "0" : "50%")};
-    transform: ${({ titleVisibility }) =>
-      titleVisibility ? "translateX(0)" : "translateX(-50%)"};
     display: flex;
-    /* width: ${({ titleVisibility }) => (titleVisibility ? "100%" : "40%")}; */
-    flex-grow: 1;
-    flex-wrap: nowrap;
   }
+`;
+
+const LogoAndTitleContainer = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const LogoContainer = styled.div`
@@ -55,7 +91,7 @@ const FavLink = styled(Link)`
   align-items: center;
   width: 40px;
   height: 40px;
-  /* margin-right: -8px; */
+
   color: ${({ theme: { colors } }) => colors.lightgrey};
 
   &:hover {
@@ -65,6 +101,7 @@ const FavLink = styled(Link)`
 
 export {
   HeaderContainer,
+  LogoAndTitleContainer,
   TitleContainer,
   FavLink,
   TextFieldContainer,
