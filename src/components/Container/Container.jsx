@@ -1,8 +1,8 @@
-import React from 'react';
-import { MainContainer } from './Container.styled';
+import React, { forwardRef } from "react";
+import { MainContainer } from "./Container.styled";
 
-const Container = ({ children }) => {
+const Container = forwardRef(({ children }) => {
   return <MainContainer>{children}</MainContainer>;
-};
+});
 
 export default Container;

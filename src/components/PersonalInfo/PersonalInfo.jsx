@@ -17,8 +17,11 @@ import {
   NameContainer,
 } from "./PersonalInfo.styled";
 
-const PersonalInfo = ({ data }) => {
-  const { favButtonColor, toggleFavoriteClick } = useFavorites(data);
+const PersonalInfo = ({ data, favoritesOptions }) => {
+  const { favButtonColor, toggleFavoriteClick } = useFavorites(
+    data,
+    favoritesOptions
+  );
   const {
     login,
     name,

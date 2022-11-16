@@ -7,3 +7,8 @@ const MainContainer = styled.div`
 `;
 
 export { MainContainer };
+
+/* --container-height: calc(100vh - var(--header-height));  */
+
+/* height: ${({ isUserPage }) =>
+    isUserPage ? "100%" : `var(--container-height)`};  */

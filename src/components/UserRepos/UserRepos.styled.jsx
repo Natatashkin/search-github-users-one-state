@@ -11,6 +11,8 @@ const slide = keyframes`
 
 const ReposContainer = styled.div`
   width: 100%;
+  margin-top: 15px;
+  margin-bottom: 30px;
 `;
 
 const DropHeader = styled.div`
@@ -18,7 +20,8 @@ const DropHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 99%;
-  padding: 2px 0px 2px 8px;
+  height: 38px;
+  padding: 0px 0px 0px 8px;
   border-radius: 4px;
   background-color: ${({ theme: { colors } }) => colors.white};
   box-shadow: ${({ theme: { shadow } }) => shadow.outerShadow};
@@ -35,6 +38,8 @@ const DropButtonContainer = styled.div`
 const ListContainer = styled.div`
   overflow-y: hidden;
   overflow-x: visible;
+  padding: 20px 0;
+  scrollbar-width: thin;
 `;
 
 const ReposList = styled.ul`

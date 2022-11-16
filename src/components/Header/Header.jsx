@@ -1,53 +1,47 @@
-import React, { useState, useMemo, useCallback } from "react";
-import { useMatch, useSearchParams } from "react-router-dom";
+import React, { useState, useCallback } from "react";
 import { useTheme } from "styled-components";
 import { IoSearchOutline } from "react-icons/io5";
 import { FaStar } from "react-icons/fa";
 import { Logo } from "./Logo";
-import { useTitle } from "../../hooks";
+import { pageTitle } from "../../helpers";
 import { TextField } from "../TextField";
 import { PageTitle } from "../PageTitle";
 
 import {
   HeaderContainer,
+  LogoAndTitleContainer,
   TitleContainer,
   FavLink,
   TextFieldContainer,
   LogoContainer,
 } from "./Header.styled";
 
-const Header = ({ onGetQuery }) => {
+const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
   const theme = useTheme();
-  const [searchParams] = useSearchParams("");
-  const { hideTitle, showSearch, pageTitle } = useTitle();
-  const [query, setQuery] = useState(searchParams.get("q") ?? "");
-  const isSearchPage = Boolean(useMatch("/search"));
+  const title = pageTitle(location, isUserPage);
+  const [query, setQuery] = useState("");
 
   const handleOnChange = useCallback(({ target: { value } }) => {
     setQuery(value);
     onGetQuery(value);
   }, []);
 
-  const titleVisibility = useMemo(
-    () => (isSearchPage ? hideTitle : null),
-    [isSearchPage, hideTitle]
-  );
-
   return (
-    <HeaderContainer titleVisibility={titleVisibility}>
-      <LogoContainer>
-        <Logo />
-      </LogoContainer>
-      <TitleContainer>
-        <PageTitle title={pageTitle} />
-      </TitleContainer>
-
-      {showSearch && (
+    <HeaderContainer isSearchPage={isSearchPage}>
+      <LogoAndTitleContainer>
+        <LogoContainer>
+          <Logo />
+        </LogoContainer>
+        <TitleContainer>
+          <PageTitle title={title} />
+        </TitleContainer>
+      </LogoAndTitleContainer>
+      {isSearchPage && (
         <TextFieldContainer>
           <TextField name="search" value={query} onChange={handleOnChange}>
             <IoSearchOutline size={20} color={theme.colors.lightgrey} />
           </TextField>
-          <FavLink to="/favorites">
+          <FavLink to="/favorites" state={{ from: location }}>
             <FaStar size={24} />
           </FavLink>
         </TextFieldContainer>

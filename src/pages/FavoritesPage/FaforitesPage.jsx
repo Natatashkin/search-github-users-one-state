@@ -1,15 +1,21 @@
-import React, { useRef } from "react";
-import { useLocation, useOutletContext } from "react-router-dom";
-import { useFavorites } from "../../hooks";
-import { UsersList, UsersListItem, Container } from "../../components";
+import React from "react";
+import {
+  UsersList,
+  UsersListItem,
+  Container,
+  BackLink,
+} from "../../components";
 import { UserListContainer } from "./FavoritesPage.styled";
 
-const FavoritesPage = () => {
-  const location = useLocation();
-  const { favorites } = useOutletContext();
-
+const FavoritesPage = ({ location, favoritesOptions }) => {
+  const { favorites } = favoritesOptions;
   return (
     <Container>
+      <BackLink
+        location={location}
+        titlePart="to search"
+        alternativePath="/search"
+      />
       <UserListContainer>
         <UsersList>
           {favorites.map((item) => {
@@ -18,6 +24,7 @@ const FavoritesPage = () => {
                 key={String(item.id)}
                 item={item}
                 location={location}
+                favoritesOptions={favoritesOptions}
               />
             );
           })}

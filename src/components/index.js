@@ -14,3 +14,4 @@ export { UserRepos } from "./UserRepos";
 export { UserBio } from "./UserBio";
 export { UserSubscriptions } from "./UserSubscriptions";
 export { UserContacts } from "./UserContacts";
+export { BackLink } from "./BackLink";

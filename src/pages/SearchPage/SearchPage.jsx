@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useRef } from "react";
-import { useLocation } from "react-router-dom";
-import { useFetchUsers } from "../../hooks";
+import React, { useRef } from "react";
+import { handleScrollToTop } from "../../helpers";
+
 import {
   UsersList,
   UsersListItem,
@@ -11,10 +11,14 @@ import {
 } from "../../components";
 import { UserListContainer, ListOptions } from "./SearchPage.styled";
 
-const SearchPage = () => {
-  const location = useLocation();
-  const listRef = useRef(null);
-  const [showButton, setShowButton] = useState(false);
+const SearchPage = ({
+  location,
+  handleScroll,
+  showButton,
+  searchPageOptions,
+  favoritesOptions,
+}) => {
+  const listRef = useRef();
   const {
     error,
     userList,
@@ -22,30 +26,8 @@ const SearchPage = () => {
     showError,
     showUserList,
     showListSpinner,
-    setPage,
-  } = useFetchUsers({ setShowButton });
+  } = searchPageOptions;
 
-  const handleScroll = useCallback(
-    ({ target }) => {
-      const shouldUpdate =
-        target.scrollHeight - Math.ceil(target.scrollTop) <=
-        target.clientHeight;
-
-      if (shouldUpdate) {
-        setPage((prevPage) => {
-          return prevPage + 1;
-        });
-      }
-    },
-    [setPage]
-  );
-
-  const handleScrollToTop = () => {
-    listRef.current.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
   return (
     <Container>
       {showSpinner && <Spinner />}
@@ -59,6 +41,7 @@ const SearchPage = () => {
                   key={String(item.id)}
                   item={item}
                   location={location}
+                  favoritesOptions={favoritesOptions}
                 />
               );
             })}
@@ -70,7 +53,7 @@ const SearchPage = () => {
                 <Button
                   title="Back to top"
                   type="button"
-                  onClick={handleScrollToTop}
+                  onClick={() => handleScrollToTop(listRef, 0)}
                 />
               </div>
             )}
