@@ -16,13 +16,7 @@ import {
   LogoContainer,
 } from "./Header.styled";
 
-const Header = ({
-  onGetQuery,
-  location,
-  searchParams,
-  isSearchPage,
-  isUserPage,
-}) => {
+const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
   const theme = useTheme();
   const title = pageTitle(location, isUserPage);
   const [query, setQuery] = useState("");
@@ -47,7 +41,7 @@ const Header = ({
           <TextField name="search" value={query} onChange={handleOnChange}>
             <IoSearchOutline size={20} color={theme.colors.lightgrey} />
           </TextField>
-          <FavLink to="/favorites">
+          <FavLink to="/favorites" state={{ from: location }}>
             <FaStar size={24} />
           </FavLink>
         </TextFieldContainer>

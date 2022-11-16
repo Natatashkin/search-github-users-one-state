@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import {
   Routes,
   Route,
@@ -15,7 +15,6 @@ import FavoritesPage from "../pages/FavoritesPage/FaforitesPage";
 import { PageLayout } from "./PageLayout";
 
 const App = () => {
-  const listRef = useRef(null);
   const location = useLocation();
   const [searchParams] = useSearchParams("");
   const isUserPage = useMatch("/user/*");
@@ -48,13 +47,6 @@ const App = () => {
     [setPage]
   );
 
-  const handleScrollToTop = () => {
-    listRef.current.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
   return (
     <Routes>
       <Route
@@ -78,8 +70,6 @@ const App = () => {
               showButton={showButton}
               location={location}
               handleScroll={handleScroll}
-              handleScrollToTop={handleScrollToTop}
-              ref={listRef}
               favoritesOptions={favoritesOptions}
             />
           }
@@ -93,7 +83,13 @@ const App = () => {
         />
         <Route
           path="/favorites"
-          element={<FavoritesPage favoritesOptions={favoritesOptions} />}
+          element={
+            <FavoritesPage
+              location={location}
+              favoritesOptions={favoritesOptions}
+              isUserPage={isUserPage}
+            />
+          }
         />
       </Route>
     </Routes>

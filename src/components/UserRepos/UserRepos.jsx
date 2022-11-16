@@ -1,5 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { useRef } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { handleScrollToTop } from "../../helpers";
 import { IconButton } from "../IconButton";
 import {
   ReposContainer,
@@ -10,13 +13,26 @@ import {
   ListContainer,
 } from "./UserRepos.styled";
 
-const UserRepos = ({ reposQuantity, repos }) => {
+const HEADER_AND_BUTTON_HEIGHT = 140;
+
+const UserRepos = ({ reposQuantity, repos, userViewRef }) => {
   const showDropdownIcon = Boolean(repos.length);
   const [open, setOpen] = useState(false);
   const toggleOpenClick = () => setOpen(!open);
+  const reposRef = useRef(null);
+
+  useEffect(() => {
+    if (open) {
+      const target = reposRef?.current;
+      const targetHeight =
+        target.getBoundingClientRect().top - HEADER_AND_BUTTON_HEIGHT;
+
+      handleScrollToTop(userViewRef, targetHeight);
+    }
+  }, [open, userViewRef]);
 
   return (
-    <ReposContainer>
+    <ReposContainer ref={reposRef}>
       <DropHeader>
         <p>
           Repositories: <span>{reposQuantity}</span>

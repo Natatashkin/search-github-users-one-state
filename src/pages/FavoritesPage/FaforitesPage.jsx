@@ -1,14 +1,21 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
-import { UsersList, UsersListItem, Container } from "../../components";
+import {
+  UsersList,
+  UsersListItem,
+  Container,
+  BackLink,
+} from "../../components";
 import { UserListContainer } from "./FavoritesPage.styled";
 
-const FavoritesPage = ({ favoritesOptions }) => {
-  const location = useLocation();
+const FavoritesPage = ({ location, favoritesOptions }) => {
   const { favorites } = favoritesOptions;
-
   return (
     <Container>
+      <BackLink
+        location={location}
+        titlePart="to search"
+        alternativePath="/search"
+      />
       <UserListContainer>
         <UsersList>
           {favorites.map((item) => {
