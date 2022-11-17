@@ -1,23 +1,15 @@
 import React, { useState, useCallback } from "react";
-import { useTheme } from "styled-components";
+import { Link } from "react-router-dom";
+import classNames from "classnames";
 import { IoSearchOutline } from "react-icons/io5";
 import { FaStar } from "react-icons/fa";
 import { Logo } from "./Logo";
 import { pageTitle } from "../../helpers";
 import { TextField } from "../TextField";
 import { PageTitle } from "../PageTitle";
-
-import {
-  HeaderContainer,
-  LogoAndTitleContainer,
-  TitleContainer,
-  FavLink,
-  TextFieldContainer,
-  LogoContainer,
-} from "./Header.styled";
+import "./Header.scss";
 
 const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
-  const theme = useTheme();
   const title = pageTitle(location, isUserPage);
   const [query, setQuery] = useState("");
 
@@ -27,26 +19,41 @@ const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
   }, []);
 
   return (
-    <HeaderContainer isSearchPage={isSearchPage}>
-      <LogoAndTitleContainer>
-        <LogoContainer>
+    <header
+      className={classNames("Header-container", {
+        "Header-isSearch": isSearchPage,
+      })}
+    >
+      <div className="Header-logoAndTitleContainer">
+        <div className="Header-logoContainer">
           <Logo />
-        </LogoContainer>
-        <TitleContainer>
+        </div>
+        <div
+          className={classNames("Header-titleContainer", {
+            "Header-titleContainer--isSearch": isSearchPage,
+          })}
+        >
           <PageTitle title={title} />
-        </TitleContainer>
-      </LogoAndTitleContainer>
+        </div>
+      </div>
       {isSearchPage && (
-        <TextFieldContainer>
+        <div className="Header-textFieldContainer">
+          {/*  Добавить фокус */}
           <TextField name="search" value={query} onChange={handleOnChange}>
-            <IoSearchOutline size={20} color={theme.colors.lightgrey} />
+            {/* добавить класс "TextField-adornment" scss */}
+            <IoSearchOutline size={20} className="TextField-adornment" />
           </TextField>
-          <FavLink to="/favorites" state={{ from: location }}>
+          <Link
+            to="/favorites"
+            state={{ from: location }}
+            className="Header-favLink"
+          >
+            {/* Добвавить анимацию на hover*/}
             <FaStar size={24} />
-          </FavLink>
-        </TextFieldContainer>
+          </Link>
+        </div>
       )}
-    </HeaderContainer>
+    </header>
   );
 };
 
