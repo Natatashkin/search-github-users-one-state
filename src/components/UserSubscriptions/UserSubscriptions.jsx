@@ -1,12 +1,12 @@
 import React from "react";
-import { HiOutlineUsers } from "react-icons/hi2";
+import { FaUsers } from "react-icons/fa";
 import { GoPrimitiveDot } from "react-icons/go";
 import { Subscriptions } from "./UserSubscriptions.styled";
 
 const UserSubscriptions = ({ followers, following }) => {
   return (
     <Subscriptions>
-      <HiOutlineUsers />
+      <FaUsers size={20} />
       <div>
         <span className="quantity">{followers}</span>
         <span>followers</span>
