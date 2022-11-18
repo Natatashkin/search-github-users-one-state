@@ -1,17 +1,15 @@
 @import "../../styles/variables";
 
-.Header {
-  &-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: var(--header-height);
-    align-items: center;
-    width: 100%;
-    background-color: #ffffff;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
-  }
+.header {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: var(--header-height);
+  align-items: center;
+  width: 100%;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
 
-  &-isSearch {
+  &--isSearch {
     grid-template-columns: 0.5fr 7.5fr;
 
     @media (min-width: 768px) {
@@ -19,12 +17,12 @@
     }
   }
 
-  &-logoAndTitleContainer {
+  & .logoAndTitleContainer {
     display: flex;
     align-items: center;
   }
 
-  &-logoContainer {
+  & .logoContainer {
     display: flex;
     align-items: center;
     width: fit-content;
@@ -34,7 +32,7 @@
     z-index: 2;
   }
 
-  &-titleContainer {
+  & .titleContainer {
     visibility: visible;
     padding-right: 8px;
     width: 100%;

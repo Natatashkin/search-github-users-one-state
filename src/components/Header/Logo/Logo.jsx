@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { IoPeopleCircleSharp } from "react-icons/io5";
-import "./Logo.scss";
+import styles from "./Logo.module.scss";
 
 const Logo = () => {
   return (
-    <Link to="/" className="Logo-link">
+    <Link to="/" className={styles.logo}>
       <IoPeopleCircleSharp size={28} />
     </Link>
   );

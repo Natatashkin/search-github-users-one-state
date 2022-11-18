@@ -7,7 +7,7 @@ import { Logo } from "./Logo";
 import { pageTitle } from "../../helpers";
 import { TextField } from "../TextField";
 import { PageTitle } from "../PageTitle";
-import "./Header.scss";
+import styles from "./Header.module.scss";
 
 const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
   const title = pageTitle(location, isUserPage);
@@ -20,17 +20,17 @@ const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
 
   return (
     <header
-      className={classNames("Header-container", {
-        "Header-isSearch": isSearchPage,
+      className={classNames(styles.header, {
+        [styles["header--isSearch"]]: isSearchPage,
       })}
     >
-      <div className="Header-logoAndTitleContainer">
-        <div className="Header-logoContainer">
+      <div className={styles.logoAndTitleContainer}>
+        <div className={styles.logoContainer}>
           <Logo />
         </div>
         <div
-          className={classNames("Header-titleContainer", {
-            "Header-titleContainer--isSearch": isSearchPage,
+          className={classNames(styles.titleContainer, {
+            [styles[`titleContainer--isSearch`]]: isSearchPage,
           })}
         >
           <PageTitle title={title} />

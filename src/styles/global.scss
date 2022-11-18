@@ -1,4 +1,4 @@
-@import "./variables";
+@import "./variables.scss";
 html {
   height: 100%;
 }
@@ -34,4 +34,5 @@ p {
 ul {
   margin: 0;
   padding: 0;
+  list-style: none;
 }
