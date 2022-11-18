@@ -64,7 +64,7 @@
 
 .favLink {
   @include mixins.display-flex(flex, center, center);
-  width: 40px;
+  width: 48px;
   height: 40px;
   color: $lightgrey;
   transition: color $transition;
