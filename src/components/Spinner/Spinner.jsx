@@ -1,19 +1,12 @@
 import React from "react";
 import SyncLoader from "react-spinners/SyncLoader";
-import { useTheme } from "styled-components";
-import { SpinnerContainer } from "./Spinner.styled";
+import styles from "./Spinner.module.scss";
 
 const Spinner = ({ size = 10 }) => {
-  const theme = useTheme();
-
   return (
-    <SpinnerContainer>
-      <SyncLoader
-        size={size}
-        color={theme.colors.black}
-        aria-label="Loading Spinner"
-      />
-    </SpinnerContainer>
+    <div className={styles.container}>
+      <SyncLoader size={size} aria-label="Loading Spinner" />
+    </div>
   );
 };
 

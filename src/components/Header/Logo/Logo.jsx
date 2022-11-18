@@ -1,15 +1,15 @@
 import React from "react";
 import { IoPeopleCircleSharp } from "react-icons/io5";
-import { useTheme } from "styled-components";
-import { StyledLink } from "./Logo.styled";
+import { IconRouteLink } from "../../../components";
+import styles from "./Logo.module.scss";
 
 const Logo = () => {
-  const theme = useTheme();
-
   return (
-    <StyledLink to="/">
-      <IoPeopleCircleSharp size={28} color={theme.colors.black} />
-    </StyledLink>
+    <div className={styles.logo}>
+      <IconRouteLink path="/">
+        <IoPeopleCircleSharp size={28} />
+      </IconRouteLink>
+    </div>
   );
 };
 

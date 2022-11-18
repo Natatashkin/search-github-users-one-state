@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import { handleScrollToTop } from "../../helpers";
-
 import {
   UsersList,
   UsersListItem,
@@ -9,7 +8,7 @@ import {
   Button,
   ErrorMessage,
 } from "../../components";
-import { UserListContainer, ListOptions } from "./SearchPage.styled";
+import styles from "./SearchPage.module.scss";
 
 const SearchPage = ({
   location,
@@ -33,7 +32,11 @@ const SearchPage = ({
       {showSpinner && <Spinner />}
       {showError && <ErrorMessage message={error} />}
       {showUserList && (
-        <UserListContainer ref={listRef} onScroll={handleScroll}>
+        <div
+          className={styles.userListContainer}
+          ref={listRef}
+          onScroll={handleScroll}
+        >
           <UsersList>
             {userList.map((item) => {
               return (
@@ -46,7 +49,7 @@ const SearchPage = ({
               );
             })}
           </UsersList>
-          <ListOptions>
+          <div className={styles.userListOptions}>
             {showListSpinner && <Spinner size={7} />}
             {showButton && (
               <div>
@@ -57,8 +60,8 @@ const SearchPage = ({
                 />
               </div>
             )}
-          </ListOptions>
-        </UserListContainer>
+          </div>
+        </div>
       )}
     </Container>
   );

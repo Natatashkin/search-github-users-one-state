@@ -18,7 +18,7 @@ const HEADER_AND_BUTTON_HEIGHT = 140;
 const UserRepos = ({ reposQuantity, repos, userViewRef }) => {
   const showDropdownIcon = Boolean(repos.length);
   const [open, setOpen] = useState(false);
-  const toggleOpenClick = () => setOpen(!open);
+  const toggleOpenClick = () => setOpen((prev) => !prev);
   const reposRef = useRef(null);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const UserRepos = ({ reposQuantity, repos, userViewRef }) => {
 
       handleScrollToTop(userViewRef, targetHeight);
     }
-  }, [open, userViewRef]);
+  }, [open]);
 
   return (
     <ReposContainer ref={reposRef}>

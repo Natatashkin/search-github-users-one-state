@@ -1,0 +1,67 @@
+@use "../../styles/mixins" as mixins;
+@import "../../styles/variables";
+
+.container {
+  position: sticky;
+  top: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: $header-height;
+  align-items: center;
+  width: 100%;
+  background-color: $white;
+  box-shadow: $outerShadow;
+
+  &--isSearch {
+    grid-template-columns: 0.5fr 7.5fr;
+
+    @include mixins.tablet {
+      grid-template-columns: 1fr 1.5fr 1fr;
+    }
+  }
+}
+
+.logoAndTitleContainer {
+  @include mixins.display-flex(flex, null, center);
+}
+
+.titleContainer {
+  visibility: visible;
+  padding-right: 8px;
+  width: 100%;
+
+  &--isSearch {
+    max-width: 0;
+    padding-right: 0;
+    transform: scale(0);
+    transition-property: transform, max-width;
+    transition: $transition;
+    transform-origin: left;
+
+    @include mixins.tablet {
+      visibility: visible;
+      padding-right: 8px;
+      max-width: 500px;
+      transform: scale(1);
+    }
+  }
+}
+
+.textFieldContainer {
+  @include mixins.display-flex(flex);
+}
+
+.adornment {
+  color: $lightgrey;
+}
+
+.favLinkContainer {
+  color: $lightgrey;
+  border-radius: 4px;
+  transition: color $transition;
+
+  &:hover,
+  &:focus {
+    color: $yellow;
+  }
+}

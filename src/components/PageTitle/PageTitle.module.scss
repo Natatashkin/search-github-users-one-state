@@ -1,0 +1,13 @@
+@use "../../styles/mixins.scss" as mixins;
+@import "../../styles/variables.scss";
+
+.pageTitle {
+  font-size: $h2;
+  line-height: 1;
+  white-space: nowrap;
+  transition: font-size $transition;
+
+  @include mixins.tablet {
+    font-size: $h1;
+  }
+}

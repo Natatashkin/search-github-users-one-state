@@ -19,6 +19,7 @@ import {
   Favorite,
   User,
 } from "./UsersListItem.styled";
+import styles from "./UsersListItem.module.scss";
 
 const UsersListItem = ({ item, location, favoritesOptions }) => {
   const { name, login, avatar_url, bio, followers, following, public_repos } =

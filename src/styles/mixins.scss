@@ -1,0 +1,48 @@
+//Breakpoints
+@mixin mobile {
+  @media (min-width: 320px) and (max-width: 449px) {
+    @content;
+  }
+}
+
+@mixin mobileMd {
+  @media (min-width: 450px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin laptop {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+
+@mixin display-flex(
+  $display,
+  $horizontal: null,
+  $vertical: null,
+  $direction: null
+) {
+  display: $display;
+  @if $horizontal {
+    justify-content: $horizontal;
+  }
+  @if $vertical {
+    align-items: $vertical;
+  }
+  @if $vertical {
+    flex-direction: $direction;
+  }
+} ;

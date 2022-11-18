@@ -43,7 +43,7 @@ const ListContainer = styled.div`
 `;
 
 const ReposList = styled.ul`
-  width: 99%;
+  padding: 10px;
   background-color: transparent;
   list-style: none;
   animation: ${slide} 2500ms linear;

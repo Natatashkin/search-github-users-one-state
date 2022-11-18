@@ -1,9 +1,8 @@
 import React from "react";
-import { Title } from "./PageTitle.styled";
+import styles from "./PageTitle.module.scss";
 
 const PageTitle = ({ title }) => {
-  console.log(title);
-  return <Title>{title}</Title>;
+  return <h1 className={styles.pageTitle}>{title}</h1>;
 };
 
 export default PageTitle;

@@ -1,0 +1,19 @@
+@use "../../styles/mixins.scss" as mixins;
+
+.container {
+  height: 100%;
+  overflow: auto;
+}
+
+.list {
+  @include mixins.display-flex(flex, null, center, column);
+  max-width: 100%;
+  margin-left: 20px;
+  margin-right: 20px;
+
+  @include mixins.tablet {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
