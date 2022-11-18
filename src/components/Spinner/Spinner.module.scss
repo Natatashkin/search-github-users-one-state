@@ -1,0 +1,9 @@
+@use "../../styles/mixins.scss";
+@import "../../styles/variables.scss";
+
+.container {
+  @include mixins.display-flex(flex, center);
+  width: 100%;
+  padding: 20px;
+  color: $black;
+}
