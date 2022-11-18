@@ -1,8 +1,8 @@
 import React, { forwardRef } from "react";
-import { MainContainer } from "./Container.styled";
+import styles from "./Container.module.scss";
 
 const Container = forwardRef(({ children }) => {
-  return <MainContainer>{children}</MainContainer>;
+  return <div className={styles.container}>{children}</div>;
 });
 
 export default Container;
