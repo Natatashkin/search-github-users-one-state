@@ -69,7 +69,8 @@
   color: $lightgrey;
   transition: color $transition;
 
-  &:hover {
+  &:hover,
+  &:focus {
     color: $yellow;
   }
 }

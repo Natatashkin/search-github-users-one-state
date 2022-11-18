@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import { Label, Input, InputWrapper, Adornment } from "./TextField.styled";
-import "./TextField.module.scss";
+import styles from "./TextField.module.scss";
+
 const TextField = ({
   onChange,
   value = "",
@@ -11,12 +11,26 @@ const TextField = ({
   name,
   children,
 }) => {
+  const isSearch = name === "search";
   return (
-    <InputWrapper name={name}>
-      <Adornment>{children}</Adornment>
-      {label && <Label htmlFor={name}>{label}</Label>}
-      <Input type={type} name={name} onChange={onChange} value={value} />
-    </InputWrapper>
+    <div className={styles.container} name={name}>
+      <div className={styles.adornment}>{children}</div>
+      {label && (
+        <label htmlFor={name} className={styles.label}>
+          {label}
+        </label>
+      )}
+      <input
+        className={classNames([
+          styles.input,
+          { [styles["input--isSearch"]]: isSearch },
+        ])}
+        type={type}
+        name={name}
+        onChange={onChange}
+        value={value}
+      />
+    </div>
   );
 };
 
