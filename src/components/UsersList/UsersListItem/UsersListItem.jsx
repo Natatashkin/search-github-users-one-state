@@ -31,7 +31,7 @@ const UsersListItem = ({ item, location, favoritesOptions }) => {
   const username = name ? name : login;
 
   return (
-    <UserCard>
+    <div className={styles.card}>
       <Block>
         <UserInfoWrapper>
           <UserLink to={`/user/${login}`} state={{ from: location }}>
@@ -69,7 +69,7 @@ const UsersListItem = ({ item, location, favoritesOptions }) => {
           <StatsData>{public_repos}</StatsData>
         </Stats>
       </Block>
-    </UserCard>
+    </div>
   );
 };
 
