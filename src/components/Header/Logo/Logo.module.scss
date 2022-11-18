@@ -5,6 +5,8 @@
 .logo {
   @include mixins.display-flex(inline-flex, center, center);
   @extend %full-size;
+  padding: 0 10px;
+  border-radius: 4px;
 
   color: $black;
 }

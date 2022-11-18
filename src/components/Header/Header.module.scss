@@ -28,8 +28,8 @@
 .logoContainer {
   @include mixins.display-flex(flex, null, center);
   width: fit-content;
-  height: 100%;
-  padding: 10px;
+  height: 40px;
+
   background-color: $white;
   z-index: 2;
 }
@@ -69,6 +69,7 @@
   width: 48px;
   height: 40px;
   color: $lightgrey;
+  border-radius: 4px;
   transition: color $transition;
 
   &:hover,

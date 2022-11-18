@@ -38,7 +38,6 @@ const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
       </div>
       {isSearchPage && (
         <div className={styles.textFieldContainer}>
-          {/*  Добавить фокус */}
           <TextField name="search" value={query} onChange={handleOnChange}>
             <IoSearchOutline size={20} className={styles.adornment} />
           </TextField>

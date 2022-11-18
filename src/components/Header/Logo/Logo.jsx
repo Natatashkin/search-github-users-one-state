@@ -6,7 +6,7 @@ import styles from "./Logo.module.scss";
 const Logo = () => {
   return (
     <Link to="/" className={styles.logo}>
-      <IoPeopleCircleSharp size={28} />
+      <IoPeopleCircleSharp size={24} />
     </Link>
   );
 };
