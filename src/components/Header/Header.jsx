@@ -40,8 +40,7 @@ const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
         <div className={styles.textFieldContainer}>
           {/*  Добавить фокус */}
           <TextField name="search" value={query} onChange={handleOnChange}>
-            {/* добавить класс "TextField-adornment" scss */}
-            <IoSearchOutline size={20} className="TextField-adornment" />
+            <IoSearchOutline size={20} className={styles.adornment} />
           </TextField>
           <Link
             to="/favorites"

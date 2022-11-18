@@ -17,8 +17,12 @@
   }
 }
 
-@mixin display-flex($display, $horizontal, $vertical) {
+@mixin display-flex($display, $horizontal: null, $vertical: null) {
   display: $display;
-  justify-content: $horizontal;
-  align-items: $vertical;
+  @if $horizontal {
+    justify-content: $horizontal;
+  }
+  @if $vertical {
+    align-items: $vertical;
+  }
 } ;

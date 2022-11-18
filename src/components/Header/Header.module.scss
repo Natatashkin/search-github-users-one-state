@@ -20,13 +20,11 @@
 }
 
 .logoAndTitleContainer {
-  display: flex;
-  align-items: center;
+  @include mixins.display-flex(flex, null, center);
 }
 
 .logoContainer {
-  display: flex;
-  align-items: center;
+  @include mixins.display-flex(flex, null, center);
   width: fit-content;
   height: 100%;
   padding: 10px;
@@ -57,7 +55,11 @@
 }
 
 .textFieldContainer {
-  display: flex;
+  @include mixins.display-flex(flex);
+}
+
+.adornment {
+  color: $lightgrey;
 }
 
 .favLink {
