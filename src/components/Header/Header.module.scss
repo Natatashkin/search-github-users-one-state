@@ -1,104 +1,73 @@
+@use "../../styles/mixins" as mixins;
 @import "../../styles/variables";
 
-.header {
+.container {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: var(--header-height);
+  grid-template-rows: $header-height;
   align-items: center;
   width: 100%;
-  background-color: #ffffff;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+  background-color: $white;
+  box-shadow: $outerShadow;
 
   &--isSearch {
     grid-template-columns: 0.5fr 7.5fr;
 
-    @media (min-width: 768px) {
+    @include mixins.tablet {
       grid-template-columns: 1fr 1.5fr 1fr;
     }
   }
-
-  & .logoAndTitleContainer {
-    display: flex;
-    align-items: center;
-  }
-
-  & .logoContainer {
-    display: flex;
-    align-items: center;
-    width: fit-content;
-    height: 100%;
-    padding: 10px;
-    background-color: $white;
-    z-index: 2;
-  }
-
-  & .titleContainer {
-    visibility: visible;
-    padding-right: 8px;
-    width: 100%;
-
-    &--isSearch {
-      visibility: hidden;
-      padding-right: 0;
-      width: 0;
-      animation-name: hideTitle;
-      animation-duration: 250ms;
-      animation-timing-function: ease-in;
-
-      @media (min-width: 768px) {
-        visibility: visible;
-        padding-right: 8px;
-        width: 100%;
-        animation-name: showTitle;
-        animation-duration: 250ms;
-        animation-timing-function: ease-in;
-      }
-    }
-  }
-
-  &-textFieldContainer {
-    display: flex;
-  }
-
-  &-favLink {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-
-    color: $lightgrey;
-
-    &:hover {
-      color: $yellow;
-    }
-  }
 }
 
-@keyframes showTitle {
-  from {
-    width: 0;
-    visibility: hidden;
+.logoAndTitleContainer {
+  display: flex;
+  align-items: center;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  height: 100%;
+  padding: 10px;
+  background-color: $white;
+  z-index: 2;
+}
+
+.titleContainer {
+  visibility: visible;
+  padding-right: 8px;
+  width: 100%;
+
+  &--isSearch {
+    max-width: 0;
     padding-right: 0;
-    opacity: 0;
-  }
-  to {
-    width: 100%;
-    visibility: visible;
-    opacity: 1;
+    transform: scale(0);
+    transition-property: transform, max-width;
+    transition: $transition;
+    transform-origin: left;
+
+    @include mixins.tablet {
+      visibility: visible;
+      padding-right: 8px;
+      max-width: 500px;
+      transform: scale(1);
+    }
   }
 }
 
-@keyframes hideTitle {
-  from {
-    width: 100%;
-    padding-right: 8px;
-    visibility: visible;
-    opacity: 1;
-  }
-  to {
-    width: 0;
-    visibility: hidden;
-    opacity: 0;
+.textFieldContainer {
+  display: flex;
+}
+
+.favLink {
+  @include mixins.display-flex(flex, center, center);
+  width: 40px;
+  height: 40px;
+  color: $lightgrey;
+  transition: color $transition;
+
+  &:hover {
+    color: $yellow;
   }
 }

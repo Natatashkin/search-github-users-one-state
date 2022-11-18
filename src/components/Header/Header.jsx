@@ -20,8 +20,8 @@ const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
 
   return (
     <header
-      className={classNames(styles.header, {
-        [styles["header--isSearch"]]: isSearchPage,
+      className={classNames(styles.container, {
+        [styles["container--isSearch"]]: isSearchPage,
       })}
     >
       <div className={styles.logoAndTitleContainer}>
@@ -37,7 +37,7 @@ const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
         </div>
       </div>
       {isSearchPage && (
-        <div className="Header-textFieldContainer">
+        <div className={styles.textFieldContainer}>
           {/*  Добавить фокус */}
           <TextField name="search" value={query} onChange={handleOnChange}>
             {/* добавить класс "TextField-adornment" scss */}
@@ -46,9 +46,8 @@ const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
           <Link
             to="/favorites"
             state={{ from: location }}
-            className="Header-favLink"
+            className={styles.favLink}
           >
-            {/* Добвавить анимацию на hover*/}
             <FaStar size={24} />
           </Link>
         </div>
