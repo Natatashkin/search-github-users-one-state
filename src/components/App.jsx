@@ -33,10 +33,8 @@ const App = () => {
   };
 
   const handleScroll = useCallback(
-    ({ target }) => {
-      const shouldUpdate =
-        target.scrollHeight - Math.ceil(target.scrollTop) <=
-        target.clientHeight;
+    ({ target: { scrollHeight, scrollTop, clientHeight } }) => {
+      const shouldUpdate = scrollHeight - Math.ceil(scrollTop) <= clientHeight;
 
       if (shouldUpdate) {
         setPage((prevPage) => {

@@ -1,12 +1,10 @@
 import React, { useState, useCallback } from "react";
-import { Link } from "react-router-dom";
 import classNames from "classnames";
 import { IoSearchOutline } from "react-icons/io5";
 import { FaStar } from "react-icons/fa";
 import { Logo } from "./Logo";
 import { pageTitle } from "../../helpers";
-import { TextField } from "../TextField";
-import { PageTitle } from "../PageTitle";
+import { TextField, IconRouteLink, PageTitle } from "../../components";
 import styles from "./Header.module.scss";
 
 const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
@@ -25,9 +23,7 @@ const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
       })}
     >
       <div className={styles.logoAndTitleContainer}>
-        <div className={styles.logoContainer}>
-          <Logo />
-        </div>
+        <Logo />
         <div
           className={classNames(styles.titleContainer, {
             [styles[`titleContainer--isSearch`]]: isSearchPage,
@@ -41,13 +37,11 @@ const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
           <TextField name="search" value={query} onChange={handleOnChange}>
             <IoSearchOutline size={20} className={styles.adornment} />
           </TextField>
-          <Link
-            to="/favorites"
-            state={{ from: location }}
-            className={styles.favLink}
-          >
-            <FaStar size={24} />
-          </Link>
+          <div className={styles.favLinkContainer}>
+            <IconRouteLink path="/favorites" state={{ from: location }}>
+              <FaStar size={28} />
+            </IconRouteLink>
+          </div>
         </div>
       )}
     </header>

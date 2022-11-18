@@ -25,15 +25,6 @@
   @include mixins.display-flex(flex, null, center);
 }
 
-.logoContainer {
-  @include mixins.display-flex(flex, null, center);
-  width: fit-content;
-  height: 40px;
-
-  background-color: $white;
-  z-index: 2;
-}
-
 .titleContainer {
   visibility: visible;
   padding-right: 8px;
@@ -64,10 +55,7 @@
   color: $lightgrey;
 }
 
-.favLink {
-  @include mixins.display-flex(flex, center, center);
-  width: 48px;
-  height: 40px;
+.favLinkContainer {
   color: $lightgrey;
   border-radius: 4px;
   transition: color $transition;

@@ -1,13 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { IoPeopleCircleSharp } from "react-icons/io5";
+import { IconRouteLink } from "../../../components";
 import styles from "./Logo.module.scss";
 
 const Logo = () => {
   return (
-    <Link to="/" className={styles.logo}>
-      <IoPeopleCircleSharp size={24} />
-    </Link>
+    <div className={styles.logo}>
+      <IconRouteLink path="/">
+        <IoPeopleCircleSharp size={28} />
+      </IconRouteLink>
+    </div>
   );
 };
 

@@ -3,10 +3,9 @@
 @import "../../../styles/placeholders.scss";
 
 .logo {
-  @include mixins.display-flex(inline-flex, center, center);
-  @extend %full-size;
-  padding: 0 10px;
+  @include mixins.display-flex(flex, center, center);
+  width: 40px;
+  height: 40px;
   border-radius: 4px;
-
   color: $black;
 }

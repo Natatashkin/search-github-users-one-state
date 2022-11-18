@@ -14,6 +14,7 @@ import {
   AvatarContainer,
   ButtonLinkContainer,
 } from "./UserPage.styled";
+import styles from "./UserPage.module.scss";
 
 const UserViewContainer = forwardRef(({ children }, ref) => {
   return <UserContainer ref={ref}>{children}</UserContainer>;

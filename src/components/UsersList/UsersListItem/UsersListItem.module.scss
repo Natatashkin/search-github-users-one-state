@@ -1,0 +1,17 @@
+@use "../../../styles/mixins.scss" as mixins;
+@import "../../../styles/variables.scss";
+
+.card {
+  width: 100%;
+  border-radius: $radius;
+  box-shadow: $outerShadow;
+  background-color: $white;
+
+  &:not(:last-child) {
+    margin-bottom: 15px;
+  }
+
+  @include mixins.mobileMd {
+    width: 100%;
+  }
+}
