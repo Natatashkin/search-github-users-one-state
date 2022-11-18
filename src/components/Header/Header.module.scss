@@ -2,6 +2,8 @@
 @import "../../styles/variables";
 
 .container {
+  position: sticky;
+  top: 0;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: $header-height;
