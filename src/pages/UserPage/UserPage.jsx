@@ -7,13 +7,9 @@ import {
   UserAvatar,
   PersonalInfo,
   UserRepos,
-  BackLink,
+  Spinner,
 } from "../../components";
-import {
-  UserContainer,
-  AvatarContainer,
-  ButtonLinkContainer,
-} from "./UserPage.styled";
+import { UserContainer } from "./UserPage.styled";
 import styles from "./UserPage.module.scss";
 
 const UserViewContainer = forwardRef(({ children }, ref) => {
@@ -27,28 +23,28 @@ const UserPage = ({ location, favoritesOptions, isUserPage }) => {
   const { login, avatar_url, name, public_repos, repos } = userData;
 
   return (
-    <Container isUserPage={isUserPage} ref={userViewRef}>
-      {loading && <h3>Loading...</h3>}
+    <Container ref={userViewRef}>
+      {loading && <Spinner />}
       {login && (
         <>
-          <ButtonLinkContainer>
+          {/* <ButtonLinkContainer>
             <BackLink
               location={location}
               titlePart="to search"
               alternativePath="/search"
             />
-          </ButtonLinkContainer>
-          <UserViewContainer ref={userViewRef}>
-            <AvatarContainer>
-              <UserAvatar url={avatar_url} name={name} />
-            </AvatarContainer>
-            <PersonalInfo data={userData} favoritesOptions={favoritesOptions} />
-            <UserRepos
-              reposQuantity={public_repos}
-              repos={repos}
-              userViewRef={userViewRef}
-            />
-          </UserViewContainer>
+          </ButtonLinkContainer> */}
+          {/* <UserViewContainer ref={userViewRef}> */}
+          <div className={styles.avatarContainer}>
+            <UserAvatar url={avatar_url} name={name} variant="large" />
+          </div>
+          <PersonalInfo data={userData} favoritesOptions={favoritesOptions} />
+          <UserRepos
+            reposQuantity={public_repos}
+            repos={repos}
+            userViewRef={userViewRef}
+          />
+          {/* </UserViewContainer> */}
         </>
       )}
     </Container>

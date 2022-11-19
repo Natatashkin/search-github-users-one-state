@@ -1,0 +1,15 @@
+@import "../../styles/variables.scss";
+
+.name {
+  & .h3 {
+    font-size: $h2;
+    font-weight: 700;
+  }
+
+  & h4 {
+    font-weight: 500;
+    & a {
+      color: $lightgrey;
+    }
+  }
+}

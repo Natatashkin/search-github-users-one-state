@@ -16,6 +16,7 @@ import {
   ContactsContainer,
   NameContainer,
 } from "./PersonalInfo.styled";
+import styles from "./PersonalInfo.module.scss";
 
 const PersonalInfo = ({ data, favoritesOptions }) => {
   const { favButtonColor, toggleFavoriteClick } = useFavorites(
@@ -38,14 +39,14 @@ const PersonalInfo = ({ data, favoritesOptions }) => {
 
   return (
     <PersonalInfoContainer>
-      <NameContainer>
+      <div className={styles.nameContainer}>
         <UserName name={name} login={login} url={html_url} />
         <div>
           <IconButton onClick={toggleFavoriteClick}>
             <FaStar color={favButtonColor} size={24} />
           </IconButton>
         </div>
-      </NameContainer>
+      </div>
       <SubscriptionsContainer>
         <UserSubscriptions followers={followers} following={following} />
       </SubscriptionsContainer>
