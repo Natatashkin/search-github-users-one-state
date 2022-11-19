@@ -42,7 +42,7 @@
   @if $vertical {
     align-items: $vertical;
   }
-  @if $vertical {
+  @if $direction {
     flex-direction: $direction;
   }
 } ;

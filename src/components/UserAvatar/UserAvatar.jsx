@@ -1,11 +1,18 @@
+import classNames from "classnames";
 import React from "react";
-import { AvatarContainer } from "./UserAvatar.styled";
+import styles from "./UserAvatar.module.scss";
 
-const UserAvatar = ({ url, name }) => {
+// variant = "small"
+// variant= "large"
+
+const UserAvatar = ({ url, name, variant = "small" }) => {
+  const isLarge = variant === "large";
   return (
-    <AvatarContainer>
+    <div
+      className={classNames([styles.avatarThumb, { [styles.large]: isLarge }])}
+    >
       <img src={url} alt={`User's avatar ${name}`} />
-    </AvatarContainer>
+    </div>
   );
 };
 

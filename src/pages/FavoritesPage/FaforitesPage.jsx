@@ -8,6 +8,7 @@ import {
 
 const FavoritesPage = ({ location, favoritesOptions }) => {
   const { favorites } = favoritesOptions;
+
   return (
     <Container>
       {/* <BackLink
@@ -15,7 +16,6 @@ const FavoritesPage = ({ location, favoritesOptions }) => {
         titlePart="to search"
         alternativePath="/search"
       /> */}
-      {/* <UserListContainer> */}
       <UsersList>
         {favorites.map((item) => {
           return (

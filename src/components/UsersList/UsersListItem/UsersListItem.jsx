@@ -1,24 +1,8 @@
 import React from "react";
-import { useFavorites } from "../../../hooks";
+import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
-import { IconButton } from "../../IconButton";
-import {
-  UserCard,
-  UserLink,
-  Avatar,
-  Image,
-  Block,
-  UserInfo,
-  Name,
-  Bio,
-  AvatarContainer,
-  Stats,
-  StatsTitle,
-  StatsData,
-  UserInfoWrapper,
-  Favorite,
-  User,
-} from "./UsersListItem.styled";
+import { useFavorites } from "../../../hooks";
+import { UserAvatar, IconButton } from "../../../components";
 import styles from "./UsersListItem.module.scss";
 
 const UsersListItem = ({ item, location, favoritesOptions }) => {
@@ -32,43 +16,40 @@ const UsersListItem = ({ item, location, favoritesOptions }) => {
 
   return (
     <div className={styles.card}>
-      <Block>
-        <UserInfoWrapper>
-          <UserLink to={`/user/${login}`} state={{ from: location }}>
-            <User>
-              <AvatarContainer>
-                <Avatar>
-                  <Image src={avatar_url} alt={`Avatar ${username}`} />
-                </Avatar>
-              </AvatarContainer>
-
-              <UserInfo>
-                <Name>{username}</Name>
-                <Bio>{bio}</Bio>
-              </UserInfo>
-            </User>
-          </UserLink>
-          <Favorite>
-            <IconButton onClick={toggleFavoriteClick}>
-              <FaStar color={favButtonColor} size={24} />
-            </IconButton>
-          </Favorite>
-        </UserInfoWrapper>
-      </Block>
-      <Block noPadding>
-        <Stats>
-          <StatsTitle>followers</StatsTitle>
-          <StatsData>{followers}</StatsData>
-        </Stats>
-        <Stats>
-          <StatsTitle>following</StatsTitle>
-          <StatsData>{following}</StatsData>
-        </Stats>
-        <Stats>
-          <StatsTitle>repos</StatsTitle>
-          <StatsData>{public_repos}</StatsData>
-        </Stats>
-      </Block>
+      <div className={styles.container}>
+        <Link
+          to={`/user/${login}`}
+          state={{ from: location }}
+          className={styles.link}
+        >
+          <div className={styles.avatar}>
+            <UserAvatar url={avatar_url} name={username} size="60" />
+          </div>
+          <div className={styles.info}>
+            <h2>{username}</h2>
+            <p>{bio}</p>
+          </div>
+        </Link>
+        <div className={styles.favorite}>
+          <IconButton onClick={toggleFavoriteClick}>
+            <FaStar color={favButtonColor} size={24} />
+          </IconButton>
+        </div>
+      </div>
+      <div className={styles.container}>
+        <div className={styles.stats}>
+          <h3>followers</h3>
+          <p>{followers}</p>
+        </div>
+        <div className={styles.stats}>
+          <h3>following</h3>
+          <p>{following}</p>
+        </div>
+        <div className={styles.stats}>
+          <h3>repos</h3>
+          <p>{public_repos}</p>
+        </div>
+      </div>
     </div>
   );
 };
