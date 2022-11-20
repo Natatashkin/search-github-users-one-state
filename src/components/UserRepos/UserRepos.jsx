@@ -5,7 +5,7 @@ import { handleScrollToTop } from "../../helpers";
 import { ReposList, ReposListItem, ReposHeader } from "../../components";
 import styles from "./UserRepos.module.scss";
 
-const HEADER_AND_BUTTON_HEIGHT = 140;
+const HEADER_HEIGHT = 75;
 
 const UserRepos = ({ reposQuantity, repos, userViewRef }) => {
   const showDropdownIcon = Boolean(repos.length);
@@ -16,8 +16,7 @@ const UserRepos = ({ reposQuantity, repos, userViewRef }) => {
   useEffect(() => {
     if (open) {
       const target = reposRef?.current;
-      const targetHeight =
-        target.getBoundingClientRect().top - HEADER_AND_BUTTON_HEIGHT;
+      const targetHeight = target.getBoundingClientRect().top - HEADER_HEIGHT;
 
       handleScrollToTop(userViewRef, targetHeight);
     }

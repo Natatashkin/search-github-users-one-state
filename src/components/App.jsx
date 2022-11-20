@@ -7,9 +7,9 @@ import {
   useMatch,
 } from "react-router-dom";
 import { useLocalStorage, useFetchUsers } from "../hooks";
-import HomePage from "../pages/HomePage/HomePage";
+// import HomePage from "../pages/HomePage/HomePage";
 import SearchPage from "../pages/SearchPage/SearchPage";
-import Dashboard from "../pages/Dashboard/Dashboard";
+// import Dashboard from "../pages/Dashboard/Dashboard";
 import UserPage from "../pages/UserPage/UserPage";
 import FavoritesPage from "../pages/FavoritesPage/FaforitesPage";
 import { PageLayout } from "./PageLayout";
@@ -59,7 +59,6 @@ const App = () => {
           />
         }
       >
-        {/* <Route index element={<HomePage />} /> */}
         <Route
           index
           element={
@@ -72,7 +71,6 @@ const App = () => {
             />
           }
         />
-        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
         <Route
           path="user/:username"
           element={

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useDebouncedCallback } from "use-debounce";
-import { filterNewUsers } from "../helpers";
+import { filterNewItems } from "../helpers";
 import * as ghApi from "../api/ghApi";
 
 const PER_PAGE = 15;
@@ -49,7 +49,7 @@ const useFetchUsers = ({ query, setShowButton }) => {
 
         if (page > 1) {
           setUserList((prevList) => {
-            const newUniqueUsers = filterNewUsers(prevList, usersData);
+            const newUniqueUsers = filterNewItems(prevList, usersData);
             return [...prevList, ...newUniqueUsers];
           });
           setIsLoading(false);
