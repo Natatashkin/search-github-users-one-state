@@ -1,0 +1,18 @@
+@use "../../styles/mixins.scss" as mixins;
+@import "../../styles/variables.scss";
+
+.listItem {
+  @include mixins.display-flex(flex, null, center);
+
+  &:not(:last-child) {
+    margin-bottom: 5px;
+  }
+  & svg {
+    margin-right: 4px;
+    font-size: 18px;
+  }
+
+  & a {
+    color: $black;
+  }
+}

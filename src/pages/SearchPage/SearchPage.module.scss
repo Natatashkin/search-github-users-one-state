@@ -10,6 +10,6 @@
 
 .userListOptions {
   @include mixins.display-flex(flex, center);
-  margin: 10px 0;
+  // margin: 10px 0;
   min-height: 40px;
 }

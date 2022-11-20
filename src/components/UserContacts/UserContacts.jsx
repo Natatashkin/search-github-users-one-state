@@ -1,32 +1,32 @@
 import React from "react";
-import { Contacts, Item } from "./UserContacts.styled";
 import { GrLocation } from "react-icons/gr";
 import { HiOutlineMail, HiOutlineOfficeBuilding } from "react-icons/hi";
+import styles from "./UserContacts.module.scss";
 
 const UserContacts = ({ email, company, country }) => {
   return (
-    <Contacts>
+    <ul>
       {email && (
-        <Item>
+        <li className={styles.listItem}>
           <HiOutlineMail />
           <span>
-            <a href={`mailto:${{ email }}`}>{email}</a>
+            <a href={`mailto:${email}`}>{email}</a>
           </span>
-        </Item>
+        </li>
       )}
       {company && (
-        <Item>
+        <li className={styles.listItem}>
           <HiOutlineOfficeBuilding />
           <span>{company}</span>
-        </Item>
+        </li>
       )}
       {country && (
-        <Item>
+        <li className={styles.listItem}>
           <GrLocation />
           <span>{country}</span>
-        </Item>
+        </li>
       )}
-    </Contacts>
+    </ul>
   );
 };
 

@@ -1,7 +1,6 @@
-import React, { useRef, forwardRef } from "react";
+import React, { useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useFetchCurrentUser } from "../../hooks";
-
 import {
   Container,
   UserAvatar,
@@ -9,12 +8,7 @@ import {
   UserRepos,
   Spinner,
 } from "../../components";
-import { UserContainer } from "./UserPage.styled";
 import styles from "./UserPage.module.scss";
-
-const UserViewContainer = forwardRef(({ children }, ref) => {
-  return <UserContainer ref={ref}>{children}</UserContainer>;
-});
 
 const UserPage = ({ location, favoritesOptions, isUserPage }) => {
   const userViewRef = useRef(null);

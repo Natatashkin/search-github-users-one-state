@@ -1,10 +1,5 @@
 @use "../../styles/mixins.scss" as mixins;
 
-.container {
-  height: 100%;
-  // overflow: auto;
-}
-
 .list {
   @include mixins.display-flex(flex, null, center, column);
   max-width: 100%;
