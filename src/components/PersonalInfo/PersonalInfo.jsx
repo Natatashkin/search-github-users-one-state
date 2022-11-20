@@ -1,5 +1,7 @@
 import React from "react";
+import classNames from "classnames";
 import { FaStar } from "react-icons/fa";
+import { useFavorites } from "../../hooks";
 import {
   UserContacts,
   UserBio,
@@ -7,15 +9,6 @@ import {
   UserName,
   IconButton,
 } from "../../components";
-
-import { useFavorites } from "../../hooks";
-import {
-  PersonalInfoContainer,
-  SubscriptionsContainer,
-  BioContainer,
-  ContactsContainer,
-  NameContainer,
-} from "./PersonalInfo.styled";
 import styles from "./PersonalInfo.module.scss";
 
 const PersonalInfo = ({ data, favoritesOptions }) => {
@@ -38,8 +31,8 @@ const PersonalInfo = ({ data, favoritesOptions }) => {
   const shouldRenderContacts = Boolean(email ?? company ?? location);
 
   return (
-    <PersonalInfoContainer>
-      <div className={styles.nameContainer}>
+    <>
+      <div className={classNames([styles.nameContainer, styles.container])}>
         <UserName name={name} login={login} url={html_url} />
         <div>
           <IconButton onClick={toggleFavoriteClick}>
@@ -47,20 +40,20 @@ const PersonalInfo = ({ data, favoritesOptions }) => {
           </IconButton>
         </div>
       </div>
-      <SubscriptionsContainer>
+      <div className={styles.container}>
         <UserSubscriptions followers={followers} following={following} />
-      </SubscriptionsContainer>
+      </div>
       {bio && (
-        <BioContainer>
+        <div className={styles.container}>
           <UserBio text={bio} />
-        </BioContainer>
+        </div>
       )}
       {shouldRenderContacts && (
-        <ContactsContainer>
+        <div className={styles.container}>
           <UserContacts email={email} company={company} country={location} />
-        </ContactsContainer>
+        </div>
       )}
-    </PersonalInfoContainer>
+    </>
   );
 };
 

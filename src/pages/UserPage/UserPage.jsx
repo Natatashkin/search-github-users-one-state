@@ -26,7 +26,7 @@ const UserPage = ({ location, favoritesOptions, isUserPage }) => {
     <Container ref={userViewRef}>
       {loading && <Spinner />}
       {login && (
-        <>
+        <div className={styles.container}>
           {/* <ButtonLinkContainer>
             <BackLink
               location={location}
@@ -34,7 +34,6 @@ const UserPage = ({ location, favoritesOptions, isUserPage }) => {
               alternativePath="/search"
             />
           </ButtonLinkContainer> */}
-          {/* <UserViewContainer ref={userViewRef}> */}
           <div className={styles.avatarContainer}>
             <UserAvatar url={avatar_url} name={name} variant="large" />
           </div>
@@ -44,8 +43,7 @@ const UserPage = ({ location, favoritesOptions, isUserPage }) => {
             repos={repos}
             userViewRef={userViewRef}
           />
-          {/* </UserViewContainer> */}
-        </>
+        </div>
       )}
     </Container>
   );

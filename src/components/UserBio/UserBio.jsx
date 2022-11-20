@@ -1,11 +1,11 @@
 import React from "react";
-import { Bio, BioContainer } from "./UserBio.styled";
+import styles from "./UserBio.module.scss";
 
 const UserBio = ({ text }) => {
   return (
-    <BioContainer>
-      <Bio>{text}</Bio>
-    </BioContainer>
+    <div className={styles.container}>
+      <p>{text}</p>
+    </div>
   );
 };
 

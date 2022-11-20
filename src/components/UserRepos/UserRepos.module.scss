@@ -2,10 +2,10 @@
 @import "../../styles/variables.scss";
 
 .container {
-  margin: 0 15px;
+  margin-top: 15px;
 }
+.listContainer {
+  margin: 0 -4px;
 
-.avatarContainer {
-  width: fit-content;
-  margin: 0 auto;
+  overflow-y: hidden;
 }

@@ -17,3 +17,5 @@ export { UserBio } from "./UserBio";
 export { UserSubscriptions } from "./UserSubscriptions";
 export { UserContacts } from "./UserContacts";
 export { BackLink } from "./BackLink";
+export { ReposList, ReposListItem } from "./ReposList";
+export { ReposHeader } from "./ReposHeader";

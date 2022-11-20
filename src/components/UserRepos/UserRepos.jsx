@@ -1,17 +1,9 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { handleScrollToTop } from "../../helpers";
-import { IconButton } from "../IconButton";
-import {
-  ReposContainer,
-  DropHeader,
-  ReposList,
-  RepoListItem,
-  DropButtonContainer,
-  ListContainer,
-} from "./UserRepos.styled";
+import { ReposList, ReposListItem, ReposHeader } from "../../components";
+import styles from "./UserRepos.module.scss";
 
 const HEADER_AND_BUTTON_HEIGHT = 140;
 
@@ -32,38 +24,26 @@ const UserRepos = ({ reposQuantity, repos, userViewRef }) => {
   }, [open]);
 
   return (
-    <ReposContainer ref={reposRef}>
-      <DropHeader>
-        <p>
-          Repositories: <span>{reposQuantity}</span>
-        </p>
-        {showDropdownIcon && (
-          <DropButtonContainer>
-            <IconButton onClick={toggleOpenClick}>
-              {open ? <IoIosArrowUp size={18} /> : <IoIosArrowDown size={18} />}
-            </IconButton>
-          </DropButtonContainer>
-        )}
-      </DropHeader>
+    <div className={styles.container} ref={reposRef}>
+      <ReposHeader
+        showDropdownIcon={showDropdownIcon}
+        reposQuantity={reposQuantity}
+        onClick={toggleOpenClick}
+        open={open}
+      />
       {open && (
-        <ListContainer>
+        <div className={styles.listContainer}>
           <ReposList open={open}>
             {repos.map((repo) => {
               const showDescription = repo.description || "No description";
-
               return (
-                <RepoListItem>
-                  <a href={repo.html_url} target="_blank" rel="noreferrer">
-                    <h4>{repo.name}</h4>
-                    <p>{showDescription}</p>
-                  </a>
-                </RepoListItem>
+                <ReposListItem repo={repo} showDescription={showDescription} />
               );
             })}
           </ReposList>
-        </ListContainer>
+        </div>
       )}
-    </ReposContainer>
+    </div>
   );
 };
 

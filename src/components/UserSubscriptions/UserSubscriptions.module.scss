@@ -1,7 +1,7 @@
-import styled from "styled-components";
+@use "../../styles/mixins.scss" as mixins;
 
-export const Subscriptions = styled.div`
-  display: flex;
+.subscriptions {
+  @include mixins.display-flex(flex, null, center);
 
   & svg:first-child {
     margin-right: 4px;
@@ -16,4 +16,4 @@ export const Subscriptions = styled.div`
     margin-right: 4px;
     font-weight: 600;
   }
-`;
+}

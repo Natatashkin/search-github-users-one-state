@@ -1,0 +1,16 @@
+@import "../../styles/variables.scss";
+
+.list {
+  width: 100%;
+  background-color: transparent;
+  animation: showList $transition;
+}
+
+@keyframes showList {
+  from {
+    transform: translateY(-110%);
+  }
+  to {
+    transform: translateY(0%);
+  }
+}
