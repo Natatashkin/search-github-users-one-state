@@ -1,9 +1,9 @@
 import React, { forwardRef } from "react";
 import styles from "./Container.module.scss";
 
-const Container = forwardRef(({ children }, ref) => {
+const Container = forwardRef(({ children, onScroll = () => {} }, ref) => {
   return (
-    <div className={styles.container} ref={ref}>
+    <div className={styles.container} ref={ref} onScroll={onScroll}>
       {children}
     </div>
   );

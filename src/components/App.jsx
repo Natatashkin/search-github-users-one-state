@@ -18,7 +18,7 @@ const App = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams("");
   const isUserPage = useMatch("/user/*");
-  const isSearchPage = Boolean(useMatch("/search"));
+  const isSearchPage = Boolean(useMatch("/"));
   const { favorites, setFavorites } = useLocalStorage("favorites", []);
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") ?? "");
   const [showButton, setShowButton] = useState(false);
@@ -59,9 +59,9 @@ const App = () => {
           />
         }
       >
-        <Route index element={<HomePage />} />
+        {/* <Route index element={<HomePage />} /> */}
         <Route
-          path="/search"
+          index
           element={
             <SearchPage
               searchPageOptions={searchPageOptions}
@@ -72,15 +72,15 @@ const App = () => {
             />
           }
         />
-        <Route path="/dashboard" element={<Dashboard />} />
+        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
         <Route
-          path="/user/:username"
+          path="user/:username"
           element={
             <UserPage location={location} favoritesOptions={favoritesOptions} />
           }
         />
         <Route
-          path="/favorites"
+          path="favorites"
           element={
             <FavoritesPage
               location={location}

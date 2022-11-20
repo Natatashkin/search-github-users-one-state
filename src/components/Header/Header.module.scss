@@ -15,7 +15,7 @@
   &--isSearch {
     grid-template-columns: 0.5fr 7.5fr;
 
-    @include mixins.tablet {
+    @include mixins.laptop {
       grid-template-columns: 1fr 1.5fr 1fr;
     }
   }

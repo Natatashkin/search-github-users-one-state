@@ -39,7 +39,7 @@ const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
           </TextField>
           <div className={styles.favLinkContainer}>
             <IconRouteLink path="/favorites" state={{ from: location }}>
-              <FaStar size={28} />
+              <FaStar size={24} />
             </IconRouteLink>
           </div>
         </div>

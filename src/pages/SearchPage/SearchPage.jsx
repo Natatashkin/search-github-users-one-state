@@ -17,7 +17,7 @@ const SearchPage = ({
   searchPageOptions,
   favoritesOptions,
 }) => {
-  const listRef = useRef();
+  const scrollRef = useRef();
   const {
     error,
     userList,
@@ -28,15 +28,11 @@ const SearchPage = ({
   } = searchPageOptions;
 
   return (
-    <Container>
+    <Container ref={scrollRef} onScroll={handleScroll}>
       {showSpinner && <Spinner />}
       {showError && <ErrorMessage message={error} />}
       {showUserList && (
-        <div
-          className={styles.userListContainer}
-          ref={listRef}
-          onScroll={handleScroll}
-        >
+        <>
           <UsersList>
             {userList.map((item) => {
               return (
@@ -52,16 +48,16 @@ const SearchPage = ({
           <div className={styles.userListOptions}>
             {showListSpinner && <Spinner size={7} />}
             {showButton && (
-              <div>
+              <>
                 <Button
                   title="Back to top"
                   type="button"
-                  onClick={() => handleScrollToTop(listRef, 0)}
+                  onClick={() => handleScrollToTop(scrollRef, 0)}
                 />
-              </div>
+              </>
             )}
           </div>
-        </div>
+        </>
       )}
     </Container>
   );

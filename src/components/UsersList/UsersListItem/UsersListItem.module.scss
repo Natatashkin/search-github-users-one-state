@@ -28,7 +28,7 @@
 
 .link {
   @include mixins.display-flex(flex);
-  flex: 1;
+  flex-grow: 1;
 }
 
 .avatar {
@@ -40,7 +40,7 @@
   @include mixins.display-flex(flex, null, null, column);
   width: 100%;
   padding-left: 10px;
-  overflow: hidden;
+  // overflow-x: hidden;
 
   & h2 {
     margin-bottom: 10px;
@@ -51,7 +51,10 @@
   & p {
     font-size: $small-font;
     color: $lightgrey;
-    text-overflow: ellipsis;
+    word-break: break-word;
+    // white-space: nowrap;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
   }
 }
 

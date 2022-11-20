@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useRef } from "react";
+
 import {
   UsersList,
   UsersListItem,
@@ -8,9 +9,10 @@ import {
 
 const FavoritesPage = ({ location, favoritesOptions }) => {
   const { favorites } = favoritesOptions;
+  const scrollRef = useRef(null);
 
   return (
-    <Container>
+    <Container ref={scrollRef}>
       {/* <BackLink
         location={location}
         titlePart="to search"
