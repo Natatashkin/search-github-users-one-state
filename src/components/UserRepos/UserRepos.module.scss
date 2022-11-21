@@ -6,6 +6,10 @@
 }
 .listContainer {
   margin: 0 -4px;
+}
 
-  overflow-y: hidden;
+.listOptions {
+  @include mixins.display-flex(flex, center, center);
+  height: 40px;
+  margin-top: 15px;
 }

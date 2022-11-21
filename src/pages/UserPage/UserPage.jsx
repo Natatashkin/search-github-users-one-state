@@ -1,6 +1,7 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useFetchCurrentUser } from "../../hooks";
+import { handleScroll } from "../../helpers";
 import {
   Container,
   UserAvatar,
@@ -13,11 +14,26 @@ import styles from "./UserPage.module.scss";
 const UserPage = ({ location, favoritesOptions }) => {
   const userViewRef = useRef(null);
   const { username } = useParams();
-  const { userData, loading } = useFetchCurrentUser(username);
-  const { login, avatar_url, name, public_repos, repos } = userData;
+  const {
+    userData,
+    loading,
+    userRepos,
+    setReposPage,
+    showListSpinner,
+    showList,
+  } = useFetchCurrentUser(username);
+  const { login, avatar_url, name, public_repos } = userData || {};
 
+  useEffect(() => {
+    console.log("render");
+  }, []);
   return (
-    <Container ref={userViewRef}>
+    <Container
+      ref={userViewRef}
+      onScroll={(e) => {
+        handleScroll(e, setReposPage);
+      }}
+    >
       {loading && <Spinner />}
       {login && (
         <div className={styles.container}>
@@ -34,8 +50,10 @@ const UserPage = ({ location, favoritesOptions }) => {
           <PersonalInfo data={userData} favoritesOptions={favoritesOptions} />
           <UserRepos
             reposQuantity={public_repos}
-            repos={repos}
+            repos={userRepos}
             userViewRef={userViewRef}
+            showListSpinner={showListSpinner}
+            showList={showList}
           />
         </div>
       )}

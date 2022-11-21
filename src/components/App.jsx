@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Routes,
   Route,
@@ -7,9 +7,8 @@ import {
   useMatch,
 } from "react-router-dom";
 import { useLocalStorage, useFetchUsers } from "../hooks";
-// import HomePage from "../pages/HomePage/HomePage";
+import { handleScroll } from "../helpers";
 import SearchPage from "../pages/SearchPage/SearchPage";
-// import Dashboard from "../pages/Dashboard/Dashboard";
 import UserPage from "../pages/UserPage/UserPage";
 import FavoritesPage from "../pages/FavoritesPage/FaforitesPage";
 import { PageLayout } from "./PageLayout";
@@ -32,18 +31,9 @@ const App = () => {
     setSearchQuery(query);
   };
 
-  const handleScroll = useCallback(
-    ({ target: { scrollHeight, scrollTop, clientHeight } }) => {
-      const shouldUpdate = scrollHeight - Math.ceil(scrollTop) <= clientHeight;
-
-      if (shouldUpdate) {
-        setPage((prevPage) => {
-          return prevPage + 1;
-        });
-      }
-    },
-    [setPage]
-  );
+  useEffect(() => {
+    console.log("render app");
+  }, []);
 
   return (
     <Routes>
@@ -66,7 +56,7 @@ const App = () => {
               searchPageOptions={searchPageOptions}
               showButton={showButton}
               location={location}
-              handleScroll={handleScroll}
+              onScroll={(e) => handleScroll(e, setPage)}
               favoritesOptions={favoritesOptions}
             />
           }

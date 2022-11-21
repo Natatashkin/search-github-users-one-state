@@ -12,7 +12,7 @@ import styles from "./SearchPage.module.scss";
 
 const SearchPage = ({
   location,
-  handleScroll,
+  onScroll,
   showButton,
   searchPageOptions,
   favoritesOptions,
@@ -28,7 +28,7 @@ const SearchPage = ({
   } = searchPageOptions;
 
   return (
-    <Container ref={scrollRef} onScroll={handleScroll}>
+    <Container ref={scrollRef} onScroll={onScroll}>
       {showSpinner && <Spinner />}
       {showError && <ErrorMessage message={error} />}
       {showUserList && (

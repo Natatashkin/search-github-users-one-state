@@ -16,11 +16,6 @@ const getUserRepos = async (username, per_page, page) => {
   return data;
 };
 
-const getRateLimit = async () => {
-  const response = await axios.get("/rate_limit");
-  return response;
-};
-
 const searchUsers = async (name, page, per_page) => {
   try {
     const { data } = await axios.get(
@@ -36,6 +31,11 @@ const searchUsers = async (name, page, per_page) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+const getRateLimit = async () => {
+  const response = await axios.get("/rate_limit");
+  return response;
 };
 
 export { getRateLimit, searchUsers, getUser, getUserRepos };
