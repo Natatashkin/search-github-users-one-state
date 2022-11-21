@@ -31,7 +31,7 @@ const UsersListItem = ({ item, location, favoritesOptions }) => {
           </div>
         </Link>
         <div className={styles.favorite}>
-          <IconButton onClick={toggleFavoriteClick}>
+          <IconButton type="button" onClick={toggleFavoriteClick}>
             <FaStar color={favButtonColor} size={24} />
           </IconButton>
         </div>

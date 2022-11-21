@@ -1,3 +1,4 @@
+export { Header, Logo } from "./Header";
 export { Container } from "./Container";
 export { Button } from "./Button";
 export { IconButton } from "./IconButton";

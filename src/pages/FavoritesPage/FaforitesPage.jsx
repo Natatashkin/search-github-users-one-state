@@ -1,11 +1,6 @@
 import React, { useRef } from "react";
 
-import {
-  UsersList,
-  UsersListItem,
-  Container,
-  BackLink,
-} from "../../components";
+import { UsersList, UsersListItem, Container } from "../../components";
 
 const FavoritesPage = ({ location, favoritesOptions }) => {
   const { favorites } = favoritesOptions;
@@ -13,11 +8,6 @@ const FavoritesPage = ({ location, favoritesOptions }) => {
 
   return (
     <Container ref={scrollRef}>
-      {/* <BackLink
-        location={location}
-        titlePart="to search"
-        alternativePath="/search"
-      /> */}
       <UsersList>
         {favorites.map((item) => {
           return (

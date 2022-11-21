@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import classNames from "classnames";
 import { IoSearchOutline } from "react-icons/io5";
 import { FaStar } from "react-icons/fa";
-import { Logo } from "./Logo";
+import { Logo, BackLink } from "../../components";
 import { pageTitle } from "../../helpers";
 import { TextField, IconRouteLink, PageTitle } from "../../components";
 import styles from "./Header.module.scss";
@@ -23,6 +23,7 @@ const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
       })}
     >
       <div className={styles.logoAndTitleContainer}>
+        {!isSearchPage && <BackLink location={location} alternativePath="/" />}
         <Logo />
         <div
           className={classNames(styles.titleContainer, {

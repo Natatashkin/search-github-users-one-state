@@ -1,0 +1,22 @@
+@use "../../styles/mixins.scss" as mixins;
+@import "../../styles/placeholders.scss";
+@import "../../styles/variables.scss";
+
+.button {
+  @include mixins.display-flex(inline-flex, center, center);
+  @extend %full-size;
+  padding: 8px;
+  border: none;
+  border-radius: $radius;
+  background-color: transparent;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: $outerShadow;
+  }
+
+  &:active {
+    background-color: transparent;
+    box-shadow: $innerShadow;
+  }
+}

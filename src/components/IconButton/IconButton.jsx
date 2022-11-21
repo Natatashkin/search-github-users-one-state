@@ -1,16 +1,11 @@
 import React from "react";
-import { Button } from "./IconButton.styled";
+import styles from "./IconButton.module.scss";
 
-const IconButton = ({
-  type = "submit",
-  onClick = () => {},
-  children,
-  click = false,
-}) => {
+const IconButton = ({ type = "submit", onClick = () => {}, children }) => {
   return (
-    <Button type={type} onClick={onClick} click={click}>
+    <button className={styles.button} type={type} onClick={onClick}>
       {children}
-    </Button>
+    </button>
   );
 };
 

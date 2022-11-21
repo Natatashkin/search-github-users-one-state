@@ -23,10 +23,12 @@ const UserPage = ({ location, favoritesOptions }) => {
     showList,
   } = useFetchCurrentUser(username);
   const { login, avatar_url, name, public_repos } = userData || {};
+  const renderPage = login && userRepos.length > 0;
 
   useEffect(() => {
     console.log("render");
   }, []);
+
   return (
     <Container
       ref={userViewRef}
@@ -35,15 +37,8 @@ const UserPage = ({ location, favoritesOptions }) => {
       }}
     >
       {loading && <Spinner />}
-      {login && (
+      {renderPage && (
         <div className={styles.container}>
-          {/* <ButtonLinkContainer>
-            <BackLink
-              location={location}
-              titlePart="to search"
-              alternativePath="/search"
-            />
-          </ButtonLinkContainer> */}
           <div className={styles.avatarContainer}>
             <UserAvatar url={avatar_url} name={name} variant="large" />
           </div>

@@ -1,0 +1,25 @@
+@use "../../styles/mixins.scss" as mixins;
+@import "../../styles/variables.scss";
+
+.button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: $radius;
+  background-color: $black;
+  color: $white;
+  font-weight: 500;
+  box-shadow: $outerShadow;
+
+  &:hover {
+    outline: 1px solid $black;
+    background-color: $white;
+    color: $black;
+  }
+
+  &:active {
+    outline: 1px solid $black;
+    background-color: $white;
+    color: $black;
+    box-shadow: $innerShadow;
+  }
+}
