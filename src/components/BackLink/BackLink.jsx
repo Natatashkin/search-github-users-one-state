@@ -6,12 +6,11 @@ import styles from "./BackLink.module.scss";
 const CONSTANT_BACK_TITLE = "Back";
 
 const BackLink = ({ location, alternativePath }) => {
-  console.log(location);
   return (
     <Link
       to={location?.state?.from || alternativePath}
       className={styles.link}
-      title="Back"
+      title={CONSTANT_BACK_TITLE}
     >
       <IoArrowBack />
       <span>{CONSTANT_BACK_TITLE}</span>

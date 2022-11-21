@@ -25,3 +25,8 @@ $h2: 24px;
 $h3: 18px;
 $p: 16px;
 $small-font: 14px;
+
+:export {
+  lightgrey: $lightgrey;
+  yellow: $yellow;
+}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { checkFavorites } from "../helpers";
+import variables from "../styles/variables.scss";
 
 const useFavorites = (user, favoritesOptions) => {
   const { favorites, setFavorites } = favoritesOptions;
@@ -10,7 +11,7 @@ const useFavorites = (user, favoritesOptions) => {
     setIsFavorite((prev) => !prev);
   };
 
-  const favButtonColor = isFavorite ? "#e8dc14" : "#9f9f9f";
+  const favButtonColor = isFavorite ? variables.yellow : variables.lightgrey;
 
   useEffect(() => {
     if (isInFavorite && isFavorite) return;
