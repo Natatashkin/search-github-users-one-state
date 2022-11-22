@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { handleScrollToTop } from "../../helpers";
@@ -12,7 +13,7 @@ import styles from "./UserRepos.module.scss";
 
 const HEADER_HEIGHT = 75;
 
-const UserRepos = ({ reposQuantity, repos, userViewRef, showListSpinner }) => {
+const UserRepos = ({ reposQuantity, repos, scrollRef, showListSpinner }) => {
   const showDropdownIcon = Boolean(repos.length);
   const [open, setOpen] = useState(false);
   const toggleOpenClick = () => setOpen((prev) => !prev);
@@ -22,7 +23,7 @@ const UserRepos = ({ reposQuantity, repos, userViewRef, showListSpinner }) => {
     if (open) {
       const target = reposRef?.current;
       const targetHeight = target.getBoundingClientRect().top - HEADER_HEIGHT;
-      handleScrollToTop(userViewRef, targetHeight);
+      handleScrollToTop(scrollRef, targetHeight);
     }
   }, [open]);
 
@@ -58,3 +59,10 @@ const UserRepos = ({ reposQuantity, repos, userViewRef, showListSpinner }) => {
 };
 
 export default UserRepos;
+
+UserRepos.propTypes = {
+  reposQuantity: PropTypes.number.isRequired,
+  repos: PropTypes.array,
+  scrollRef: PropTypes.object,
+  showListSpinner: PropTypes.bool,
+};

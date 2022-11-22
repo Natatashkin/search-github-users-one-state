@@ -1,5 +1,6 @@
-import classNames from "classnames";
 import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
 import styles from "./UserAvatar.module.scss";
 
 // variant = "small"
@@ -22,3 +23,9 @@ const UserAvatar = ({ url, name, variant = "small" }) => {
 };
 
 export default UserAvatar;
+
+UserAvatar.propTypes = {
+  url: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  variant: PropTypes.string,
+};

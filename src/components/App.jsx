@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Routes,
   Route,
@@ -15,6 +15,7 @@ import { PageLayout } from "./PageLayout";
 
 const App = () => {
   const location = useLocation();
+  // const scrollRef = useRef();
   const [searchParams] = useSearchParams("");
   const isUserPage = useMatch("/user/*");
   const isSearchPage = Boolean(useMatch("/"));

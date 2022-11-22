@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import { useFavorites } from "../../../hooks";
@@ -12,7 +13,7 @@ const UsersListItem = ({ item, location, favoritesOptions }) => {
     item,
     favoritesOptions
   );
-  const username = name ? name : login;
+  const username = name || login;
 
   return (
     <div className={styles.card}>
@@ -55,3 +56,20 @@ const UsersListItem = ({ item, location, favoritesOptions }) => {
 };
 
 export default UsersListItem;
+
+UsersListItem.propTypes = {
+  item: PropTypes.shape({
+    name: PropTypes.string,
+    login: PropTypes.string,
+    avatar_url: PropTypes.string.isRequired,
+    bio: PropTypes.string,
+    followers: PropTypes.number,
+    following: PropTypes.number,
+    public_repos: PropTypes.number,
+  }),
+  location: PropTypes.object.isRequired,
+  favoritesOptions: PropTypes.shape({
+    favorites: PropTypes.arrayOf(PropTypes.object),
+    setFavorites: PropTypes.func,
+  }),
+};

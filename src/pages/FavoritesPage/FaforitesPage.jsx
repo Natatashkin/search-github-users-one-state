@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-
+import PropTypes from "prop-types";
 import { UsersList, UsersListItem, Container } from "../../components";
 
 const FavoritesPage = ({ location, favoritesOptions }) => {
@@ -25,3 +25,10 @@ const FavoritesPage = ({ location, favoritesOptions }) => {
 };
 
 export default FavoritesPage;
+
+FavoritesPage.propTypes = {
+  location: PropTypes.object.isRequired,
+  favoritesOptions: PropTypes.shape({
+    favorites: PropTypes.array,
+  }).isRequired,
+};

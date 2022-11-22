@@ -13,12 +13,12 @@ import {
 import styles from "./UserPage.module.scss";
 
 const UserPage = ({ favoritesOptions }) => {
-  const userViewRef = useRef(null);
+  const scrollRef = useRef(null);
   const { username } = useParams();
   const { userData, loading, userRepos, setReposPage, showListSpinner } =
     useFetchCurrentUser(username);
   const { login, avatar_url, name, public_repos } = userData || {};
-  const renderPage = login && userRepos.length > 0;
+  const renderPage = login && userRepos.length;
 
   const debouncedScroll = useDebouncedCallback((e) => {
     handleScroll(e, setReposPage, loading);
@@ -29,7 +29,7 @@ const UserPage = ({ favoritesOptions }) => {
   }, []);
 
   return (
-    <Container ref={userViewRef} onScroll={debouncedScroll}>
+    <Container ref={scrollRef} onScroll={debouncedScroll}>
       {loading && <Spinner />}
       {renderPage && (
         <div className={styles.container}>
@@ -40,7 +40,7 @@ const UserPage = ({ favoritesOptions }) => {
           <UserRepos
             reposQuantity={public_repos}
             repos={userRepos}
-            userViewRef={userViewRef}
+            scrollRef={scrollRef}
             showListSpinner={showListSpinner}
           />
         </div>

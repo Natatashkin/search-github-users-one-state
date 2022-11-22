@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styles from "./UserList.module.scss";
 
 const UsersList = ({ children }) => {
@@ -6,3 +7,7 @@ const UsersList = ({ children }) => {
 };
 
 export default UsersList;
+
+UsersList.propTypes = {
+  children: PropTypes.node,
+};

@@ -2,6 +2,7 @@ export { Header, Logo } from "./Header";
 export { Container } from "./Container";
 export { Button } from "./Button";
 export { IconButton } from "./IconButton";
+export { ButtonToTop } from "./ButtonToTop";
 export { IconRouteLink } from "./IconRouteLink";
 export { PageTitle } from "./PageTitle";
 export { TextField } from "./TextField";

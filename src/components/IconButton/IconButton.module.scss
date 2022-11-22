@@ -20,3 +20,29 @@
     box-shadow: $innerShadow;
   }
 }
+
+.sticky {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background-color: $black;
+  opacity: 0.5;
+  color: $lightgrey;
+  transition-property: opacity, color;
+  transition: $transition;
+
+  &:hover {
+    opacity: 1;
+    color: $white;
+  }
+
+  &:active {
+    outline: 0;
+    background-color: $grey;
+    color: $lightgrey;
+    box-shadow: $innerShadow;
+  }
+}
