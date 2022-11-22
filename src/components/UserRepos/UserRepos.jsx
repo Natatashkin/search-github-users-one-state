@@ -12,13 +12,7 @@ import styles from "./UserRepos.module.scss";
 
 const HEADER_HEIGHT = 75;
 
-const UserRepos = ({
-  reposQuantity,
-  repos,
-  userViewRef,
-  showListSpinner,
-  showList,
-}) => {
+const UserRepos = ({ reposQuantity, repos, userViewRef, showListSpinner }) => {
   const showDropdownIcon = Boolean(repos.length);
   const [open, setOpen] = useState(false);
   const toggleOpenClick = () => setOpen((prev) => !prev);

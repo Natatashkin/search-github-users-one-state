@@ -1,10 +1,10 @@
 const handleScroll = (
   { target: { scrollHeight, scrollTop, clientHeight } },
-  setPageHandler
+  setPageHandler,
+  loading
 ) => {
   const shouldUpdate = scrollHeight - Math.ceil(scrollTop) <= clientHeight;
-
-  if (!shouldUpdate) {
+  if (!shouldUpdate || loading) {
     return;
   }
   setPageHandler((prevPage) => {

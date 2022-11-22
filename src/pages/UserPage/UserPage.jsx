@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useDebouncedCallback } from "use-debounce";
 import { useFetchCurrentUser } from "../../hooks";
 import { handleScroll } from "../../helpers";
 import {
@@ -14,28 +15,21 @@ import styles from "./UserPage.module.scss";
 const UserPage = ({ favoritesOptions }) => {
   const userViewRef = useRef(null);
   const { username } = useParams();
-  const {
-    userData,
-    loading,
-    userRepos,
-    setReposPage,
-    showListSpinner,
-    showList,
-  } = useFetchCurrentUser(username);
+  const { userData, loading, userRepos, setReposPage, showListSpinner } =
+    useFetchCurrentUser(username);
   const { login, avatar_url, name, public_repos } = userData || {};
   const renderPage = login && userRepos.length > 0;
+
+  const debouncedScroll = useDebouncedCallback((e) => {
+    handleScroll(e, setReposPage, loading);
+  }, 350);
 
   useEffect(() => {
     console.log("render");
   }, []);
 
   return (
-    <Container
-      ref={userViewRef}
-      onScroll={(e) => {
-        handleScroll(e, setReposPage);
-      }}
-    >
+    <Container ref={userViewRef} onScroll={debouncedScroll}>
       {loading && <Spinner />}
       {renderPage && (
         <div className={styles.container}>
@@ -48,7 +42,6 @@ const UserPage = ({ favoritesOptions }) => {
             repos={userRepos}
             userViewRef={userViewRef}
             showListSpinner={showListSpinner}
-            showList={showList}
           />
         </div>
       )}

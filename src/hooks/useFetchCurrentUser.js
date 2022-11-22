@@ -11,12 +11,12 @@ const useFetchCurrentUser = (username) => {
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setIsLoading] = useState(false);
   const showListSpinner = loading && reposPage > 1;
-  const showList = !loading && userRepos.length > 0;
 
   const getCurrentUser = useCallback(async () => {
     try {
       setIsLoading(true);
       const response = await ghApi.getUser(username);
+
       setUserData(response);
       setTotalPages(() => {
         if (!response.public_repos) {
@@ -47,13 +47,10 @@ const useFetchCurrentUser = (username) => {
 
   useEffect(() => {
     if (userData) {
+      if (totalPages < reposPage) return;
       getUserRepos(username, PER_PAGE_REPOS, reposPage);
     }
-    // console.log(reposPage);
-    // if (isUserData && totalPages) {
-    //   getUserRepos(username, PER_PAGE_REPOS, reposPage);
-    // }
-  }, [reposPage, userData]);
+  }, [getUserRepos, reposPage, userData, username, totalPages]);
 
   return {
     userData,
