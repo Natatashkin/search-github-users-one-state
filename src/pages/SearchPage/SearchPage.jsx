@@ -1,11 +1,9 @@
 import React, { useRef } from "react";
-import { handleScrollToTop } from "../../helpers";
 import {
   UsersList,
   UsersListItem,
   Container,
   Spinner,
-  Button,
   ErrorMessage,
 } from "../../components";
 import styles from "./SearchPage.module.scss";
@@ -13,7 +11,7 @@ import styles from "./SearchPage.module.scss";
 const SearchPage = ({
   location,
   onScroll,
-  showButton,
+  showTopBtn,
   searchPageOptions,
   favoritesOptions,
 }) => {
@@ -28,7 +26,7 @@ const SearchPage = ({
   } = searchPageOptions;
 
   return (
-    <Container ref={scrollRef} onScroll={onScroll}>
+    <Container ref={scrollRef} onScroll={onScroll} showTopBtn={showTopBtn}>
       {showSpinner && <Spinner />}
       {showError && <ErrorMessage message={error} />}
       {showUserList && (
@@ -47,15 +45,6 @@ const SearchPage = ({
           </UsersList>
           <div className={styles.userListOptions}>
             {showListSpinner && <Spinner size={7} />}
-            {showButton && (
-              <>
-                <Button
-                  title="Back to top"
-                  type="button"
-                  onClick={() => handleScrollToTop(scrollRef, 0)}
-                />
-              </>
-            )}
           </div>
         </>
       )}

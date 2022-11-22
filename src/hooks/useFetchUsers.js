@@ -72,7 +72,6 @@ const useFetchUsers = ({ query, setShowButton }) => {
     setTotalPages(0);
     setError("");
     setPage(1);
-    setShowButton(false);
   };
 
   useEffect(() => {
@@ -83,11 +82,6 @@ const useFetchUsers = ({ query, setShowButton }) => {
   useEffect(() => {
     if (searchQuery.length >= 3) {
       setSearchParams({ q: searchQuery });
-
-      if (totalPages > 0 && totalPages < page) {
-        setShowButton(true);
-        return;
-      }
       debouncedRequest(searchQuery, page, PER_PAGE);
       return;
     }
@@ -107,6 +101,7 @@ const useFetchUsers = ({ query, setShowButton }) => {
   return {
     searchPageOptions,
     setPage,
+    loading,
   };
 };
 

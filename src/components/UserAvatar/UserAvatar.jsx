@@ -26,6 +26,6 @@ export default UserAvatar;
 
 UserAvatar.propTypes = {
   url: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   variant: PropTypes.string,
 };

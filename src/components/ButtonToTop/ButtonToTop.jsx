@@ -10,7 +10,7 @@ const ButtonToTop = ({ scrollRef }) => {
       variant="sticky"
       onClick={() => handleScrollToTop(scrollRef, 0)}
     >
-      <IoIosArrowUp size={30} />
+      <IoIosArrowUp size={25} />
     </IconButton>
   );
 };
