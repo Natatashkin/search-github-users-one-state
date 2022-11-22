@@ -63,9 +63,7 @@ const App = () => {
         />
         <Route
           path="user/:username"
-          element={
-            <UserPage location={location} favoritesOptions={favoritesOptions} />
-          }
+          element={<UserPage favoritesOptions={favoritesOptions} />}
         />
         <Route
           path="favorites"

@@ -3,8 +3,7 @@ const handleScroll = (
   setPageHandler
 ) => {
   const shouldUpdate = scrollHeight - Math.ceil(scrollTop) <= clientHeight;
-  // console.log(scrollHeight - scrollTop);
-  // console.log(clientHeight);
+
   if (!shouldUpdate) {
     return;
   }

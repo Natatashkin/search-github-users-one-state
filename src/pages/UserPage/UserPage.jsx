@@ -11,7 +11,7 @@ import {
 } from "../../components";
 import styles from "./UserPage.module.scss";
 
-const UserPage = ({ location, favoritesOptions }) => {
+const UserPage = ({ favoritesOptions }) => {
   const userViewRef = useRef(null);
   const { username } = useParams();
   const {
