@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useRef } from "react";
-import { handleScrollToTop } from "../../helpers";
+import { useScroll } from "../../hooks";
 import {
   ReposList,
   ReposListItem,
@@ -15,6 +15,7 @@ const HEADER_HEIGHT = 75;
 
 const UserRepos = ({ reposQuantity, repos, scrollRef, showListSpinner }) => {
   const showDropdownIcon = Boolean(repos.length);
+  const { handleScrollTopClick } = useScroll({});
   const [open, setOpen] = useState(false);
   const toggleOpenClick = () => setOpen((prev) => !prev);
   const reposRef = useRef(null);
@@ -23,7 +24,7 @@ const UserRepos = ({ reposQuantity, repos, scrollRef, showListSpinner }) => {
     if (open) {
       const target = reposRef?.current;
       const targetHeight = target.getBoundingClientRect().top - HEADER_HEIGHT;
-      handleScrollToTop(scrollRef, targetHeight);
+      handleScrollTopClick(scrollRef, targetHeight);
     }
   }, [open]);
 
