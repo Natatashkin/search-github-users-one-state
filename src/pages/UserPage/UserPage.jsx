@@ -7,6 +7,7 @@ import {
   PersonalInfo,
   UserRepos,
   Spinner,
+  ButtonToTop,
 } from "../../components";
 import styles from "./UserPage.module.scss";
 
@@ -22,13 +23,17 @@ const UserPage = ({ favoritesOptions }) => {
     totalPages,
   } = useFetchCurrentUser(username);
 
-  const { onScroll } = useScroll({
+  const { showTopBtn, onScroll, handleScrollTopClick } = useScroll({
     pageHandler: setReposPage,
     totalPages,
     loading,
   });
   const { login, avatar_url, name, public_repos } = userData || {};
   const renderPage = Boolean(login && userRepos.length);
+
+  const onTopClick = () => {
+    handleScrollTopClick(scrollRef, 0);
+  };
 
   return (
     <Container ref={scrollRef} onScroll={onScroll}>
@@ -47,6 +52,7 @@ const UserPage = ({ favoritesOptions }) => {
           />
         </div>
       )}
+      {showTopBtn && <ButtonToTop onClick={onTopClick} />}
     </Container>
   );
 };

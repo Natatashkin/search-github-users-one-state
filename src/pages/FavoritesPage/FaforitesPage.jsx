@@ -13,6 +13,10 @@ const FavoritesPage = ({ location, favoritesOptions }) => {
   const scrollRef = useRef(null);
   const { showTopBtn, onScroll, handleScrollTopClick } = useScroll({});
 
+  const onTopClick = () => {
+    handleScrollTopClick(scrollRef, 0);
+  };
+
   return (
     <Container ref={scrollRef} onScroll={onScroll}>
       <UsersList>
@@ -27,9 +31,7 @@ const FavoritesPage = ({ location, favoritesOptions }) => {
           );
         })}
       </UsersList>
-      {showTopBtn && (
-        <ButtonToTop onClick={() => handleScrollTopClick(scrollRef, 0)} />
-      )}
+      {showTopBtn && <ButtonToTop onClick={onTopClick} />}
     </Container>
   );
 };

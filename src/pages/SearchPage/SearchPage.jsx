@@ -24,11 +24,15 @@ const SearchPage = ({ query, location, favoritesOptions }) => {
   } = useFetchUsers({ query });
 
   const scrollRef = useRef(null);
-  const { onScroll } = useScroll({
+  const { showTopBtn, onScroll, handleScrollTopClick } = useScroll({
     pageHandler: setPage,
     totalPages,
     loading,
   });
+
+  const onTopClick = () => {
+    handleScrollTopClick(scrollRef, 0);
+  };
 
   return (
     <Container ref={scrollRef} onScroll={onScroll}>
@@ -48,11 +52,13 @@ const SearchPage = ({ query, location, favoritesOptions }) => {
               );
             })}
           </UsersList>
+
           <div className={styles.userListOptions}>
             {showListSpinner && <Spinner size={7} />}
           </div>
         </>
       )}
+      {showTopBtn && <ButtonToTop onClick={onTopClick} />}
     </Container>
   );
 };
