@@ -1,21 +1,16 @@
 import React, { useRef } from "react";
+import { useScroll, useFetchUsers } from "../../hooks";
 import {
   UsersList,
   UsersListItem,
   Container,
   Spinner,
   ErrorMessage,
+  ButtonToTop,
 } from "../../components";
 import styles from "./SearchPage.module.scss";
 
-const SearchPage = ({
-  location,
-  onScroll,
-  showTopBtn,
-  searchPageOptions,
-  favoritesOptions,
-}) => {
-  const scrollRef = useRef();
+const SearchPage = ({ query, location, favoritesOptions }) => {
   const {
     error,
     userList,
@@ -23,10 +18,20 @@ const SearchPage = ({
     showError,
     showUserList,
     showListSpinner,
-  } = searchPageOptions;
+    setPage,
+    loading,
+    totalPages,
+  } = useFetchUsers({ query });
+
+  const scrollRef = useRef(null);
+  const { onScroll } = useScroll({
+    pageHandler: setPage,
+    totalPages,
+    loading,
+  });
 
   return (
-    <Container ref={scrollRef} onScroll={onScroll} showTopBtn={showTopBtn}>
+    <Container ref={scrollRef} onScroll={onScroll}>
       {showSpinner && <Spinner />}
       {showError && <ErrorMessage message={error} />}
       {showUserList && (

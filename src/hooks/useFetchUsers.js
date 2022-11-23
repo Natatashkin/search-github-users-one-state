@@ -6,7 +6,7 @@ import * as ghApi from "../api/ghApi";
 
 const PER_PAGE = 15;
 
-const useFetchUsers = ({ query, setShowButton }) => {
+const useFetchUsers = ({ query }) => {
   const [searchParams, setSearchParams] = useSearchParams("");
   const [userList, setUserList] = useState([]);
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
@@ -62,7 +62,7 @@ const useFetchUsers = ({ query, setShowButton }) => {
       }
       setIsLoading(false);
     },
-    [getTotalPages]
+    [getTotalPages, totalPages]
   );
 
   const debouncedRequest = useDebouncedCallback(makeSearchQuery, 350);
@@ -85,23 +85,21 @@ const useFetchUsers = ({ query, setShowButton }) => {
       debouncedRequest(searchQuery, page, PER_PAGE);
       return;
     }
+
     removeSearchParams();
     setUserList([]);
   }, [searchQuery, page]);
 
-  const searchPageOptions = {
+  return {
     error,
     userList,
     showSpinner,
     showError,
     showUserList,
     showListSpinner,
-  };
-
-  return {
-    searchPageOptions,
     setPage,
     loading,
+    totalPages,
   };
 };
 

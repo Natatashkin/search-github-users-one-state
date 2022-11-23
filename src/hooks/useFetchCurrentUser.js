@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import * as ghApi from "../api/ghApi";
-import { filterNewItems } from "../helpers";
+// import { filterNewItems } from "../helpers";
 
 const PER_PAGE_REPOS = 10;
 
@@ -58,6 +58,7 @@ const useFetchCurrentUser = (username) => {
     setReposPage,
     userRepos,
     showListSpinner,
+    totalPages,
   };
 };
 

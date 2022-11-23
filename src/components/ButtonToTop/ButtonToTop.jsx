@@ -1,15 +1,10 @@
-import { handleScrollToTop } from "../../helpers";
 import PropTypes from "prop-types";
 import { IoIosArrowUp } from "react-icons/io";
 import { IconButton } from "../../components";
 
-const ButtonToTop = ({ scrollRef }) => {
+const ButtonToTop = ({ onClick }) => {
   return (
-    <IconButton
-      type="button"
-      variant="sticky"
-      onClick={() => handleScrollToTop(scrollRef, 0)}
-    >
+    <IconButton type="button" variant="sticky" onClick={onClick}>
       <IoIosArrowUp size={25} />
     </IconButton>
   );
@@ -18,5 +13,5 @@ const ButtonToTop = ({ scrollRef }) => {
 export default ButtonToTop;
 
 ButtonToTop.propTypes = {
-  scrollRef: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
 };

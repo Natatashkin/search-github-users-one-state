@@ -1,14 +1,20 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import { useScroll } from "../../hooks";
-import { UsersList, UsersListItem, Container } from "../../components";
+import {
+  UsersList,
+  UsersListItem,
+  Container,
+  ButtonToTop,
+} from "../../components";
 
 const FavoritesPage = ({ location, favoritesOptions }) => {
   const { favorites } = favoritesOptions;
   const scrollRef = useRef(null);
+  const { showTopBtn, onScroll, handleScrollTopClick } = useScroll({});
 
   return (
-    <Container ref={scrollRef}>
+    <Container ref={scrollRef} onScroll={onScroll}>
       <UsersList>
         {favorites.map((item) => {
           return (
@@ -21,6 +27,9 @@ const FavoritesPage = ({ location, favoritesOptions }) => {
           );
         })}
       </UsersList>
+      {showTopBtn && (
+        <ButtonToTop onClick={() => handleScrollTopClick(scrollRef, 0)} />
+      )}
     </Container>
   );
 };

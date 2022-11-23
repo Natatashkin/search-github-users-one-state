@@ -13,14 +13,25 @@ import styles from "./UserPage.module.scss";
 const UserPage = ({ favoritesOptions }) => {
   const scrollRef = useRef(null);
   const { username } = useParams();
-  const { userData, loading, userRepos, setReposPage, showListSpinner } =
-    useFetchCurrentUser(username);
-  const { showTopBtn, onScroll } = useScroll(setReposPage, loading);
+  const {
+    userData,
+    loading,
+    userRepos,
+    setReposPage,
+    showListSpinner,
+    totalPages,
+  } = useFetchCurrentUser(username);
+
+  const { onScroll } = useScroll({
+    pageHandler: setReposPage,
+    totalPages,
+    loading,
+  });
   const { login, avatar_url, name, public_repos } = userData || {};
-  const renderPage = login && userRepos.length;
+  const renderPage = Boolean(login && userRepos.length);
 
   return (
-    <Container ref={scrollRef} onScroll={onScroll} showTopBtn={showTopBtn}>
+    <Container ref={scrollRef} onScroll={onScroll}>
       {loading && <Spinner />}
       {renderPage && (
         <div className={styles.container}>

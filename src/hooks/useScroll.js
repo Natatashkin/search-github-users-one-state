@@ -1,16 +1,26 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useDebouncedCallback } from "use-debounce";
-import { handleScroll } from "../helpers";
 
-const useScroll = (pageHandler = () => {}, loading = false) => {
-  const pageSetter = pageHandler;
+const useScroll = ({ pageHandler, totalPages, loading }) => {
   const [showTopBtn, setShowButton] = useState(false);
 
-  const debouncedScroll = useDebouncedCallback((event) => {
-    handleScroll(event, pageSetter, loading);
-  }, 150);
+  const handleScroll = ({
+    target: { scrollHeight, scrollTop, clientHeight },
+  }) => {
+    const shouldUpdate = scrollHeight - Math.ceil(scrollTop) <= clientHeight;
 
-  const handleScrollTop = (e) => {
+    if (!shouldUpdate || loading) {
+      return;
+    }
+    pageHandler((prevPage) => {
+      if (totalPages === prevPage) return prevPage;
+      return prevPage + 1;
+    });
+  };
+
+  const debouncedScroll = useDebouncedCallback(handleScroll, 150);
+
+  const handleShowButtonTop = (e) => {
     const { scrollTop } = e.target;
     if (scrollTop > 150) {
       setShowButton(true);
@@ -19,12 +29,24 @@ const useScroll = (pageHandler = () => {}, loading = false) => {
     setShowButton(false);
   };
 
-  const onScroll = (e) => {
-    handleScrollTop(e);
-    debouncedScroll(e);
+  const onScroll = useCallback(
+    (e) => {
+      handleShowButtonTop(e);
+      if (pageHandler) {
+        debouncedScroll(e);
+      }
+    },
+    [debouncedScroll, pageHandler]
+  );
+
+  const handleScrollTopClick = (ref, value) => {
+    ref.current.scrollTo({
+      top: value,
+      behavior: "smooth",
+    });
   };
 
-  return { showTopBtn, onScroll, handleScrollTop };
+  return { showTopBtn, onScroll, handleScrollTopClick };
 };
 
 export default useScroll;
