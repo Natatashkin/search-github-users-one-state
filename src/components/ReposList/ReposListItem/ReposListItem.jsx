@@ -1,8 +1,10 @@
+import classNames from "classnames";
 import React from "react";
 import styles from "./ReposListItem.module.scss";
 
-const ReposListItem = ({ repo, showDescription }) => {
+const ReposListItem = ({ repo, showDescription, showItem }) => {
   const { html_url, name } = repo;
+  console.log(showItem);
   return (
     <li className={styles.listItem}>
       <a href={html_url} target="_blank" rel="noreferrer">

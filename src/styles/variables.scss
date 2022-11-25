@@ -11,7 +11,11 @@ $focus: #125fcc;
 $radius: 4px;
 $outerShadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 $innerShadow: 2px 2px 5px rgba(0, 0, 0, 0.5) inset;
+
+//animation options
 $transition: 250ms ease-out;
+$time: 600ms;
+$delay: 200ms;
 
 //sizes
 $header-height: 60px;

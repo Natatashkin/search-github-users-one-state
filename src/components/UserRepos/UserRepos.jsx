@@ -46,6 +46,7 @@ const UserRepos = ({ reposQuantity, repos, scrollRef, showListSpinner }) => {
                   key={repo.id}
                   repo={repo}
                   showDescription={showDescription}
+                  showItem={open}
                 />
               );
             })}

@@ -1,3 +1,5 @@
+@import "./variables.scss";
+
 //Breakpoints
 @mixin mobile {
   @media (min-width: 320px) and (max-width: 449px) {
@@ -46,3 +48,25 @@
     flex-direction: $direction;
   }
 } ;
+
+@keyframes showItem {
+  from {
+    visibility: hidden;
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  to {
+    visibility: visible;
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@mixin delay($rule, $number, $value) {
+  @for $i from 1 to ($number + 1) {
+    &:nth-child(#{$i}) {
+      #{$rule}-delay: (#{$i*$delay});
+    }
+  }
+}
