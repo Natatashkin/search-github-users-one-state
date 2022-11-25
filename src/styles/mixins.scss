@@ -1,36 +1,6 @@
 @import "./variables.scss";
 
 //Breakpoints
-@mixin mobile {
-  @media (min-width: 320px) and (max-width: 449px) {
-    @content;
-  }
-}
-
-@mixin mobileMd {
-  @media (min-width: 450px) {
-    @content;
-  }
-}
-
-@mixin tablet {
-  @media (min-width: 768px) {
-    @content;
-  }
-}
-
-@mixin laptop {
-  @media (min-width: 1024px) {
-    @content;
-  }
-}
-
-@mixin desktop {
-  @media (min-width: 1200px) {
-    @content;
-  }
-}
-
 @mixin breakpoint($width-property, $breakpoint) {
   @media (#{$width-property}: #{$breakpoint}px) {
     @content;

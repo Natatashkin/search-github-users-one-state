@@ -11,7 +11,6 @@
   color: $white;
   font-size: $small-font;
   font-weight: 500;
-  //   box-shadow: $outerShadow;
   text-decoration: none;
 
   &:hover {
@@ -29,14 +28,14 @@
 
   & svg {
     margin-right: 0;
-    @include mixins.tablet {
+    @include mixins.breakpoint(min-width, $tablet) {
       margin-right: 4px;
     }
   }
 
   & span {
     display: none;
-    @include mixins.tablet {
+    @include mixins.breakpoint(min-width, $tablet) {
       display: inline;
     }
   }
