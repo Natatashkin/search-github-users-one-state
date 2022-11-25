@@ -20,4 +20,6 @@ const PAGES_DATA = [
   },
 ];
 
-export { PAGES_DATA };
+const SEARCH_PAGE_SHORT_TITLE = "Search Users";
+
+export { PAGES_DATA, SEARCH_PAGE_SHORT_TITLE };
