@@ -30,7 +30,14 @@ $h3: 18px;
 $p: 16px;
 $small-font: 14px;
 
+//breakpoints
+$mobile: 450;
+$tablet: 768;
+$laptop: 1024;
+$desktop: 1200;
+
 :export {
   lightgrey: $lightgrey;
   yellow: $yellow;
+  laptop: $laptop;
 }

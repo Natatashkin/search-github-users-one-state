@@ -31,6 +31,12 @@
   }
 }
 
+@mixin breakpoint($width-property, $breakpoint) {
+  @media (#{$width-property}: $breakpoint) {
+    @content;
+  }
+}
+
 @mixin display-flex(
   $display,
   $horizontal: null,
@@ -47,22 +53,18 @@
   @if $direction {
     flex-direction: $direction;
   }
-} ;
+}
 
 @mixin keyframes($name) {
   @keyframes #{$name} {
     @content;
   }
-
 }
-
-
-
 
 @mixin delay($rule, $number, $value) {
   @for $i from 1 to ($number + 1) {
     &:nth-child(#{$i}) {
-      #{$rule}-delay: (#{$i*$delay});
+      #{$rule}-delay: (#{$i * $delay});
     }
   }
 }

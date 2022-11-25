@@ -7,7 +7,7 @@
   white-space: nowrap;
   transition: font-size $transition;
 
-  @include mixins.tablet {
+  @include mixins.laptop {
     font-size: $h1;
   }
 }
