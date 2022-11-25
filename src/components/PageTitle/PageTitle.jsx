@@ -3,6 +3,7 @@ import classNames from "classnames";
 import styles from "./PageTitle.module.scss";
 
 const PageTitle = ({ title }) => {
+  console.log(title);
   return <h1 className={styles.pageTitle}>{title}</h1>;
 };
 

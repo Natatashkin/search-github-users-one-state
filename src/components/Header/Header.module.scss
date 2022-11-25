@@ -38,7 +38,7 @@
     transition: $transition;
     transform-origin: left;
 
-    @include mixins.breakpoint(min-width, $laptop) {
+    @include mixins.breakpoint(min-width, $tablet) {
       visibility: visible;
       padding-right: 8px;
       max-width: 500px;
