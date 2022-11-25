@@ -15,7 +15,7 @@
   &--isSearch {
     grid-template-columns: 0.5fr 7.5fr;
 
-    @include mixins.laptop {
+    @include mixins.breakpoint(min-width, $laptop) {
       grid-template-columns: 1fr 1.5fr 1fr;
     }
   }
@@ -38,7 +38,7 @@
     transition: $transition;
     transform-origin: left;
 
-    @include mixins.tablet {
+    @include mixins.breakpoint(min-width, $laptop) {
       visibility: visible;
       padding-right: 8px;
       max-width: 500px;

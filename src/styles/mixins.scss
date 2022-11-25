@@ -1,32 +1,8 @@
 @import "./variables.scss";
 
 //Breakpoints
-@mixin mobile {
-  @media (min-width: 320px) and (max-width: 449px) {
-    @content;
-  }
-}
-
-@mixin mobileMd {
-  @media (min-width: 450px) {
-    @content;
-  }
-}
-
-@mixin tablet {
-  @media (min-width: 768px) {
-    @content;
-  }
-}
-
-@mixin laptop {
-  @media (min-width: 1024px) {
-    @content;
-  }
-}
-
-@mixin desktop {
-  @media (min-width: 1200px) {
+@mixin breakpoint($width-property, $breakpoint) {
+  @media (#{$width-property}: #{$breakpoint}px) {
     @content;
   }
 }
@@ -47,22 +23,18 @@
   @if $direction {
     flex-direction: $direction;
   }
-} ;
+}
 
 @mixin keyframes($name) {
   @keyframes #{$name} {
     @content;
   }
-
 }
-
-
-
 
 @mixin delay($rule, $number, $value) {
   @for $i from 1 to ($number + 1) {
     &:nth-child(#{$i}) {
-      #{$rule}-delay: (#{$i*$delay});
+      #{$rule}-delay: (#{$i * $delay});
     }
   }
 }

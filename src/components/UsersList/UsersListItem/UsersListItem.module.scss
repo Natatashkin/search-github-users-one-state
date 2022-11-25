@@ -11,10 +11,6 @@
   &:not(:last-child) {
     margin-bottom: 15px;
   }
-
-  @include mixins.mobileMd {
-    width: 100%;
-  }
 }
 
 .container {
@@ -40,7 +36,6 @@
   @include mixins.display-flex(flex, null, null, column);
   width: 100%;
   padding-left: 10px;
-  // overflow-x: hidden;
 
   & h2 {
     margin-bottom: 10px;
@@ -52,9 +47,6 @@
     font-size: $small-font;
     color: $lightgrey;
     word-break: break-word;
-    // white-space: nowrap;
-    // overflow: hidden;
-    // text-overflow: ellipsis;
   }
 }
 

@@ -2,12 +2,16 @@
 @import "../../styles/variables.scss";
 
 .pageTitle {
-  font-size: $h2;
+  font-size: $h3;
   line-height: 1;
   white-space: nowrap;
   transition: font-size $transition;
 
-  @include mixins.tablet {
+  @include mixins.breakpoint(min-width, $tablet) {
+    font-size: $h2;
+  }
+
+  @include mixins.breakpoint(min-width, $laptop) {
     font-size: $h1;
   }
 }

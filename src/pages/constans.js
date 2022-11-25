@@ -1,7 +1,5 @@
 const PAGES_TITLES = {
-  // homePage: "Find Github Users",
   searchPage: "Search Github Users",
-  // dashboardPage: "You Dashboard",
   userPage: "User credentials",
   favoritePage: "Favorites Users",
 };
@@ -11,14 +9,7 @@ const PAGES_DATA = [
     pathname: "/",
     title: PAGES_TITLES.searchPage,
   },
-  // {
-  //   pathname: "/search",
-  //   title: PAGES_TITLES.searchPage,
-  // },
-  {
-    pathname: "/dashboard",
-    title: PAGES_TITLES.dashboardPage,
-  },
+
   {
     pathname: "/user/*",
     title: PAGES_TITLES.userPage,
@@ -29,4 +20,6 @@ const PAGES_DATA = [
   },
 ];
 
-export { PAGES_DATA };
+const SEARCH_PAGE_SHORT_TITLE = "Search Users";
+
+export { PAGES_DATA, SEARCH_PAGE_SHORT_TITLE };

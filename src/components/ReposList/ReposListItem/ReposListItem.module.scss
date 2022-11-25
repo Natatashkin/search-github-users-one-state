@@ -9,7 +9,7 @@
   box-shadow: $outerShadow;
   margin: 0 4px;
   visibility: hidden;
-  opacity:0;
+  opacity: 0;
   transform: scale(0);
   transform-origin: center;
   @include mixins.keyframes(showItem) {
@@ -18,18 +18,17 @@
       opacity: 0;
       transform: scale(0);
     }
-    
+
     to {
       visibility: visible;
       opacity: 1;
       transform: scale(1);
     }
   }
-  
+
   animation: showItem $time ease-in-out;
-@include mixins.delay(animation, 15, $delay);
-animation-fill-mode: forwards;
- 
+  @include mixins.delay(animation, 15, $delay);
+  animation-fill-mode: forwards;
 
   &:not(:last-child) {
     margin-bottom: 15px;
@@ -51,6 +50,6 @@ animation-fill-mode: forwards;
 
 .showItem {
   visibility: visible;
-    opacity: 1;
-    transform: scale(1);
+  opacity: 1;
+  transform: scale(1);
 }
