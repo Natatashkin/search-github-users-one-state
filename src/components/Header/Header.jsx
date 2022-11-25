@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useMemo } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import classNames from "classnames";
 import { IoSearchOutline } from "react-icons/io5";
 import { FaStar } from "react-icons/fa";
