@@ -24,7 +24,7 @@ const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
     () => isSearchPage && width < variables.laptop,
     [width]
   );
-  console.log(showShortTitle);
+
   return (
     <header
       className={classNames(styles.container, {
