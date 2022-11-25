@@ -12,11 +12,24 @@
   opacity:0;
   transform: scale(0);
   transform-origin: center;
-  // transition-property: visibility,opacity,transform;
-  transition: all $time ease-in-out;
-  // animation: showItem $time ease-in-out;
-  @include mixins.delay(transition, 15, $delay);
-  // animation-fill-mode: forwards;
+  @include mixins.keyframes(showItem) {
+    from {
+      visibility: hidden;
+      opacity: 0;
+      transform: scale(0);
+    }
+    
+    to {
+      visibility: visible;
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  animation: showItem $time ease-in-out;
+@include mixins.delay(animation, 15, $delay);
+animation-fill-mode: forwards;
+ 
 
   &:not(:last-child) {
     margin-bottom: 15px;

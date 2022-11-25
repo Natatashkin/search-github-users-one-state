@@ -49,19 +49,15 @@
   }
 } ;
 
-@keyframes showItem {
-  from {
-    visibility: hidden;
-    opacity: 0;
-    transform: scale(0);
+@mixin keyframes($name) {
+  @keyframes #{$name} {
+    @content;
   }
 
-  to {
-    visibility: visible;
-    opacity: 1;
-    transform: scale(1);
-  }
 }
+
+
+
 
 @mixin delay($rule, $number, $value) {
   @for $i from 1 to ($number + 1) {
