@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import styles from "./IconRouteLink.module.scss";
 
 const IconRouteLink = ({ path, state = null, children }) => {
-  console.log(state);
   return (
     <Link to={path} state={state} className={styles.link}>
       {children}

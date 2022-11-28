@@ -3,10 +3,15 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import { IoSearchOutline } from "react-icons/io5";
 import { FaStar } from "react-icons/fa";
-import { Logo, BackLink } from "../../components";
 import { pageTitle } from "../../helpers";
 import { useWidth } from "../../hooks";
-import { TextField, IconRouteLink, PageTitle } from "../../components";
+import {
+  Logo,
+  TextField,
+  IconRouteLink,
+  PageTitle,
+  BackLink,
+} from "../../components";
 import { SEARCH_PAGE_SHORT_TITLE } from "../../pages/constans";
 import styles from "./Header.module.scss";
 import variables from "../../styles/variables.scss";
