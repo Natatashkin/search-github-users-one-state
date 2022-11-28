@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useMemo } from "react";
+import PropTypes from "prop-types";
 import classNames from "classnames";
 import { IoSearchOutline } from "react-icons/io5";
 import { FaStar } from "react-icons/fa";
@@ -59,3 +60,10 @@ const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
 };
 
 export default Header;
+
+Header.propTypes = {
+  onGetQuery: PropTypes.func,
+  location: PropTypes.object.isRequired,
+  isSearchPage: PropTypes.bool.isRequired,
+  isUserPage: PropTypes.object,
+};

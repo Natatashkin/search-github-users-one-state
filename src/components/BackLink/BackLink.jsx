@@ -22,6 +22,6 @@ const BackLink = ({ location, alternativePath }) => {
 export default BackLink;
 
 BackLink.propTypes = {
-  location: PropTypes.object,
+  location: PropTypes.object.isRequired,
   alternativePath: PropTypes.string.isRequired,
 };

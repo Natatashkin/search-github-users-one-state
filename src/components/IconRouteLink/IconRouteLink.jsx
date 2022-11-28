@@ -1,8 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import styles from "./IconRouteLink.module.scss";
 
 const IconRouteLink = ({ path, state = null, children }) => {
+  console.log(state);
   return (
     <Link to={path} state={state} className={styles.link}>
       {children}
@@ -11,3 +13,11 @@ const IconRouteLink = ({ path, state = null, children }) => {
 };
 
 export default IconRouteLink;
+
+IconRouteLink.propTypes = {
+  path: PropTypes.string.isRequired,
+  state: PropTypes.shape({
+    from: PropTypes.object,
+  }),
+  children: PropTypes.node.isRequired,
+};

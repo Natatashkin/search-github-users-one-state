@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import classNames from "classnames";
 import { FaStar } from "react-icons/fa";
 import { useFavorites } from "../../hooks";
@@ -58,3 +59,21 @@ const PersonalInfo = ({ data, favoritesOptions }) => {
 };
 
 export default PersonalInfo;
+
+PersonalInfo.propTypes = {
+  data: PropTypes.shape({
+    login: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    bio: PropTypes.string,
+    followers: PropTypes.number,
+    following: PropTypes.number,
+    html_url: PropTypes.string.isRequired,
+    email: PropTypes.string,
+    company: PropTypes.string,
+    location: PropTypes.string,
+  }),
+  favoritesOptions: PropTypes.shape({
+    favorites: PropTypes.arrayOf(PropTypes.object),
+    setFavorites: PropTypes.func,
+  }).isRequired,
+};

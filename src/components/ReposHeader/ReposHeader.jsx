@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { IconButton } from "../../components";
 import styles from "./ReposHeader.module.scss";
@@ -21,3 +22,10 @@ const ReposHeader = ({ showDropdownIcon, reposQuantity, onClick, open }) => {
 };
 
 export default ReposHeader;
+
+ReposHeader.propTypes = {
+  showDropdownIcon: PropTypes.bool.isRequired,
+  reposQuantity: PropTypes.number,
+  onClick: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+};

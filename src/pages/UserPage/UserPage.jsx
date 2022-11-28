@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { useParams } from "react-router-dom";
+import PropTypes from "prop-types";
 import { useFetchCurrentUser, useScroll } from "../../hooks";
 import {
   Container,
@@ -58,3 +59,9 @@ const UserPage = ({ favoritesOptions }) => {
 };
 
 export default UserPage;
+UserPage.propTypes = {
+  favoritesOptions: PropTypes.shape({
+    favorites: PropTypes.arrayOf(PropTypes.object),
+    setFavorites: PropTypes.func,
+  }),
+};

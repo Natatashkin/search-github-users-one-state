@@ -15,18 +15,18 @@ const HEADER_HEIGHT = 75;
 
 const UserRepos = ({ reposQuantity, repos, scrollRef, showListSpinner }) => {
   const showDropdownIcon = Boolean(repos.length);
-  // const { handleScrollTopClick } = useScroll({});
+  const { handleScrollTopClick } = useScroll({});
   const [open, setOpen] = useState(false);
   const toggleOpenClick = () => setOpen((prev) => !prev);
   const reposRef = useRef(null);
 
-  // useEffect(() => {
-  //   if (open) {
-  //     const target = reposRef?.current;
-  //     const targetHeight = target.getBoundingClientRect().top - HEADER_HEIGHT;
-  //     handleScrollTopClick(scrollRef, targetHeight);
-  //   }
-  // }, [open]);
+  useEffect(() => {
+    if (open) {
+      const target = reposRef?.current;
+      const targetHeight = target.getBoundingClientRect().top - HEADER_HEIGHT;
+      handleScrollTopClick(scrollRef, targetHeight);
+    }
+  }, [open]);
 
   return (
     <div className={styles.container} ref={reposRef}>

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styles from "./UserBio.module.scss";
 
 const UserBio = ({ text }) => {
@@ -10,3 +11,7 @@ const UserBio = ({ text }) => {
 };
 
 export default UserBio;
+
+UserBio.propTypes = {
+  text: PropTypes.string,
+};

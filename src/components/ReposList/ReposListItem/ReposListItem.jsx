@@ -1,10 +1,9 @@
-import classNames from "classnames";
 import React from "react";
+import PropTypes from "prop-types";
 import styles from "./ReposListItem.module.scss";
 
-const ReposListItem = ({ repo, showDescription, showItem }) => {
+const ReposListItem = ({ repo, showDescription }) => {
   const { html_url, name } = repo;
-  console.log(showItem);
   return (
     <li className={styles.listItem}>
       <a href={html_url} target="_blank" rel="noreferrer">
@@ -16,3 +15,11 @@ const ReposListItem = ({ repo, showDescription, showItem }) => {
 };
 
 export default ReposListItem;
+
+ReposListItem.propTypes = {
+  repo: PropTypes.shape({
+    html_url: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+  showDescription: PropTypes.string.isRequired,
+};

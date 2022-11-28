@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { FaUsers } from "react-icons/fa";
 import { GoPrimitiveDot } from "react-icons/go";
 import styles from "./UserSubscriptions.module.scss";
@@ -21,3 +22,8 @@ const UserSubscriptions = ({ followers, following }) => {
 };
 
 export default UserSubscriptions;
+
+UserSubscriptions.propTypes = {
+  followers: PropTypes.number,
+  following: PropTypes.number,
+};

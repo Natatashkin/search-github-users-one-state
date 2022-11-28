@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { GrLocation } from "react-icons/gr";
 import { HiOutlineMail, HiOutlineOfficeBuilding } from "react-icons/hi";
 import styles from "./UserContacts.module.scss";
@@ -31,3 +32,9 @@ const UserContacts = ({ email, company, country }) => {
 };
 
 export default UserContacts;
+
+UserContacts.propTypes = {
+  email: PropTypes.string,
+  company: PropTypes.string,
+  country: PropTypes.string,
+};

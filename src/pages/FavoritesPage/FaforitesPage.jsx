@@ -41,6 +41,7 @@ export default FavoritesPage;
 FavoritesPage.propTypes = {
   location: PropTypes.object.isRequired,
   favoritesOptions: PropTypes.shape({
-    favorites: PropTypes.array,
+    favorites: PropTypes.array.isRequired,
+    setFavorites: PropTypes.func.isRequired,
   }).isRequired,
 };

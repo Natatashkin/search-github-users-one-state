@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import SyncLoader from "react-spinners/SyncLoader";
 import styles from "./Spinner.module.scss";
 
@@ -11,3 +12,7 @@ const Spinner = ({ size = 10 }) => {
 };
 
 export default Spinner;
+
+Spinner.propTypes = {
+  size: PropTypes.number,
+};

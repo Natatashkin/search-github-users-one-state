@@ -6,7 +6,7 @@ import {
   useLocation,
   useMatch,
 } from "react-router-dom";
-import { useLocalStorage, useFetchUsers } from "../hooks";
+import { useLocalStorage } from "../hooks";
 import SearchPage from "../pages/SearchPage/SearchPage";
 import UserPage from "../pages/UserPage/UserPage";
 import FavoritesPage from "../pages/FavoritesPage/FaforitesPage";
@@ -45,10 +45,7 @@ const App = () => {
           element={
             <SearchPage
               query={searchQuery}
-              // searchPageOptions={searchPageOptions}
               location={location}
-              // loading={loading}
-              // setPage={setPage}
               favoritesOptions={favoritesOptions}
             />
           }

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import styles from "./TextField.module.scss";
@@ -13,7 +13,7 @@ const TextField = ({
 }) => {
   const isSearch = name === "search";
   return (
-    <div className={styles.container} name={name}>
+    <div className={styles.container}>
       <div className={styles.adornment}>{children}</div>
       {label && (
         <label htmlFor={name} className={styles.label}>
@@ -42,4 +42,5 @@ TextField.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  children: PropTypes.node,
 };

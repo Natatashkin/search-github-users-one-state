@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import PropTypes, { arrayOf } from "prop-types";
 import { useScroll, useFetchUsers } from "../../hooks";
 import {
   UsersList,
@@ -64,3 +65,12 @@ const SearchPage = ({ query, location, favoritesOptions }) => {
 };
 
 export default SearchPage;
+
+SearchPage.propTypes = {
+  query: PropTypes.string.isRequired,
+  location: PropTypes.object.isRequired,
+  favoritesOptions: PropTypes.shape({
+    favorites: PropTypes.arrayOf(PropTypes.object),
+    setFavorites: PropTypes.func,
+  }),
+};

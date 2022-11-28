@@ -1,8 +1,9 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styles from "./UserName.module.scss";
 
 const UserName = ({ name, login, url }) => {
-  const hasUsername = name ? name : "No username";
+  const hasUsername = name || "No username";
   return (
     <div className={styles.name}>
       <h3>{hasUsername}</h3>
@@ -14,3 +15,9 @@ const UserName = ({ name, login, url }) => {
 };
 
 export default UserName;
+
+PropTypes.propTypes = {
+  name: PropTypes.string,
+  login: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+};
