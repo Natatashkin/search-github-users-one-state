@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { Header } from "../Header";
+import Header from "../Header/Header";
 
 const PageLayout = ({
   onGetQuery,
@@ -18,6 +18,7 @@ const PageLayout = ({
         isUserPage={isUserPage}
         isSearchPage={isSearchPage}
       />
+
       <Outlet />
     </>
   );

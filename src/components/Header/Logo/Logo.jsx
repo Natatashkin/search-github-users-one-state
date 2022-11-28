@@ -1,6 +1,6 @@
 import React from "react";
+import IconRouteLink from "../../IconRouteLink/IconRouteLink";
 import { IoPeopleCircleSharp } from "react-icons/io5";
-import { IconRouteLink } from "../../../components";
 import styles from "./Logo.module.scss";
 
 const Logo = () => {

@@ -3,13 +3,11 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import { FaStar } from "react-icons/fa";
 import { useFavorites } from "../../hooks";
-import {
-  UserContacts,
-  UserBio,
-  UserSubscriptions,
-  UserName,
-  IconButton,
-} from "../../components";
+import UserSubscriptions from "../../components/UserSubscriptions/UserSubscriptions";
+import IconButton from "../IconButton/IconButton";
+import UserName from "../UserName/UserName";
+import UserContacts from "../UserContacts/UserContacts";
+import UserBio from "../UserBio/UserBio";
 import styles from "./PersonalInfo.module.scss";
 
 const PersonalInfo = ({ data, favoritesOptions }) => {

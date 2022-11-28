@@ -3,12 +3,10 @@ import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { useScroll } from "../../hooks";
-import {
-  ReposList,
-  ReposListItem,
-  ReposHeader,
-  Spinner,
-} from "../../components";
+import Spinner from "../Spinner/Spinner";
+import ReposList from "../ReposList/ReposList";
+import ReposListItem from "../ReposList/ReposListItem/ReposListItem";
+import ReposHeader from "../ReposHeader/ReposHeader";
 import styles from "./UserRepos.module.scss";
 
 const HEADER_HEIGHT = 75;

@@ -1,12 +1,10 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import { useScroll } from "../../hooks";
-import {
-  UsersList,
-  UsersListItem,
-  Container,
-  ButtonToTop,
-} from "../../components";
+import UsersList from "../../components/UsersList/UsersList";
+import UsersListItem from "../../components/UsersList/UsersListItem/UsersListItem";
+import ButtonToTop from "../../components/ButtonToTop/ButtonToTop";
+import Container from "../../components/Container/Container";
 
 const FavoritesPage = ({ location, favoritesOptions }) => {
   const { favorites } = favoritesOptions;

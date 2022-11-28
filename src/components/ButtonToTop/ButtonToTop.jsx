@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { IoIosArrowUp } from "react-icons/io";
-import { IconButton } from "../../components";
+import IconButton from "../IconButton/IconButton";
 
 const ButtonToTop = ({ onClick }) => {
   return (

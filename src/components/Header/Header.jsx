@@ -1,18 +1,16 @@
 import React, { useState, useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import IconRouteLink from "../IconRouteLink/IconRouteLink";
+import PageTitle from "../PageTitle/PageTitle";
+import BackLink from "../BackLink/BackLink";
+import Logo from "./Logo/Logo";
+import TextField from "../TextField/TextField";
 import { IoSearchOutline } from "react-icons/io5";
 import { FaStar } from "react-icons/fa";
+import { SEARCH_PAGE_SHORT_TITLE } from "../../pages/constans";
 import { pageTitle } from "../../helpers";
 import { useWidth } from "../../hooks";
-import {
-  Logo,
-  TextField,
-  IconRouteLink,
-  PageTitle,
-  BackLink,
-} from "../../components";
-import { SEARCH_PAGE_SHORT_TITLE } from "../../pages/constans";
 import styles from "./Header.module.scss";
 import variables from "../../styles/variables.scss";
 
@@ -65,10 +63,3 @@ const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
 };
 
 export default Header;
-
-Header.propTypes = {
-  onGetQuery: PropTypes.func,
-  location: PropTypes.object.isRequired,
-  isSearchPage: PropTypes.bool.isRequired,
-  isUserPage: PropTypes.object,
-};

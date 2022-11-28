@@ -1,14 +1,12 @@
 import React, { useRef } from "react";
-import PropTypes, { arrayOf } from "prop-types";
+import PropTypes from "prop-types";
 import { useScroll, useFetchUsers } from "../../hooks";
-import {
-  UsersList,
-  UsersListItem,
-  Container,
-  Spinner,
-  ErrorMessage,
-  ButtonToTop,
-} from "../../components";
+import UsersList from "../../components/UsersList/UsersList";
+import UsersListItem from "../../components/UsersList/UsersListItem/UsersListItem";
+import Spinner from "../../components/Spinner/Spinner";
+import ButtonToTop from "../../components/ButtonToTop/ButtonToTop";
+import Container from "../../components/Container/Container";
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import styles from "./SearchPage.module.scss";
 
 const SearchPage = ({ query, location, favoritesOptions }) => {

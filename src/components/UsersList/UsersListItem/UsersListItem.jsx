@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import { useFavorites } from "../../../hooks";
-import { UserAvatar, IconButton } from "../../../components";
+import UserAvatar from "../../UserAvatar/UserAvatar";
+import IconButton from "../../IconButton/IconButton";
 import styles from "./UsersListItem.module.scss";
 
 const UsersListItem = ({ item, location, favoritesOptions }) => {

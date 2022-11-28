@@ -6,18 +6,19 @@ import {
   useLocation,
   useMatch,
 } from "react-router-dom";
+// import Spinner from "../components/Spinner/Spinner";
 import { useLocalStorage } from "../hooks";
-import { Spinner } from "./Spinner";
-// import SearchPage from "../pages/SearchPage/SearchPage";
-// import UserPage from "../pages/UserPage/UserPage";
-// import FavoritesPage from "../pages/FavoritesPage/FaforitesPage";
-import { PageLayout } from "./PageLayout";
+import PageLayout from "./PageLayout/PageLayout";
+import SearchPage from "../pages/SearchPage/SearchPage";
+import FavoritesPage from "../pages/FavoritesPage/FaforitesPage";
+import UserPage from "../pages/UserPage/UserPage";
 
-const SearchPage = lazy(() => import("../pages/SearchPage/SearchPage"));
-const UserPage = lazy(() => import("../pages/UserPage/UserPage"));
-const FavoritesPage = lazy(() =>
-  import("../pages/FavoritesPage/FaforitesPage")
-);
+// const PageLayout = lazy(() => import("../components/PageLayout/PageLayout"));
+// const SearchPage = lazy(() => import("../pages/SearchPage/SearchPage"));
+// const FavoritesPage = lazy(() =>
+//   import("../pages/FavoritesPage/FaforitesPage")
+// );
+// const UserPage = lazy(() => import("../pages/UserPage/UserPage"));
 
 const App = () => {
   const location = useLocation();
@@ -34,47 +35,45 @@ const App = () => {
   };
 
   return (
-    <Suspense fallback={<Spinner />}>
-      <Routes>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <PageLayout
+            onGetQuery={getQuery}
+            location={location}
+            searchParams={searchParams}
+            isUserPage={isUserPage}
+            isSearchPage={isSearchPage}
+          />
+        }
+      >
         <Route
-          path="/"
+          index
           element={
-            <PageLayout
-              onGetQuery={getQuery}
+            <SearchPage
+              query={searchQuery}
               location={location}
-              searchParams={searchParams}
-              isUserPage={isUserPage}
-              isSearchPage={isSearchPage}
+              favoritesOptions={favoritesOptions}
             />
           }
-        >
-          <Route
-            index
-            element={
-              <SearchPage
-                query={searchQuery}
-                location={location}
-                favoritesOptions={favoritesOptions}
-              />
-            }
-          />
-          <Route
-            path="user/:username"
-            element={<UserPage favoritesOptions={favoritesOptions} />}
-          />
-          <Route
-            path="favorites"
-            element={
-              <FavoritesPage
-                location={location}
-                favoritesOptions={favoritesOptions}
-                isUserPage={isUserPage}
-              />
-            }
-          />
-        </Route>
-      </Routes>
-    </Suspense>
+        />
+        <Route
+          path="user/:username"
+          element={<UserPage favoritesOptions={favoritesOptions} />}
+        />
+        <Route
+          path="favorites"
+          element={
+            <FavoritesPage
+              location={location}
+              favoritesOptions={favoritesOptions}
+              isUserPage={isUserPage}
+            />
+          }
+        />
+      </Route>
+    </Routes>
   );
 };
 

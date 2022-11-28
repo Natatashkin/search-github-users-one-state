@@ -17,7 +17,7 @@ const UserAvatar = ({ url, name, variant = "small" }) => {
         { [styles.large]: isAvatarLarge, [styles.middle]: isAvatarMiddle },
       ])}
     >
-      <img src={url} alt={`User's avatar ${name}`} />
+      <img src={url} alt={`User's avatar ${name}`} loading="lazy" />
     </div>
   );
 };
