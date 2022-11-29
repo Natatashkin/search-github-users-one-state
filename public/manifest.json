@@ -1,6 +1,6 @@
 {
-  "short_name": "test",
-  "name": "test",
+  "short_name": "Search Users",
+  "name": "Search GitHub Users",
   "icons": [
     {
       "src": "favicon.ico",
