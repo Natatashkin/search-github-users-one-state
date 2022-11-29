@@ -8,16 +8,6 @@
       "type": "image/x-icon"
     },
     {
-      "src": "/icons/icon_24.png",
-      "type": "image/png",
-      "sizes": "24x24"
-    },
-    {
-      "src": "/icons/icon_36.png",
-      "type": "image/png",
-      "sizes": "36x36"
-    },
-    {
       "src": "/icons/icon_48.png",
       "type": "image/png",
       "sizes": "48x48"
@@ -95,6 +85,7 @@
       "purpose": "maskable"
     }
   ],
+  "orientation": "portrait",
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
