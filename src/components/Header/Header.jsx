@@ -63,3 +63,10 @@ const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
 };
 
 export default Header;
+
+Header.propTypes = {
+  onGetQuery: PropTypes.func.isRequired,
+  location: PropTypes.object,
+  isSearchPage: PropTypes.bool,
+  isUserPage: PropTypes.object,
+};
