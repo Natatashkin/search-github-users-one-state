@@ -26,7 +26,7 @@ const UsersListItem = ({ item, location, favoritesOptions }) => {
           aria-label="Open user profile"
         >
           <div className={styles.avatar}>
-            <UserAvatar url={avatar_url} name={username} />
+            <UserAvatar url={avatar_url} name={username} size="small" />
           </div>
           <div className={styles.info}>
             <h2>{username}</h2>

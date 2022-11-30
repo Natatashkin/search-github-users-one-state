@@ -1,13 +1,14 @@
 @import "../../styles/variables.scss";
 
 .name {
-  & h3 {
+  & h2 {
     font-size: $h2;
     font-weight: 700;
     margin-bottom: 5px;
   }
 
-  & h4 {
+  & h3 {
+    font-size: $h3;
     font-weight: 500;
     & a {
       color: $grey;

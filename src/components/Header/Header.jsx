@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import IconRouteLink from "../IconRouteLink/IconRouteLink";
@@ -28,6 +28,11 @@ const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
     () => isSearchPage && width < variables.laptop,
     [width]
   );
+
+  useEffect(() => {
+    console.log(title);
+    console.log("render");
+  });
 
   return (
     <header

@@ -7,23 +7,22 @@ import styles from "./UserAvatar.module.scss";
 // variant = "middle"
 // variant= "large"
 
-const UserAvatar = ({ url, name, variant = "small" }) => {
-  const isAvatarLarge = variant === "large";
-  const isAvatarMiddle = variant === "middle";
+const UserAvatar = ({ url, name, size = "small" }) => {
+  const isAvatarLarge = size === "large";
+  const isAvatarMiddle = size === "middle";
+  const isAvatarSmall = size === "small";
   return (
     <div
       className={classNames([
         styles.avatarThumb,
-        { [styles.large]: isAvatarLarge, [styles.middle]: isAvatarMiddle },
+        {
+          [styles.small]: isAvatarSmall,
+          [styles.large]: isAvatarLarge,
+          [styles.middle]: isAvatarMiddle,
+        },
       ])}
     >
-      <img
-        src={url}
-        alt={`User's avatar ${name}`}
-        // loading="lazy"
-        width="60"
-        height="60"
-      />
+      <img src={url} alt={`User's avatar ${name}`} width="100%" height="100%" />
     </div>
   );
 };

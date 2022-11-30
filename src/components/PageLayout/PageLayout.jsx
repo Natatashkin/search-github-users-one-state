@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../Header/Header";
+import Spinner from "../Spinner/Spinner";
 
 const PageLayout = ({
   onGetQuery,
@@ -18,8 +19,9 @@ const PageLayout = ({
         isUserPage={isUserPage}
         isSearchPage={isSearchPage}
       />
-
-      <Outlet />
+      <Suspense fallback={<Spinner />}>
+        <Outlet />
+      </Suspense>
     </>
   );
 };

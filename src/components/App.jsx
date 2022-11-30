@@ -6,7 +6,7 @@ import {
   useLocation,
   useMatch,
 } from "react-router-dom";
-import Spinner from "../components/Spinner/Spinner";
+// import Spinner from "../components/Spinner/Spinner";
 import { useLocalStorage } from "../hooks";
 
 const PageLayout = lazy(() => import("../components/PageLayout/PageLayout"));
@@ -31,47 +31,47 @@ const App = () => {
   };
 
   return (
-    <Suspense fallback={<Spinner />}>
-      <Routes>
+    // <Suspense fallback={<Spinner />}>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <PageLayout
+            onGetQuery={getQuery}
+            location={location}
+            searchParams={searchParams}
+            isUserPage={isUserPage}
+            isSearchPage={isSearchPage}
+          />
+        }
+      >
         <Route
-          path="/"
+          index
           element={
-            <PageLayout
-              onGetQuery={getQuery}
+            <SearchPage
+              query={searchQuery}
               location={location}
-              searchParams={searchParams}
-              isUserPage={isUserPage}
-              isSearchPage={isSearchPage}
+              favoritesOptions={favoritesOptions}
             />
           }
-        >
-          <Route
-            index
-            element={
-              <SearchPage
-                query={searchQuery}
-                location={location}
-                favoritesOptions={favoritesOptions}
-              />
-            }
-          />
-          <Route
-            path="user/:username"
-            element={<UserPage favoritesOptions={favoritesOptions} />}
-          />
-          <Route
-            path="favorites"
-            element={
-              <FavoritesPage
-                location={location}
-                favoritesOptions={favoritesOptions}
-                isUserPage={isUserPage}
-              />
-            }
-          />
-        </Route>
-      </Routes>
-    </Suspense>
+        />
+        <Route
+          path="user/:username"
+          element={<UserPage favoritesOptions={favoritesOptions} />}
+        />
+        <Route
+          path="favorites"
+          element={
+            <FavoritesPage
+              location={location}
+              favoritesOptions={favoritesOptions}
+              isUserPage={isUserPage}
+            />
+          }
+        />
+      </Route>
+    </Routes>
+    // </Suspense>
   );
 };
 

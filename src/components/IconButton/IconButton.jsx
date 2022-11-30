@@ -11,6 +11,7 @@ const IconButton = ({
   variant = "default",
   onClick = () => {},
   children,
+  ariaLabel,
 }) => {
   return (
     <button
@@ -21,6 +22,7 @@ const IconButton = ({
       variant={variant}
       type={type}
       onClick={onClick}
+      aria-label={ariaLabel}
     >
       {children}
     </button>

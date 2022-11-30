@@ -6,15 +6,15 @@ const UserName = ({ name, login, url }) => {
   const hasUsername = name || "No username";
   return (
     <div className={styles.name}>
-      <h3>{hasUsername}</h3>
-      <h4>
+      <h2>{hasUsername}</h2>
+      <h3>
         <a
           href={url}
           target="_blank"
           rel="noreferrer"
           aria-label="See user profile on GitHub"
         >{`@${login}`}</a>
-      </h4>
+      </h3>
     </div>
   );
 };

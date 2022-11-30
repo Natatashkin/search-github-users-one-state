@@ -40,7 +40,7 @@ const UserPage = ({ favoritesOptions }) => {
       {renderPage && (
         <div className={styles.container}>
           <div className={styles.avatarContainer}>
-            <UserAvatar url={avatar_url} name={name} variant="large" />
+            <UserAvatar url={avatar_url} name={name} size="large" />
           </div>
           <PersonalInfo data={userData} favoritesOptions={favoritesOptions} />
           <UserRepos
