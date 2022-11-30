@@ -6,7 +6,12 @@ const ReposListItem = ({ repo, showDescription }) => {
   const { html_url, name } = repo;
   return (
     <li className={styles.listItem}>
-      <a href={html_url} target="_blank" rel="noreferrer">
+      <a
+        href={html_url}
+        target="_blank"
+        rel="noreferrer"
+        aria-label="See that repo on GitHub"
+      >
         <h4>{name}</h4>
         <p>{showDescription}</p>
       </a>

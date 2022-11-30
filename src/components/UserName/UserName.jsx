@@ -8,7 +8,12 @@ const UserName = ({ name, login, url }) => {
     <div className={styles.name}>
       <h3>{hasUsername}</h3>
       <h4>
-        <a href={url} target="_blank" rel="noreferrer">{`@${login}`}</a>
+        <a
+          href={url}
+          target="_blank"
+          rel="noreferrer"
+          aria-label="See user profile on GitHub"
+        >{`@${login}`}</a>
       </h4>
     </div>
   );

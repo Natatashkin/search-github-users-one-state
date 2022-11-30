@@ -6,7 +6,7 @@ import styles from "./Logo.module.scss";
 const Logo = () => {
   return (
     <div className={styles.logo}>
-      <IconRouteLink path="/">
+      <IconRouteLink path="/" ariaLabel="Link to main page">
         <IoPeopleCircleSharp size={28} />
       </IconRouteLink>
     </div>

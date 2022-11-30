@@ -29,6 +29,7 @@ const TextField = ({
         name={name}
         onChange={onChange}
         value={value}
+        aria-label="Search"
       />
     </div>
   );

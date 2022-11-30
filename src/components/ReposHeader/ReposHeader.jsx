@@ -12,7 +12,7 @@ const ReposHeader = ({ showDropdownIcon, reposQuantity, onClick, open }) => {
       </p>
       {showDropdownIcon && (
         <div className={styles.buttonContainer}>
-          <IconButton onClick={onClick}>
+          <IconButton onClick={onClick} ariaLabel="Open user repos">
             {open ? <IoIosArrowUp size={18} /> : <IoIosArrowDown size={18} />}
           </IconButton>
         </div>

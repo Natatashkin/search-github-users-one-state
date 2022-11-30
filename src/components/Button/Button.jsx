@@ -2,9 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./Button.module.scss";
 
-const Button = ({ title, type = "submit", onClick = () => {} }) => {
+const Button = ({ title, ariaLabel, type = "submit", onClick = () => {} }) => {
   return (
-    <button className={styles.button} type={type} onClick={onClick}>
+    <button
+      className={styles.button}
+      type={type}
+      onClick={onClick}
+      aria-label={ariaLabel}
+    >
       {title}
     </button>
   );

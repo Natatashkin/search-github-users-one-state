@@ -52,7 +52,11 @@ const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
             <IoSearchOutline size={20} className={styles.adornment} />
           </TextField>
           <div className={styles.favLinkContainer}>
-            <IconRouteLink path="/favorites" state={{ from: location }}>
+            <IconRouteLink
+              path="/favorites"
+              state={{ from: location }}
+              ariaLabel="Link to Favorites Page"
+            >
               <FaStar size={24} />
             </IconRouteLink>
           </div>

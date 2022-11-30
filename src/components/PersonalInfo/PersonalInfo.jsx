@@ -34,7 +34,10 @@ const PersonalInfo = ({ data, favoritesOptions }) => {
       <div className={classNames([styles.nameContainer, styles.container])}>
         <UserName name={name} login={login} url={html_url} />
         <div>
-          <IconButton onClick={toggleFavoriteClick}>
+          <IconButton
+            onClick={toggleFavoriteClick}
+            ariaLabel="Add to Favorites"
+          >
             <FaStar color={favButtonColor} size={24} />
           </IconButton>
         </div>

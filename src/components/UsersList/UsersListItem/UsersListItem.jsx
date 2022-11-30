@@ -17,12 +17,13 @@ const UsersListItem = ({ item, location, favoritesOptions }) => {
   const username = name || login;
 
   return (
-    <div className={styles.card}>
+    <li className={styles.card}>
       <div className={styles.container}>
         <Link
           to={`/user/${login}`}
           state={{ from: location }}
           className={styles.link}
+          aria-label="Open user profile"
         >
           <div className={styles.avatar}>
             <UserAvatar url={avatar_url} name={username} size="60" />
@@ -33,7 +34,11 @@ const UsersListItem = ({ item, location, favoritesOptions }) => {
           </div>
         </Link>
         <div className={styles.favorite}>
-          <IconButton type="button" onClick={toggleFavoriteClick}>
+          <IconButton
+            type="button"
+            onClick={toggleFavoriteClick}
+            ariaLabel="Add to Favorites"
+          >
             <FaStar color={favButtonColor} size={24} />
           </IconButton>
         </div>
@@ -52,7 +57,7 @@ const UsersListItem = ({ item, location, favoritesOptions }) => {
           <p>{public_repos}</p>
         </div>
       </div>
-    </div>
+    </li>
   );
 };
 
