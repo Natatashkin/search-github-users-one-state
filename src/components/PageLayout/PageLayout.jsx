@@ -1,4 +1,5 @@
 import React, { Suspense } from "react";
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../Header/Header";
 import Spinner from "../Spinner/Spinner";
@@ -10,6 +11,9 @@ const PageLayout = ({
   isUserPage,
   isSearchPage,
 }) => {
+  useEffect(() => {
+    console.log("render pageLayout");
+  }, []);
   return (
     <>
       <Header

@@ -33,9 +33,4 @@ const searchUsers = async (name, page, per_page) => {
   }
 };
 
-const getRateLimit = async () => {
-  const response = await axios.get("/rate_limit");
-  return response;
-};
-
-export { getRateLimit, searchUsers, getUser, getUserRepos };
+export { searchUsers, getUser, getUserRepos };

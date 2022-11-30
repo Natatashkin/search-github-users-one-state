@@ -1,13 +1,20 @@
-import React, { useRef } from "react";
+import React, { lazy, Suspense, useRef } from "react";
 import PropTypes from "prop-types";
 import { useScroll, useFetchUsers } from "../../hooks";
 import UsersList from "../../components/UsersList/UsersList";
 import UsersListItem from "../../components/UsersList/UsersListItem/UsersListItem";
 import Spinner from "../../components/Spinner/Spinner";
-import ButtonToTop from "../../components/ButtonToTop/ButtonToTop";
+// import ButtonToTop from "../../components/ButtonToTop/ButtonToTop";
 import Container from "../../components/Container/Container";
-import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
+// import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import styles from "./SearchPage.module.scss";
+
+const ButtonToTop = lazy(() =>
+  import("../../components/ButtonToTop/ButtonToTop")
+);
+const ErrorMessage = lazy(() =>
+  import("../../components/ErrorMessage/ErrorMessage")
+);
 
 const SearchPage = ({ query, location, favoritesOptions }) => {
   const {
@@ -36,8 +43,12 @@ const SearchPage = ({ query, location, favoritesOptions }) => {
   return (
     <Container ref={scrollRef} onScroll={onScroll}>
       {showSpinner && <Spinner />}
-      {showError && <ErrorMessage message={error} />}
-      {showUserList && (
+      {showError && (
+        <Suspense>
+          <ErrorMessage message={error} />
+        </Suspense>
+      )}
+      {!!showUserList && (
         <>
           <UsersList>
             {userList.map((item) => {
@@ -57,7 +68,11 @@ const SearchPage = ({ query, location, favoritesOptions }) => {
           </div>
         </>
       )}
-      {showTopBtn && <ButtonToTop onClick={onTopClick} />}
+      {showTopBtn && (
+        <Suspense>
+          <ButtonToTop onClick={onTopClick} />
+        </Suspense>
+      )}
     </Container>
   );
 };

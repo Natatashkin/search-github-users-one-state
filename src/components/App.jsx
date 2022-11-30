@@ -1,4 +1,5 @@
 import React, { useState, lazy, Suspense } from "react";
+import { useEffect } from "react";
 import {
   Routes,
   Route,
@@ -6,11 +7,10 @@ import {
   useLocation,
   useMatch,
 } from "react-router-dom";
-// import Spinner from "../components/Spinner/Spinner";
+import PageLayout from "../components/PageLayout/PageLayout";
+import SearchPage from "../pages/SearchPage/SearchPage";
 import { useLocalStorage } from "../hooks";
 
-const PageLayout = lazy(() => import("../components/PageLayout/PageLayout"));
-const SearchPage = lazy(() => import("../pages/SearchPage/SearchPage"));
 const FavoritesPage = lazy(() =>
   import("../pages/FavoritesPage/FaforitesPage")
 );
@@ -30,8 +30,10 @@ const App = () => {
     setSearchQuery(query);
   };
 
+  useEffect(() => {
+    console.log("render app");
+  }, []);
   return (
-    // <Suspense fallback={<Spinner />}>
     <Routes>
       <Route
         path="/"
@@ -71,7 +73,6 @@ const App = () => {
         />
       </Route>
     </Routes>
-    // </Suspense>
   );
 };
 

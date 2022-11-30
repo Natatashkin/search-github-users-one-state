@@ -1,14 +1,18 @@
-import React, { useRef } from "react";
+import React, { useRef, lazy } from "react";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useFetchCurrentUser, useScroll } from "../../hooks";
 import UserRepos from "../../components/UserRepos/UserRepos";
 import Spinner from "../../components/Spinner/Spinner";
 import PersonalInfo from "../../components/PersonalInfo/PersonalInfo";
-import ButtonToTop from "../../components/ButtonToTop/ButtonToTop";
+// import ButtonToTop from "../../components/ButtonToTop/ButtonToTop";
 import Container from "../../components/Container/Container";
 import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import styles from "./UserPage.module.scss";
+
+const ButtonToTop = lazy(() =>
+  import("../../components/ButtonToTop/ButtonToTop")
+);
 
 const UserPage = ({ favoritesOptions }) => {
   const scrollRef = useRef(null);

@@ -17,7 +17,7 @@ const useFetchUsers = ({ query }) => {
 
   const showSpinner = loading && page < 2;
   const showError = error && !loading;
-  const showUserList = userList && searchQuery;
+  const showUserList = userList.length && searchQuery;
   const showListSpinner = loading && page > 1;
 
   const removeSearchParams = useCallback(() => {
@@ -66,6 +66,8 @@ const useFetchUsers = ({ query }) => {
   );
 
   const debouncedRequest = useDebouncedCallback(makeSearchQuery, 350);
+
+  console.log("render");
 
   const resetSearchState = () => {
     setUserList([]);

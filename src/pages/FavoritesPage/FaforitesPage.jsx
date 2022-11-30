@@ -1,10 +1,14 @@
-import React, { useRef } from "react";
+import React, { useRef, lazy } from "react";
 import PropTypes from "prop-types";
 import { useScroll } from "../../hooks";
 import UsersList from "../../components/UsersList/UsersList";
 import UsersListItem from "../../components/UsersList/UsersListItem/UsersListItem";
-import ButtonToTop from "../../components/ButtonToTop/ButtonToTop";
+// import ButtonToTop from "../../components/ButtonToTop/ButtonToTop";
 import Container from "../../components/Container/Container";
+
+const ButtonToTop = lazy(() =>
+  import("../../components/ButtonToTop/ButtonToTop")
+);
 
 const FavoritesPage = ({ location, favoritesOptions }) => {
   const { favorites } = favoritesOptions;
