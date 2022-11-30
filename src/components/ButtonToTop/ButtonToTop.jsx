@@ -5,7 +5,12 @@ import IconButton from "../IconButton/IconButton";
 
 const ButtonToTop = ({ onClick }) => {
   return (
-    <IconButton type="button" variant="sticky" onClick={onClick}>
+    <IconButton
+      type="button"
+      variant="sticky"
+      onClick={onClick}
+      aria-label="Scroll to top"
+    >
       <IoIosArrowUp size={25} />
     </IconButton>
   );
