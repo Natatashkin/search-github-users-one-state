@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { IoIosArrowUp } from "react-icons/io";
+import ArrowUpIcon from "../icons/ArrowUpIcon/ArrowUpIcon";
 import IconButton from "../IconButton/IconButton";
 
 const ButtonToTop = ({ onClick }) => {
@@ -11,7 +11,7 @@ const ButtonToTop = ({ onClick }) => {
       onClick={onClick}
       aria-label="Scroll to top"
     >
-      <IoIosArrowUp size={25} />
+      <ArrowUpIcon size={25} />
     </IconButton>
   );
 };

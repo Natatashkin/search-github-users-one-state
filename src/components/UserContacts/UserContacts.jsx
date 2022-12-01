@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { GrLocation } from "react-icons/gr";
-import { HiOutlineMail, HiOutlineOfficeBuilding } from "react-icons/hi";
+import LocationIcon from "../icons/LocationIcon/LocationIcon";
+import CompanyIcon from "../icons/CompanyIcon/CompanyIcon";
+import EmailIcon from "../icons/EmailIcon/EmailIcon";
 import styles from "./UserContacts.module.scss";
 
 const UserContacts = ({ email, company, country }) => {
@@ -9,21 +10,22 @@ const UserContacts = ({ email, company, country }) => {
     <ul>
       {email && (
         <li className={styles.listItem}>
-          <HiOutlineMail />
+          <EmailIcon />
           <span>
             <a href={`mailto:${email}`}>{email}</a>
           </span>
         </li>
       )}
+
       {company && (
         <li className={styles.listItem}>
-          <HiOutlineOfficeBuilding />
+          <CompanyIcon />
           <span>{company}</span>
         </li>
       )}
       {country && (
         <li className={styles.listItem}>
-          <GrLocation />
+          <LocationIcon />
           <span>{country}</span>
         </li>
       )}

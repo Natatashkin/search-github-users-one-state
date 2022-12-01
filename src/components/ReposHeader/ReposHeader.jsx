@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import ArrowUpIcon from "../icons/ArrowUpIcon/ArrowUpIcon";
+import ArrowDownIcon from "../icons/ArrowDownIcon/ArrowDownIcon";
 import IconButton from "../IconButton/IconButton";
 import styles from "./ReposHeader.module.scss";
 
@@ -13,7 +14,7 @@ const ReposHeader = ({ showDropdownIcon, reposQuantity, onClick, open }) => {
       {showDropdownIcon && (
         <div className={styles.buttonContainer}>
           <IconButton onClick={onClick} ariaLabel="Open user repos">
-            {open ? <IoIosArrowUp size={18} /> : <IoIosArrowDown size={18} />}
+            {open ? <ArrowUpIcon size={18} /> : <ArrowDownIcon size={18} />}
           </IconButton>
         </div>
       )}

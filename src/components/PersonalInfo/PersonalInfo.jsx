@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import { FaStar } from "react-icons/fa";
+import StarIcon from "../icons/StarIcon/StarIcon";
 import { useFavorites } from "../../hooks";
-import UserSubscriptions from "../../components/UserSubscriptions/UserSubscriptions";
+import UserSubscriptions from "../UserSubscriptions/UserSubscriptions";
 import IconButton from "../IconButton/IconButton";
 import UserName from "../UserName/UserName";
 import UserContacts from "../UserContacts/UserContacts";
@@ -38,7 +38,7 @@ const PersonalInfo = ({ data, favoritesOptions }) => {
             onClick={toggleFavoriteClick}
             ariaLabel="Add to Favorites"
           >
-            <FaStar color={favButtonColor} size={24} />
+            <StarIcon color={favButtonColor} size={24} />
           </IconButton>
         </div>
       </div>

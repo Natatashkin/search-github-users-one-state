@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { FaStar } from "react-icons/fa";
 import { useFavorites } from "../../../hooks";
 import UserAvatar from "../../UserAvatar/UserAvatar";
 import IconButton from "../../IconButton/IconButton";
+import StarIcon from "../../icons/StarIcon/StarIcon";
 import styles from "./UsersListItem.module.scss";
 
 const UsersListItem = ({ item, location, favoritesOptions }) => {
@@ -39,7 +39,7 @@ const UsersListItem = ({ item, location, favoritesOptions }) => {
             onClick={toggleFavoriteClick}
             ariaLabel="Add to Favorites"
           >
-            <FaStar color={favButtonColor} size={24} />
+            <StarIcon color={favButtonColor} size={24} />
           </IconButton>
         </div>
       </div>
