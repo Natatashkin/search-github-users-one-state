@@ -24,7 +24,6 @@ const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
     setQuery(value);
     onGetQuery(value);
   }, []);
-  console.log(styles);
   // const showShortTitle = useMemo(
   //   () => isSearchPage && width < variables.laptop,
   //   [width]
@@ -55,7 +54,6 @@ const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
         <div className={styles.textFieldContainer}>
           <TextField name="search" value={query} onChange={handleOnChange}>
             <SearchIcon size={20} color={styles.lightgrey} />
-            {/* <IoSearchOutline size={20} className={styles.adornment} /> */}
           </TextField>
           <div className={styles.favLinkContainer}>
             <IconRouteLink
