@@ -5,13 +5,15 @@ import { useFetchCurrentUser, useScroll } from "../../hooks";
 import UserRepos from "../../components/UserRepos/UserRepos";
 import Spinner from "../../components/Spinner/Spinner";
 import PersonalInfo from "../../components/PersonalInfo/PersonalInfo";
-// import ButtonToTop from "../../components/ButtonToTop/ButtonToTop";
 import Container from "../../components/Container/Container";
 import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import styles from "./UserPage.module.scss";
 
 const ButtonToTop = lazy(() =>
   import("../../components/ButtonToTop/ButtonToTop")
+);
+const ErrorMessage = lazy(() =>
+  import("../../components/ErrorMessage/ErrorMessage")
 );
 
 const UserPage = ({ favoritesOptions }) => {
@@ -24,6 +26,7 @@ const UserPage = ({ favoritesOptions }) => {
     setReposPage,
     showListSpinner,
     totalPages,
+    error,
   } = useFetchCurrentUser(username);
 
   const { showTopBtn, onScroll, handleScrollTopClick } = useScroll({
@@ -41,6 +44,7 @@ const UserPage = ({ favoritesOptions }) => {
   return (
     <Container ref={scrollRef} onScroll={onScroll}>
       {loading && <Spinner />}
+      {error && <ErrorMessage message={error} />}
       {renderPage && (
         <div className={styles.container}>
           <div className={styles.avatarContainer}>

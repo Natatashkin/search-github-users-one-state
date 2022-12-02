@@ -4,9 +4,7 @@ import { useScroll, useFetchUsers } from "../../hooks";
 import UsersList from "../../components/UsersList/UsersList";
 import UsersListItem from "../../components/UsersList/UsersListItem/UsersListItem";
 import Spinner from "../../components/Spinner/Spinner";
-// import ButtonToTop from "../../components/ButtonToTop/ButtonToTop";
 import Container from "../../components/Container/Container";
-// import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import styles from "./SearchPage.module.scss";
 
 const ButtonToTop = lazy(() =>

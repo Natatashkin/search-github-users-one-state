@@ -14,10 +14,16 @@ const getUser = async (username) => {
 };
 
 const getUserRepos = async (username, per_page, page) => {
-  const { data } = await axios.get(
-    `/users/${username}/repos?type=owner&per_page=${per_page}&page=${page}`
-  );
-  return data;
+  try {
+    const { data } = await axios.get(
+      `/users/${username}/repos?type=owner&per_page=${per_page}&page=${page}`
+    );
+    console.log("data api", data);
+    return data;
+  } catch (error) {
+    console.log("error api", error);
+    return error;
+  }
 };
 
 const searchUsers = async (name, page, per_page) => {

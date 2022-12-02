@@ -1,6 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
 import * as ghApi from "../api/ghApi";
-// import { filterNewItems } from "../helpers";
 
 const PER_PAGE_REPOS = 10;
 
@@ -10,6 +9,7 @@ const useFetchCurrentUser = (username) => {
   const [reposPage, setReposPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const showListSpinner = loading && reposPage > 1;
 
   const getCurrentUser = useCallback(async () => {
@@ -24,7 +24,7 @@ const useFetchCurrentUser = (username) => {
         return Math.ceil(response.public_repos / PER_PAGE_REPOS);
       });
     } catch (error) {
-      console.log(error);
+      setError("You are offline. Try later!");
     }
     setIsLoading(false);
   }, [username]);
@@ -33,9 +33,11 @@ const useFetchCurrentUser = (username) => {
     try {
       setIsLoading(true);
       const repos = await ghApi.getUserRepos(name, per_page, page);
+      console.log("repos", repos);
       setUserRepos((prevRepos) => [...prevRepos, ...repos]);
     } catch (error) {
       console.log(error);
+      setError("You are offline. Try later!");
     }
     setIsLoading(false);
   }, []);
@@ -58,6 +60,7 @@ const useFetchCurrentUser = (username) => {
     userRepos,
     showListSpinner,
     totalPages,
+    error,
   };
 };
 

@@ -46,8 +46,8 @@ const useFetchUsers = ({ query }) => {
           per_page
         );
         if (!usersData) {
-          throw new Error();
           setIsLoading(false);
+          setError("You are offline. Try later!");
           return;
         }
         getTotalPages({ query, total });
@@ -71,8 +71,6 @@ const useFetchUsers = ({ query }) => {
   );
 
   const debouncedRequest = useDebouncedCallback(makeSearchQuery, 350);
-
-  console.log("render");
 
   const resetSearchState = () => {
     setUserList([]);
