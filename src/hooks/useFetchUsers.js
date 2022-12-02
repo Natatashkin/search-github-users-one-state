@@ -45,6 +45,11 @@ const useFetchUsers = ({ query }) => {
           page,
           per_page
         );
+        if (!usersData) {
+          throw new Error();
+          setIsLoading(false);
+          return;
+        }
         getTotalPages({ query, total });
 
         if (page > 1) {

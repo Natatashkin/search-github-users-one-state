@@ -5,8 +5,12 @@ axios.defaults.headers.common["Authorization"] = "token ";
 axios.defaults.headers.accept = "application/vnd.github+json";
 
 const getUser = async (username) => {
-  const { data } = await axios.get(`/users/${username}`);
-  return data;
+  try {
+    const { data } = await axios.get(`/users/${username}`);
+    return data;
+  } catch (error) {
+    return error;
+  }
 };
 
 const getUserRepos = async (username, per_page, page) => {
@@ -29,7 +33,7 @@ const searchUsers = async (name, page, per_page) => {
     const usersData = await Promise.all(findUsers);
     return { usersData, total: data.total_count };
   } catch (error) {
-    console.log(error);
+    return error.message;
   }
 };
 

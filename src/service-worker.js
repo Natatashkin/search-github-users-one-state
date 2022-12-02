@@ -72,6 +72,23 @@ self.addEventListener("message", (event) => {
 
 // Any other custom service worker logic can go here.
 
-self.addEventListener("fetch", (event) => {
-  console.log(event);
+const fetchRequest = async (req) => {
+  const dynamicCache = await caches.open("dynamicCache");
+  try {
+    const response = await fetch(req);
+    await dynamicCache.put(req, response.clone());
+    return response;
+  } catch (error) {
+    // console.log(error);
+    const chachedData = await caches.match(req);
+    return chachedData;
+  }
+};
+
+self.addEventListener("fetch", async (e) => {
+  try {
+    e.respondWith(fetchRequest(e.request));
+  } catch (error) {
+    console.log(error);
+  }
 });

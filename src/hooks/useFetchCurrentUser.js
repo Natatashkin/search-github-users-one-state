@@ -16,7 +16,6 @@ const useFetchCurrentUser = (username) => {
     try {
       setIsLoading(true);
       const response = await ghApi.getUser(username);
-
       setUserData(response);
       setTotalPages(() => {
         if (!response.public_repos) {
