@@ -14,16 +14,10 @@ const getUser = async (username) => {
 };
 
 const getUserRepos = async (username, per_page, page) => {
-  try {
-    const { data } = await axios.get(
-      `/users/${username}/repos?type=owner&per_page=${per_page}&page=${page}`
-    );
-    console.log("data api", data);
-    return data;
-  } catch (error) {
-    console.log("error api", error);
-    return error;
-  }
+  const { data } = await axios.get(
+    `/users/${username}/repos?type=owner&per_page=${per_page}&page=${page}`
+  );
+  return data;
 };
 
 const searchUsers = async (name, page, per_page) => {
@@ -31,7 +25,7 @@ const searchUsers = async (name, page, per_page) => {
     const { data } = await axios.get(
       `/search/users?q=${name}&type=user&in=name&per_page=${per_page}&page=${page}`
     );
-
+    console.log(data);
     const findUsers = data.items.map(({ login }) => {
       const response = getUser(login);
       return response;
@@ -39,7 +33,7 @@ const searchUsers = async (name, page, per_page) => {
     const usersData = await Promise.all(findUsers);
     return { usersData, total: data.total_count };
   } catch (error) {
-    return error.message;
+    return error;
   }
 };
 

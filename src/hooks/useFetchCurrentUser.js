@@ -33,10 +33,8 @@ const useFetchCurrentUser = (username) => {
     try {
       setIsLoading(true);
       const repos = await ghApi.getUserRepos(name, per_page, page);
-      console.log("repos", repos);
       setUserRepos((prevRepos) => [...prevRepos, ...repos]);
     } catch (error) {
-      console.log(error);
       setError("You are offline. Try later!");
     }
     setIsLoading(false);

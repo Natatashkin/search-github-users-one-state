@@ -79,16 +79,11 @@ const fetchRequest = async (req) => {
     await dynamicCache.put(req, response.clone());
     return response;
   } catch (error) {
-    // console.log(error);
     const chachedData = await caches.match(req);
     return chachedData;
   }
 };
 
-self.addEventListener("fetch", async (e) => {
-  try {
-    e.respondWith(fetchRequest(e.request));
-  } catch (error) {
-    console.log(error);
-  }
+self.addEventListener("fetch", (e) => {
+  e.respondWith(fetchRequest(e.request));
 });
