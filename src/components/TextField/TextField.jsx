@@ -11,6 +11,8 @@ const TextField = ({
   name,
   children,
 }) => {
+  console.log(value);
+  console.log(onChange);
   const isSearch = name === "search";
   return (
     <div className={styles.container}>

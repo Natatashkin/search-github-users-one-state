@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { useFavorites } from "../../../hooks";
 import UserAvatar from "../../UserAvatar/UserAvatar";
 import IconButton from "../../IconButton/IconButton";
@@ -19,20 +19,20 @@ const UsersListItem = ({ item, location, favoritesOptions }) => {
   return (
     <li className={styles.card}>
       <div className={styles.container}>
-        <Link
+        {/* <Link
           to={`/user/${login}`}
           state={{ from: location }}
           className={styles.link}
           aria-label="Open user profile"
-        >
-          <div className={styles.avatar}>
-            <UserAvatar url={avatar_url} name={username} size="small" />
-          </div>
-          <div className={styles.info}>
-            <h2>{username}</h2>
-            <p>{bio}</p>
-          </div>
-        </Link>
+        > */}
+        <div className={styles.avatar}>
+          <UserAvatar url={avatar_url} name={username} size="small" />
+        </div>
+        <div className={styles.info}>
+          <h2>{username}</h2>
+          <p>{bio}</p>
+        </div>
+        {/* </Link> */}
         <div className={styles.favorite}>
           <IconButton
             type="button"

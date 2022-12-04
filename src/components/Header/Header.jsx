@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import StarIcon from "../icons/StarIcon/StarIcon";
 import SearchIcon from "../icons/SearchIcon/SearchIcon";
-import IconRouteLink from "../IconRouteLink/IconRouteLink";
+import IconButton from "../IconButton/IconButton";
 import PageTitle from "../PageTitle/PageTitle";
 import Logo from "./Logo/Logo";
 import TextField from "../TextField/TextField";
@@ -15,67 +15,45 @@ import styles from "./Header.module.scss";
 
 const BackLink = lazy(() => import("../BackLink/BackLink"));
 
-const Header = ({ onGetQuery, location, isSearchPage, isUserPage }) => {
-  const title = pageTitle(location, isUserPage);
-  const [query, setQuery] = useState("");
-  // const { width } = useWidth();
-
-  const handleOnChange = useCallback(({ target: { value } }) => {
-    setQuery(value);
-    onGetQuery(value);
-  }, []);
-  // const showShortTitle = useMemo(
-  //   () => isSearchPage && width < variables.laptop,
-  //   [width]
-  // );
-
+const Header = ({ query, onChange }) => {
+  // const title = pageTitle(location, isUserPage);
+  console.log(query);
+  console.log(onChange);
   return (
     <header
-      className={classNames(styles.container, {
-        [styles["container--isSearch"]]: isSearchPage,
-      })}
+      className={classNames([styles.container, styles["container--isSearch"]])}
     >
       <div className={styles.logoAndTitleContainer}>
-        {!isSearchPage && (
+        {/* {!isSearchPage && (
           <Suspense>
             <BackLink location={location} alternativePath="/" />
           </Suspense>
-        )}
+        )} */}
         <Logo />
         <div
-          className={classNames(styles.titleContainer, {
-            [styles[`titleContainer--isSearch`]]: isSearchPage,
-          })}
+          className={classNames([
+            styles.titleContainer,
+            styles[`titleContainer--isSearch`],
+          ])}
         >
-          <PageTitle title={title} />
+          <PageTitle title="Search GitHub Users" />
         </div>
       </div>
-      {isSearchPage && (
-        <div className={styles.textFieldContainer}>
-          <TextField name="search" value={query} onChange={handleOnChange}>
-            <SearchIcon size={20} color={styles.lightgrey} />
-          </TextField>
-          <div className={styles.favLinkContainer}>
-            <IconRouteLink
-              path="/favorites"
-              state={{ from: location }}
-              ariaLabel="Link to Favorites Page"
-            >
-              <StarIcon size={24} />
-              {/* <FaStar size={24} /> */}
-            </IconRouteLink>
-          </div>
+
+      <div className={styles.textFieldContainer}>
+        <TextField name="search" value={query} onChange={onChange}>
+          <SearchIcon size={20} color={styles.lightgrey} />
+        </TextField>
+        <div className={styles.favLinkContainer}>
+          <IconButton type="click" ariaLabel="Open favorites users">
+            <StarIcon size={24} />
+          </IconButton>
         </div>
-      )}
+      </div>
     </header>
   );
 };
 
 export default Header;
 
-Header.propTypes = {
-  onGetQuery: PropTypes.func.isRequired,
-  location: PropTypes.object,
-  isSearchPage: PropTypes.bool,
-  isUserPage: PropTypes.object,
-};
+Header.propTypes = {};
