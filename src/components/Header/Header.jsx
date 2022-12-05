@@ -1,34 +1,37 @@
-import React, { useState, useCallback, useMemo, lazy, Suspense } from "react";
+import React, { useState, useEffect, useCallback, lazy, Suspense } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import { useDebouncedCallback } from "use-debounce";
 import StarIcon from "../icons/StarIcon/StarIcon";
 import SearchIcon from "../icons/SearchIcon/SearchIcon";
 import IconButton from "../IconButton/IconButton";
 import PageTitle from "../PageTitle/PageTitle";
 import Logo from "./Logo/Logo";
 import TextField from "../TextField/TextField";
-// import { SEARCH_PAGE_SHORT_TITLE } from "../../pages/constans";
-import { pageTitle } from "../../helpers";
-// import { useWidth } from "../../hooks";
 import styles from "./Header.module.scss";
-// import variables from "../../styles/variables.scss";
 
-const BackLink = lazy(() => import("../BackLink/BackLink"));
+// const BackLink = lazy(() => import("../BackLink/BackLink"));
 
-const Header = ({ query, onChange }) => {
-  // const title = pageTitle(location, isUserPage);
-  console.log(query);
-  console.log(onChange);
+const Header = ({ onGetQuery }) => {
+  const [query, setQuery] = useState("");
+
+  const handleInputChange = ({ target: { value } }) => {
+    setQuery(value);
+  };
+
+  const debouncedQuery = useDebouncedCallback(onGetQuery, 350);
+
+  useEffect(() => {
+    if (query.length > 2 || !query) {
+      debouncedQuery(query);
+    }
+  }, [query]);
+
   return (
     <header
       className={classNames([styles.container, styles["container--isSearch"]])}
     >
       <div className={styles.logoAndTitleContainer}>
-        {/* {!isSearchPage && (
-          <Suspense>
-            <BackLink location={location} alternativePath="/" />
-          </Suspense>
-        )} */}
         <Logo />
         <div
           className={classNames([
@@ -41,7 +44,7 @@ const Header = ({ query, onChange }) => {
       </div>
 
       <div className={styles.textFieldContainer}>
-        <TextField name="search" value={query} onChange={onChange}>
+        <TextField name="search" query={query} onChange={handleInputChange}>
           <SearchIcon size={20} color={styles.lightgrey} />
         </TextField>
         <div className={styles.favLinkContainer}>

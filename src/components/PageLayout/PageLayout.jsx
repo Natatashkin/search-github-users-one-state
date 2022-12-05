@@ -1,5 +1,4 @@
-import React, { Suspense } from "react";
-import { useEffect } from "react";
+import React from "react";
 
 const PageLayout = ({ children }) => {
   return <div>{children}</div>;

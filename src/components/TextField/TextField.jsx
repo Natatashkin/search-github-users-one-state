@@ -1,19 +1,17 @@
-import React from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import styles from "./TextField.module.scss";
+import { useState } from "react";
 
 const TextField = ({
   onChange,
-  value = "",
+  query,
   label = "",
   type = "text",
   name,
   children,
 }) => {
-  console.log(value);
-  console.log(onChange);
-  const isSearch = name === "search";
   return (
     <div className={styles.container}>
       <div className={styles.adornment}>{children}</div>
@@ -23,14 +21,11 @@ const TextField = ({
         </label>
       )}
       <input
-        className={classNames([
-          styles.input,
-          { [styles["input--isSearch"]]: isSearch },
-        ])}
+        className={classNames([styles.input, styles["input--isSearch"]])}
         type={type}
         name={name}
         onChange={onChange}
-        value={value}
+        value={query}
         aria-label="Search"
       />
     </div>
@@ -42,7 +37,7 @@ export default TextField;
 TextField.propTypes = {
   label: PropTypes.string,
   type: PropTypes.string,
-  value: PropTypes.string.isRequired,
+  query: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   children: PropTypes.node,

@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-// import { useSearchParams } from "react-router-dom";
 import { useDebouncedCallback } from "use-debounce";
 import { filterNewItems } from "../helpers";
 import * as ghApi from "../api/ghApi";
@@ -7,7 +6,6 @@ import * as ghApi from "../api/ghApi";
 const PER_PAGE = 15;
 
 const useFetchUsers = ({ query }) => {
-  // const [searchParams, setSearchParams] = useSearchParams("");
   const [userList, setUserList] = useState([]);
   const [searchQuery, setSearchQuery] = useState(query);
   const [page, setPage] = useState(1);
@@ -17,13 +15,8 @@ const useFetchUsers = ({ query }) => {
 
   const showSpinner = loading && page < 2;
   const showError = error && !loading;
-  const showUserList = userList.length && searchQuery;
+  const showUserList = Boolean(userList.length && searchQuery);
   const showListSpinner = loading && page > 1;
-
-  // const removeSearchParams = useCallback(() => {
-  //   searchParams.delete("q");
-  //   setSearchParams(searchParams);
-  // }, [searchParams, setSearchParams]);
 
   const getTotalPages = useCallback(({ query, total }) => {
     let pagesCount = 0;
@@ -80,18 +73,16 @@ const useFetchUsers = ({ query }) => {
   };
 
   useEffect(() => {
-    // setSearchQuery(query);
     resetSearchState();
+    setSearchQuery(query);
   }, [query]);
 
   useEffect(() => {
     if (searchQuery.length >= 3) {
-      // setSearchParams({ q: searchQuery });
       debouncedRequest(searchQuery, page, PER_PAGE);
       return;
     }
 
-    // removeSearchParams();
     setUserList([]);
   }, [searchQuery, page]);
 
