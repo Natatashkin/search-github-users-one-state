@@ -7,7 +7,7 @@ import IconButton from "../../IconButton/IconButton";
 import StarIcon from "../../icons/StarIcon/StarIcon";
 import styles from "./UsersListItem.module.scss";
 
-const UsersListItem = ({ item, location, favoritesOptions }) => {
+const UsersListItem = ({ item, favoritesOptions }) => {
   const { name, login, avatar_url, bio, followers, following, public_repos } =
     item;
   const { favButtonColor, toggleFavoriteClick } = useFavorites(
@@ -16,48 +16,53 @@ const UsersListItem = ({ item, location, favoritesOptions }) => {
   );
   const username = name || login;
 
+  console.log("render list item");
   return (
-    <li className={styles.card}>
-      <div className={styles.container}>
-        {/* <Link
+    <>
+      {favButtonColor && (
+        <li className={styles.card}>
+          <div className={styles.container}>
+            {/* <Link
           to={`/user/${login}`}
           state={{ from: location }}
           className={styles.link}
           aria-label="Open user profile"
         > */}
-        <div className={styles.avatar}>
-          <UserAvatar url={avatar_url} name={username} size="small" />
-        </div>
-        <div className={styles.info}>
-          <h2>{username}</h2>
-          <p>{bio}</p>
-        </div>
-        {/* </Link> */}
-        <div className={styles.favorite}>
-          <IconButton
-            type="button"
-            onClick={toggleFavoriteClick}
-            ariaLabel="Add to Favorites"
-          >
-            <StarIcon color={favButtonColor} size={24} />
-          </IconButton>
-        </div>
-      </div>
-      <div className={styles.container}>
-        <div className={styles.stats}>
-          <h3>followers</h3>
-          <p>{followers}</p>
-        </div>
-        <div className={styles.stats}>
-          <h3>following</h3>
-          <p>{following}</p>
-        </div>
-        <div className={styles.stats}>
-          <h3>repos</h3>
-          <p>{public_repos}</p>
-        </div>
-      </div>
-    </li>
+            <div className={styles.avatar}>
+              <UserAvatar url={avatar_url} name={username} size="small" />
+            </div>
+            <div className={styles.info}>
+              <h2>{username}</h2>
+              <p>{bio}</p>
+            </div>
+            {/* </Link> */}
+            <div className={styles.favorite}>
+              <IconButton
+                type="button"
+                onClick={toggleFavoriteClick}
+                ariaLabel="Add to Favorites"
+              >
+                <StarIcon color={favButtonColor} size={24} />
+              </IconButton>
+            </div>
+          </div>
+          <div className={styles.container}>
+            <div className={styles.stats}>
+              <h3>followers</h3>
+              <p>{followers}</p>
+            </div>
+            <div className={styles.stats}>
+              <h3>following</h3>
+              <p>{following}</p>
+            </div>
+            <div className={styles.stats}>
+              <h3>repos</h3>
+              <p>{public_repos}</p>
+            </div>
+          </div>
+        </li>
+      )}
+    </>
   );
 };
 
@@ -73,7 +78,6 @@ UsersListItem.propTypes = {
     following: PropTypes.number,
     public_repos: PropTypes.number,
   }),
-  location: PropTypes.object.isRequired,
   favoritesOptions: PropTypes.shape({
     favorites: PropTypes.arrayOf(PropTypes.object),
     setFavorites: PropTypes.func,
