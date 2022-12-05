@@ -15,8 +15,6 @@ const UsersListItem = ({ item, favoritesOptions }) => {
     favoritesOptions
   );
   const username = name || login;
-
-  console.log("render list item");
   return (
     <>
       {favButtonColor && (

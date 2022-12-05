@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useRef, lazy, Suspense } from "react";
 import PageLayout from "./PageLayout/PageLayout";
 import Container from "./Container/Container";
-// import SearchView from "../views/SearchView/SearchView";
 import Header from "./Header/Header";
 import { useFetchUsers, useScroll } from "../hooks";
 import { useLocalStorage } from "../hooks";
@@ -18,31 +17,25 @@ const PER_PAGE = 15;
 
 const App = () => {
   const [favorites, setFavorites] = useState(favs || []);
-  const [userList, setUserList] = useState([]);
   const [query, setQuery] = useState("");
+  const [usersList, setUsersList] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setIsLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [error, setError] = useState("");
   const scrollRef = useRef(null);
-  const showUserList = Boolean(userList.length);
+  const isUsersList = Boolean(usersList.length);
+  const showUsersList = query && isUsersList;
 
-  const handleGetQuery = useCallback(
-    (value) => {
-      if (!value && showUserList) {
-        setUserList([]);
-      }
-      setQuery(value);
-    },
-    [userList]
-  );
+  const handleGetQuery = useCallback((value) => {
+    setQuery(value);
+  }, []);
 
   const getTotalPages = useCallback(({ query, total }) => {
     let pagesCount = 0;
     if (pagesCount === total) {
-      setError(`No users with username "${query}"`);
-      setUserList([]);
-      return;
+      setUsersList([]);
+      throw new Error(`No users with username "${query}"`);
     }
     pagesCount = Math.ceil(total / PER_PAGE);
     setTotalPages(pagesCount);
@@ -57,15 +50,14 @@ const App = () => {
           page,
           per_page
         );
+        getTotalPages({ query, total });
         if (!usersData) {
           setIsLoading(false);
-          setError("You are offline. Try later!");
-          return;
+          throw new Error("You are offline. Try later!");
         }
-        getTotalPages({ query, total });
 
         if (page > 1) {
-          setUserList((prevList) => {
+          setUsersList((prevList) => {
             const newUniqueUsers = filterNewItems(prevList, usersData);
             return [...prevList, ...newUniqueUsers];
           });
@@ -73,24 +65,30 @@ const App = () => {
           return;
         }
 
-        setUserList(usersData);
+        setUsersList(usersData);
       } catch (error) {
-        console.log(error);
+        setError(error.message);
       }
       setIsLoading(false);
     },
     [getTotalPages, totalPages]
   );
 
-  console.log("app render");
+  const resetUsersState = () => {
+    setUsersList([]);
+    setPage(1);
+    setTotalPages(0);
+    setError("");
+  };
 
   useEffect(() => {
     if (query) {
+      resetUsersState();
       makeSearchQuery(query, page, PER_PAGE);
+      return;
     }
+    resetUsersState();
   }, [query]);
-
-  console.log(showUserList);
 
   return (
     <PageLayout>
@@ -98,10 +96,10 @@ const App = () => {
       <Container>
         {loading && <Spinner />}
         {error && <ErrorMessage message={error} />}
-        {showUserList && (
+        {showUsersList && (
           <Suspense>
             <SearchView
-              list={userList}
+              list={query ? usersList : []}
               favoritesOptions={{ favorites, setFavorites }}
             />
           </Suspense>
