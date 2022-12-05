@@ -34,7 +34,6 @@ const App = () => {
   const getTotalPages = useCallback(({ query, total }) => {
     let pagesCount = 0;
     if (pagesCount === total) {
-      setUsersList([]);
       throw new Error(`No users with username "${query}"`);
     }
     pagesCount = Math.ceil(total / PER_PAGE);
@@ -45,15 +44,18 @@ const App = () => {
     async (query, page, per_page) => {
       try {
         setIsLoading(true);
-        const { usersData, total } = await ghApi.searchUsers(
-          query,
-          page,
-          per_page
-        );
-        getTotalPages({ query, total });
-        if (!usersData) {
-          setIsLoading(false);
+        const response = await ghApi.searchUsers(query, page, per_page);
+        if (response.code === "ERR_NETWORK") {
           throw new Error("You are offline. Try later!");
+        }
+        if (response?.response?.status === 401) {
+          throw new Error("Authenticate, pleace!");
+        }
+
+        const { usersData, total } = response;
+
+        if (!totalPages) {
+          getTotalPages({ query, total });
         }
 
         if (page > 1) {
