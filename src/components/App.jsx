@@ -10,26 +10,50 @@ import { filterNewItems } from "../helpers";
 import * as ghApi from "../api/ghApi";
 import { useEffect } from "react";
 
-const SearchView = lazy(() => import("../views/SearchView/SearchView"));
+// const SearchView = lazy(() => import("../views/SearchView/SearchView"));
+// const FavoritesView = lazy(() =>
+//   import("../views/FavoritesView/FavoritesView")
+// );
+const UserView = lazy(() => import("../views/UserView/UserView"));
+
+const UsersListView = lazy(() =>
+  import("../views/UsersListView/UsersListView")
+);
 
 const favs = JSON.parse(window.localStorage.getItem("favorites"));
 const PER_PAGE = 15;
 
+const initialState = {
+  list: [],
+  page: 1,
+  totalPages: 0,
+  error: "",
+};
+
+const addFavoriteStatus = (incomingArray, favArray) => {
+  return incomingArray.map((user) => {
+    const isInFavorites = favArray.find((item) => item.id === user.id);
+    user.isFavorite = Boolean(isInFavorites);
+    return user;
+  });
+};
+
 const App = () => {
   const [favorites, setFavorites] = useState(favs || []);
   const [query, setQuery] = useState("");
-  const [usersList, setUsersList] = useState([]);
-  const [page, setPage] = useState(1);
+  const [searchState, setSearchState] = useState(initialState);
   const [loading, setIsLoading] = useState(false);
-  const [totalPages, setTotalPages] = useState(0);
-  const [error, setError] = useState("");
+  const [showFavList, setShowFavList] = useState(false);
   const scrollRef = useRef(null);
-  const isUsersList = Boolean(usersList.length);
-  const showUsersList = query && isUsersList;
+  const listToRender = showFavList ? favorites : searchState?.list;
 
   const handleGetQuery = useCallback((value) => {
     setQuery(value);
   }, []);
+
+  const handleShowFavorites = (state) => {
+    setShowFavList(state);
+  };
 
   const getTotalPages = useCallback(({ query, total }) => {
     let pagesCount = 0;
@@ -37,7 +61,9 @@ const App = () => {
       throw new Error(`No users with username "${query}"`);
     }
     pagesCount = Math.ceil(total / PER_PAGE);
-    setTotalPages(pagesCount);
+    setSearchState((prev) => {
+      return { ...prev, totalPages: pagesCount };
+    });
   }, []);
 
   const makeSearchQuery = useCallback(
@@ -53,62 +79,81 @@ const App = () => {
         }
 
         const { usersData, total } = response;
-
-        if (!totalPages) {
+        const users = addFavoriteStatus(usersData, favorites);
+        console.log(users);
+        if (!searchState.totalPages) {
           getTotalPages({ query, total });
         }
 
-        if (page > 1) {
-          setUsersList((prevList) => {
-            const newUniqueUsers = filterNewItems(prevList, usersData);
-            return [...prevList, ...newUniqueUsers];
-          });
-          setIsLoading(false);
-          return;
-        }
-
-        setUsersList(usersData);
+        setSearchState((prev) => {
+          const newUniqueUsers = filterNewItems(prev.list, users);
+          return {
+            ...prev,
+            list:
+              searchState.page > 1 ? [...prev.list, ...newUniqueUsers] : users,
+          };
+        });
       } catch (error) {
-        setError(error.message);
+        setSearchState((prev) => {
+          return {
+            ...prev,
+            error: error.message,
+          };
+        });
       }
       setIsLoading(false);
     },
-    [getTotalPages, totalPages]
+    [searchState.totalPages]
   );
 
   const resetUsersState = () => {
-    setUsersList([]);
-    setPage(1);
-    setTotalPages(0);
-    setError("");
+    setSearchState(initialState);
   };
 
   useEffect(() => {
     if (query) {
       resetUsersState();
-      makeSearchQuery(query, page, PER_PAGE);
+      makeSearchQuery(query, searchState.page, PER_PAGE);
       return;
     }
     resetUsersState();
-  }, [query]);
+  }, [query, searchState.page]);
 
   return (
     <PageLayout>
-      <Header onGetQuery={handleGetQuery} />
+      <Header onGetQuery={handleGetQuery} onFavClick={handleShowFavorites} />
       <Container>
         {loading && <Spinner />}
-        {error && <ErrorMessage message={error} />}
-        {showUsersList && (
-          <Suspense>
-            <SearchView
-              list={query ? usersList : []}
-              favoritesOptions={{ favorites, setFavorites }}
-            />
-          </Suspense>
-        )}
+        {searchState.error && <ErrorMessage message={searchState.error} />}
+        <Suspense>
+          <UsersListView list={listToRender} />
+        </Suspense>
       </Container>
     </PageLayout>
   );
 };
 
 export default App;
+
+// const handleFavView = (user) => {
+//   const isFavUser = Boolean(user?.isFavorite);
+//   const data = JSON.parse(localStorage.getItem("favorites"));
+//   setFavorites((prev) => {
+//     if (user.isFavorite) {
+//       const newData = data.filter(({ id }) => user.id !== id);
+//       localStorage.setItem("favorites", JSON.stringify(newData));
+//     } else {
+//       const newData = [...data, user];
+//       localStorage.setItem("favorites", JSON.stringify(newData));
+//     }
+
+//     return prev.map((item) => ({ ...item, isFavorite: !isFavUser }));
+//   });
+
+//   setSearchState((prev) => {
+//     return {
+//       ...prev,
+//       list: prev.list.map((item) => ({ ...item, isFavorite: !isFavUser })),
+//     };
+//   });
+// };

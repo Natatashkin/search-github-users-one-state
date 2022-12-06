@@ -9,23 +9,31 @@ import PageTitle from "../PageTitle/PageTitle";
 import Logo from "./Logo/Logo";
 import TextField from "../TextField/TextField";
 import styles from "./Header.module.scss";
+import variables from "../../styles/variables.scss";
 
 // const BackLink = lazy(() => import("../BackLink/BackLink"));
 
-const Header = ({ onGetQuery }) => {
+const Header = ({ onGetQuery, onFavClick }) => {
   const [query, setQuery] = useState("");
+  const [favClick, setFavClick] = useState(false);
 
+  const handleFavClick = () => setFavClick((prevClick) => !prevClick);
   const handleInputChange = ({ target: { value } }) => {
     setQuery(value);
   };
 
   const debouncedQuery = useDebouncedCallback(onGetQuery, 350);
+  const favButtonColor = favClick ? variables.yellow : variables.lightgrey;
 
   useEffect(() => {
     if (query.length > 2 || !query) {
       debouncedQuery(query);
     }
   }, [query]);
+
+  useEffect(() => {
+    onFavClick(favClick);
+  }, [favClick]);
 
   return (
     <header
@@ -48,8 +56,12 @@ const Header = ({ onGetQuery }) => {
           <SearchIcon size={20} color={styles.lightgrey} />
         </TextField>
         <div className={styles.favLinkContainer}>
-          <IconButton type="click" ariaLabel="Open favorites users">
-            <StarIcon size={24} />
+          <IconButton
+            type="click"
+            ariaLabel="Open favorites users"
+            onClick={handleFavClick}
+          >
+            <StarIcon size={24} color={favButtonColor} />
           </IconButton>
         </div>
       </div>
