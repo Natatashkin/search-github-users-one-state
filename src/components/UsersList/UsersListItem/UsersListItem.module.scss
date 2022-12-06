@@ -25,6 +25,7 @@
 .userinfo {
   @include mixins.display-flex(flex);
   flex-grow: 1;
+  cursor: pointer;
 }
 
 .avatar {

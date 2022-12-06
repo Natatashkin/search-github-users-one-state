@@ -24,10 +24,7 @@ const UsersListItem = ({ item, onGetUser }) => {
   return (
     <li className={styles.card}>
       <div className={styles.container}>
-        <div
-          className={styles.userinfo}
-          onClick={() => onGetUser(item)} /*add onClick*/
-        >
+        <div className={styles.userinfo} onClick={() => onGetUser(item)}>
           <div className={styles.avatar}>
             <UserAvatar url={avatar_url} name={username} size="small" />
           </div>

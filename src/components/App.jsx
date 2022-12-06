@@ -46,7 +46,7 @@ const App = () => {
   const [showFavList, setShowFavList] = useState(false);
   const scrollRef = useRef(null);
   const listToRender = useMemo(
-    () => (showFavList ? favorites : searchState?.list),
+    () => (showFavList ? favorites : searchState.list),
     [showFavList, favorites, searchState?.list]
   );
 
@@ -63,6 +63,8 @@ const App = () => {
       };
     });
   };
+
+  const handleFavClick = () => {};
 
   const handleGetUser = (user) => {
     setSearchState((prev) => {
