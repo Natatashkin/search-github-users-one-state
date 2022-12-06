@@ -17,11 +17,6 @@ import { filterNewItems, addFavoriteStatus } from "../helpers";
 import * as ghApi from "../api/ghApi";
 import { useEffect } from "react";
 
-// const SearchView = lazy(() => import("../views/SearchView/SearchView"));
-// const FavoritesView = lazy(() =>
-//   import("../views/FavoritesView/FavoritesView")
-// );
-
 const UsersListView = lazy(() =>
   import("../views/UsersListView/UsersListView")
 );
@@ -41,13 +36,13 @@ const initialState = {
 const App = () => {
   const [favorites, setFavorites] = useState(favs || []);
   const [query, setQuery] = useState("");
-  const [searchState, setSearchState] = useState(initialState);
+  const [state, setState] = useState(initialState);
   const [loading, setIsLoading] = useState(false);
   const [showFavList, setShowFavList] = useState(false);
   const scrollRef = useRef(null);
   const listToRender = useMemo(
-    () => (showFavList ? favorites : searchState.list),
-    [showFavList, favorites, searchState?.list]
+    () => (showFavList ? favorites : state.list),
+    [showFavList, favorites, state?.list]
   );
 
   const handleGetQuery = useCallback((value) => {
@@ -56,7 +51,7 @@ const App = () => {
 
   const handleShowFavorites = (state) => {
     setShowFavList(state);
-    setSearchState((prev) => {
+    setState((prev) => {
       return {
         ...prev,
         user: null,
@@ -64,10 +59,28 @@ const App = () => {
     });
   };
 
-  const handleFavClick = () => {};
+  const toggleFavoriteClick = (user) => {
+    setFavorites((prevFavorites) => {
+      if (!user.isFavorite) {
+        const newUser = {
+          ...user,
+          isFavorite: !user.isFavorite,
+        };
+
+        return [...prevFavorites, newUser];
+      } else {
+        const newFavorites = prevFavorites.filter(({ id }) => id !== user.id);
+        const newUser = {
+          ...user,
+          isFavorite: !user.isFavorite,
+        };
+      }
+    });
+    // window.localStorage.setItem('favorites', JSON.stringify())
+  };
 
   const handleGetUser = (user) => {
-    setSearchState((prev) => {
+    setState((prev) => {
       return {
         ...prev,
         user,
@@ -81,7 +94,7 @@ const App = () => {
       throw new Error(`No users with username "${query}"`);
     }
     pagesCount = Math.ceil(total / PER_PAGE);
-    setSearchState((prev) => {
+    setState((prev) => {
       return { ...prev, totalPages: pagesCount };
     });
   }, []);
@@ -97,23 +110,24 @@ const App = () => {
         if (response?.response?.status === 401) {
           throw new Error("Authenticate, pleace!");
         }
-
         const { usersData, total } = response;
-        if (!searchState.totalPages) {
+        const users = addFavoriteStatus(usersData, favorites);
+        if (!state.totalPages) {
           getTotalPages({ query, total });
         }
 
-        const users = addFavoriteStatus(usersData, favorites);
-        setSearchState((prev) => {
-          const newUniqueUsers = filterNewItems(prev.list, users);
+        setState((prev) => {
+          let newUniqueUsers = prev.list;
+          if (!!newUniqueUsers.length) {
+            newUniqueUsers = filterNewItems(prev.list, users);
+          }
           return {
             ...prev,
-            list:
-              searchState.page > 1 ? [...prev.list, ...newUniqueUsers] : users,
+            list: state.page > 1 ? [...prev.list, ...newUniqueUsers] : users,
           };
         });
       } catch (error) {
-        setSearchState((prev) => {
+        setState((prev) => {
           return {
             ...prev,
             error: error.message,
@@ -122,33 +136,37 @@ const App = () => {
       }
       setIsLoading(false);
     },
-    [searchState.totalPages, searchState.page, favorites]
+    [state.totalPages, state.page, favorites]
   );
 
   const resetUsersState = () => {
-    setSearchState(initialState);
+    setState(initialState);
   };
 
   useEffect(() => {
     if (query) {
       resetUsersState();
-      makeSearchQuery(query, searchState.page, PER_PAGE);
+      makeSearchQuery(query, state.page, PER_PAGE);
       return;
     }
     resetUsersState();
-  }, [query, searchState.page]);
+  }, [query, state.page]);
 
   return (
     <PageLayout>
       <Header onGetQuery={handleGetQuery} onFavClick={handleShowFavorites} />
       <Container>
         {loading && <Spinner />}
-        {searchState.error && <ErrorMessage message={searchState.error} />}
+        {state.error && <ErrorMessage message={state.error} />}
         <Suspense>
-          {searchState?.user ? (
-            <UserView user={searchState.user} />
+          {state?.user ? (
+            <UserView user={state.user} />
           ) : (
-            <UsersListView list={listToRender} onGetUser={handleGetUser} />
+            <UsersListView
+              list={listToRender}
+              onGetUser={handleGetUser}
+              onFavClick={toggleFavoriteClick}
+            />
           )}
         </Suspense>
       </Container>
