@@ -22,7 +22,7 @@
   }
 }
 
-.link {
+.userinfo {
   @include mixins.display-flex(flex);
   flex-grow: 1;
 }

@@ -1,4 +1,11 @@
-import React, { useState, useCallback, useRef, lazy, Suspense } from "react";
+import React, {
+  useState,
+  useCallback,
+  useRef,
+  lazy,
+  Suspense,
+  useMemo,
+} from "react";
 import PageLayout from "./PageLayout/PageLayout";
 import Container from "./Container/Container";
 import Header from "./Header/Header";
@@ -6,7 +13,7 @@ import { useFetchUsers, useScroll } from "../hooks";
 import { useLocalStorage } from "../hooks";
 import Spinner from "./Spinner/Spinner";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
-import { filterNewItems } from "../helpers";
+import { filterNewItems, addFavoriteStatus } from "../helpers";
 import * as ghApi from "../api/ghApi";
 import { useEffect } from "react";
 
@@ -14,28 +21,21 @@ import { useEffect } from "react";
 // const FavoritesView = lazy(() =>
 //   import("../views/FavoritesView/FavoritesView")
 // );
-const UserView = lazy(() => import("../views/UserView/UserView"));
 
 const UsersListView = lazy(() =>
   import("../views/UsersListView/UsersListView")
 );
+const UserView = lazy(() => import("../views/UserView/UserView"));
 
 const favs = JSON.parse(window.localStorage.getItem("favorites"));
 const PER_PAGE = 15;
 
 const initialState = {
   list: [],
+  user: null,
   page: 1,
   totalPages: 0,
   error: "",
-};
-
-const addFavoriteStatus = (incomingArray, favArray) => {
-  return incomingArray.map((user) => {
-    const isInFavorites = favArray.find((item) => item.id === user.id);
-    user.isFavorite = Boolean(isInFavorites);
-    return user;
-  });
 };
 
 const App = () => {
@@ -45,7 +45,10 @@ const App = () => {
   const [loading, setIsLoading] = useState(false);
   const [showFavList, setShowFavList] = useState(false);
   const scrollRef = useRef(null);
-  const listToRender = showFavList ? favorites : searchState?.list;
+  const listToRender = useMemo(
+    () => (showFavList ? favorites : searchState?.list),
+    [showFavList, favorites, searchState?.list]
+  );
 
   const handleGetQuery = useCallback((value) => {
     setQuery(value);
@@ -53,6 +56,21 @@ const App = () => {
 
   const handleShowFavorites = (state) => {
     setShowFavList(state);
+    setSearchState((prev) => {
+      return {
+        ...prev,
+        user: null,
+      };
+    });
+  };
+
+  const handleGetUser = (user) => {
+    setSearchState((prev) => {
+      return {
+        ...prev,
+        user,
+      };
+    });
   };
 
   const getTotalPages = useCallback(({ query, total }) => {
@@ -79,12 +97,11 @@ const App = () => {
         }
 
         const { usersData, total } = response;
-        const users = addFavoriteStatus(usersData, favorites);
-        console.log(users);
         if (!searchState.totalPages) {
           getTotalPages({ query, total });
         }
 
+        const users = addFavoriteStatus(usersData, favorites);
         setSearchState((prev) => {
           const newUniqueUsers = filterNewItems(prev.list, users);
           return {
@@ -103,7 +120,7 @@ const App = () => {
       }
       setIsLoading(false);
     },
-    [searchState.totalPages]
+    [searchState.totalPages, searchState.page, favorites]
   );
 
   const resetUsersState = () => {
@@ -126,7 +143,11 @@ const App = () => {
         {loading && <Spinner />}
         {searchState.error && <ErrorMessage message={searchState.error} />}
         <Suspense>
-          <UsersListView list={listToRender} />
+          {searchState?.user ? (
+            <UserView user={searchState.user} />
+          ) : (
+            <UsersListView list={listToRender} onGetUser={handleGetUser} />
+          )}
         </Suspense>
       </Container>
     </PageLayout>

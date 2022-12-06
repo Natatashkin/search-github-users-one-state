@@ -7,7 +7,7 @@ import StarIcon from "../../icons/StarIcon/StarIcon";
 import styles from "./UsersListItem.module.scss";
 import variables from "../../../styles/variables.scss";
 
-const UsersListItem = ({ item, favoritesOptions }) => {
+const UsersListItem = ({ item, onGetUser }) => {
   const {
     name,
     login,
@@ -24,7 +24,10 @@ const UsersListItem = ({ item, favoritesOptions }) => {
   return (
     <li className={styles.card}>
       <div className={styles.container}>
-        <div /*add onClick*/>
+        <div
+          className={styles.userinfo}
+          onClick={() => onGetUser(item)} /*add onClick*/
+        >
           <div className={styles.avatar}>
             <UserAvatar url={avatar_url} name={username} size="small" />
           </div>
