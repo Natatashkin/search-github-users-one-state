@@ -13,10 +13,8 @@ const getUser = async (username) => {
   }
 };
 
-const getUserRepos = async (username, per_page, page) => {
-  const { data } = await axios.get(
-    `/users/${username}/repos?type=owner&per_page=${per_page}&page=${page}`
-  );
+const getUserRepos = async (username) => {
+  const { data } = await axios.get(`/users/${username}/repos?type=owner`);
   return data;
 };
 

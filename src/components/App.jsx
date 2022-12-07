@@ -204,19 +204,16 @@ const App = () => {
     });
   };
 
-  const getUserRepos = useCallback(
-    async (username, per_page, page) => {
-      try {
-        setIsLoading(true);
-        const response = await ghApi.getUserRepos(username, per_page, page);
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
-      setIsLoading(false);
-    },
-    [state.page]
-  );
+  const getUserRepos = useCallback(async (username) => {
+    try {
+      setIsLoading(true);
+      const response = await ghApi.getUserRepos(username);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  }, []);
 
   useEffect(() => {
     if (query) {
@@ -226,12 +223,6 @@ const App = () => {
     }
     resetUsersState();
   }, [query, state.page]);
-
-  useEffect(() => {
-    if (state.user) {
-      getUserRepos(state.user.login, 10, state.page);
-    }
-  }, [state.user]);
 
   return (
     <>
