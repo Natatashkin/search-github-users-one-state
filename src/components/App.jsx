@@ -1,27 +1,24 @@
 import React, {
   useState,
   useCallback,
+  useEffect,
   useRef,
   lazy,
   Suspense,
-  useMemo,
 } from "react";
-import PageLayout from "./PageLayout/PageLayout";
+import { useDebouncedCallback } from "use-debounce";
 import Container from "./Container/Container";
 import Header from "./Header/Header";
-import { useFetchUsers, useScroll } from "../hooks";
-import { useLocalStorage } from "../hooks";
 import Spinner from "./Spinner/Spinner";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
 import { filterNewItems, addFavoriteStatus } from "../helpers";
 import * as ghApi from "../api/ghApi";
-import { useEffect } from "react";
-import { renderIntoDocument } from "react-dom/test-utils";
 
 const UsersListView = lazy(() =>
   import("../views/UsersListView/UsersListView")
 );
 const UserView = lazy(() => import("../views/UserView/UserView"));
+const ButtonToTop = lazy(() => import("../components/ButtonToTop/ButtonToTop"));
 
 const favs = JSON.parse(window.localStorage.getItem("favorites"));
 const PER_PAGE = 15;
@@ -40,15 +37,19 @@ const App = () => {
   const [state, setState] = useState(initialState);
   const [loading, setIsLoading] = useState(false);
   const [showFavList, setShowFavList] = useState(false);
+  const [showTopBtn, setShowButton] = useState(false);
   const scrollRef = useRef(null);
   const listToRender = showFavList ? favorites : state.list;
+  const showMainSpinner = loading && state.page === 1;
+  const showListSpinner = loading && state.page > 1;
+  const showList = query && !state.error;
 
   const handleGetQuery = useCallback((value) => {
     setQuery(value);
   }, []);
 
-  const handleShowFavorites = (state) => {
-    setShowFavList(state);
+  const handleShowFavorites = (status) => {
+    setShowFavList(status);
     setState((prev) => {
       return {
         ...prev,
@@ -94,14 +95,9 @@ const App = () => {
     });
   };
 
-  const getTotalPages = useCallback(({ query, total }) => {
-    let pagesCount = 0;
-    if (pagesCount === total) {
-      throw new Error(`No users with username "${query}"`);
-    }
-    pagesCount = Math.ceil(total / PER_PAGE);
+  const getTotalPages = useCallback(({ total }) => {
     setState((prev) => {
-      return { ...prev, totalPages: pagesCount };
+      return { ...prev, totalPages: Math.ceil(total / PER_PAGE) };
     });
   }, []);
 
@@ -117,9 +113,13 @@ const App = () => {
           throw new Error("Authenticate, pleace!");
         }
         const { usersData, total } = response;
+
+        if (!total) {
+          throw new Error(`No users with username "${query}"`);
+        }
         const users = addFavoriteStatus(usersData, favorites);
         if (!state.totalPages) {
-          getTotalPages({ query, total });
+          getTotalPages({ total });
         }
 
         setState((prev) => {
@@ -133,9 +133,10 @@ const App = () => {
           };
         });
       } catch (error) {
-        setState((prev) => {
+        console.log(error);
+        setState(() => {
           return {
-            ...prev,
+            ...initialState,
             error: error.message,
           };
         });
@@ -149,9 +150,60 @@ const App = () => {
     setState(initialState);
   };
 
+  const resetError = () => {
+    setState((prev) => {
+      return { ...prev, error: "" };
+    });
+  };
+
+  const handleScroll = ({
+    target: { scrollHeight, scrollTop, clientHeight },
+  }) => {
+    const shouldUpdate = scrollHeight - Math.ceil(scrollTop) <= clientHeight;
+
+    if (!shouldUpdate || loading) {
+      return;
+    }
+
+    setState((prevState) => {
+      if (prevState.totalPages === prevState.page) return prevState;
+      return {
+        ...prevState,
+        page: prevState.page + 1,
+      };
+    });
+  };
+  const debouncedScroll = useDebouncedCallback(handleScroll, 150);
+
+  const handleShowButtonTop = (e) => {
+    const { scrollTop } = e.target;
+    if (scrollTop > 150) {
+      setShowButton(true);
+      return;
+    }
+    setShowButton(false);
+  };
+
+  const onScroll = useCallback(
+    (e) => {
+      handleShowButtonTop(e);
+      if (!showFavList) {
+        debouncedScroll(e);
+      }
+    },
+    [debouncedScroll, showFavList]
+  );
+
+  const handleScrollTopClick = (ref, value) => {
+    ref.current.scrollTo({
+      top: value,
+      behavior: "smooth",
+    });
+  };
+
   useEffect(() => {
     if (query) {
-      resetUsersState();
+      resetError();
       makeSearchQuery(query, state.page, PER_PAGE);
       return;
     }
@@ -159,24 +211,30 @@ const App = () => {
   }, [query, state.page]);
 
   return (
-    <PageLayout>
+    <>
       <Header onGetQuery={handleGetQuery} onFavClick={handleShowFavorites} />
-      <Container>
-        {loading && <Spinner />}
+      <Container ref={scrollRef} onScroll={onScroll}>
+        {showMainSpinner && <Spinner />}
         {state.error && <ErrorMessage message={state.error} />}
         <Suspense>
           {state?.user ? (
             <UserView user={state.user} />
           ) : (
-            <UsersListView
-              list={listToRender}
-              onGetUser={handleGetUser}
-              onFavClick={toggleFavoriteClick}
-            />
+            showList && (
+              <UsersListView
+                list={listToRender}
+                showListSpinner={showListSpinner}
+                onGetUser={handleGetUser}
+                onFavClick={toggleFavoriteClick}
+              />
+            )
           )}
         </Suspense>
+        {showTopBtn && (
+          <ButtonToTop onClick={() => handleScrollTopClick(scrollRef, 0)} />
+        )}
       </Container>
-    </PageLayout>
+    </>
   );
 };
 
