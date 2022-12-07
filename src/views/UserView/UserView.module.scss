@@ -1,0 +1,11 @@
+@use "../../styles/mixins.scss" as mixins;
+@import "../../styles/variables.scss";
+
+.container {
+  margin: 0 15px;
+}
+
+.avatarContainer {
+  width: fit-content;
+  margin: 0 auto;
+}

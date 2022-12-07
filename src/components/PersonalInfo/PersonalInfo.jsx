@@ -2,19 +2,15 @@ import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import StarIcon from "../icons/StarIcon/StarIcon";
-import { useFavorites } from "../../hooks";
 import UserSubscriptions from "../UserSubscriptions/UserSubscriptions";
 import IconButton from "../IconButton/IconButton";
 import UserName from "../UserName/UserName";
 import UserContacts from "../UserContacts/UserContacts";
 import UserBio from "../UserBio/UserBio";
 import styles from "./PersonalInfo.module.scss";
+import variables from "../../styles/variables.scss";
 
-const PersonalInfo = ({ data, favoritesOptions }) => {
-  const { favButtonColor, toggleFavoriteClick } = useFavorites(
-    data,
-    favoritesOptions
-  );
+const PersonalInfo = ({ data, onFavClick }) => {
   const {
     login,
     name,
@@ -25,8 +21,9 @@ const PersonalInfo = ({ data, favoritesOptions }) => {
     email,
     company,
     location,
+    isFavorite,
   } = data;
-
+  const iconColor = isFavorite ? variables.yellow : variables.lightgrey;
   const shouldRenderContacts = Boolean(email ?? company ?? location);
 
   return (
@@ -35,10 +32,10 @@ const PersonalInfo = ({ data, favoritesOptions }) => {
         <UserName name={name} login={login} url={html_url} />
         <div>
           <IconButton
-            onClick={toggleFavoriteClick}
+            onClick={() => onFavClick(data)}
             ariaLabel="Add to Favorites"
           >
-            <StarIcon color={favButtonColor} size={24} />
+            <StarIcon color={iconColor} size={24} />
           </IconButton>
         </div>
       </div>
@@ -72,9 +69,6 @@ PersonalInfo.propTypes = {
     email: PropTypes.string,
     company: PropTypes.string,
     location: PropTypes.string,
+    isFavorite: PropTypes.bool.isRequired,
   }),
-  favoritesOptions: PropTypes.shape({
-    favorites: PropTypes.arrayOf(PropTypes.object),
-    setFavorites: PropTypes.func,
-  }).isRequired,
 };

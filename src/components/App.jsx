@@ -9,14 +9,18 @@ import React, {
 import { useDebouncedCallback } from "use-debounce";
 import Container from "./Container/Container";
 import Header from "./Header/Header";
-import { filterNewItems, addFavoriteStatus, lazyLoading } from "../helpers";
+import { filterNewItems, addFavoriteStatus } from "../helpers";
 import * as ghApi from "../api/ghApi";
 
-const Spinner = lazyLoading("components", "Spinner");
-const ErrorMessage = lazyLoading("components", "ErrorMessage");
-const UsersListView = lazyLoading("views", "UsersListView");
-const UserView = lazyLoading("views", "UserView");
-const ButtonToTop = lazyLoading("components", "ButtonToTo");
+const Spinner = lazy(() => import(`../components/Spinner/Spinner`));
+const ErrorMessage = lazy(() =>
+  import(`../components/ErrorMessage/ErrorMessage`)
+);
+const UsersListView = lazy(() =>
+  import(`../views/UsersListView/UsersListView`)
+);
+const UserView = lazy(() => import(`../views/UserView/UserView`));
+const ButtonToTop = lazy(() => import(`../components/ButtonToTop/ButtonToTop`));
 
 const favs = JSON.parse(window.localStorage.getItem("favorites"));
 const PER_PAGE = 15;
@@ -40,8 +44,8 @@ const App = () => {
 
   const listToRender = showFavList ? favorites : state.list;
   const showMainSpinner = loading && state.page === 1;
-
-  const showList = query && !state.error;
+  const showListSpinner = loading && state.page > 1;
+  const showList = !showMainSpinner && !state.error;
 
   const handleGetQuery = useCallback((value) => {
     setQuery(value);
@@ -77,7 +81,7 @@ const App = () => {
         ...prevState,
         list: prevState.list.map((item) => {
           if (item.id === user.id) {
-            item.isFavorite = !user.isFavorite;
+            item.isFavorite = !isFavorite;
           }
           return item;
         }),
@@ -200,6 +204,20 @@ const App = () => {
     });
   };
 
+  const getUserRepos = useCallback(
+    async (username, per_page, page) => {
+      try {
+        setIsLoading(true);
+        const response = await ghApi.getUserRepos(username, per_page, page);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+    },
+    [state.page]
+  );
+
   useEffect(() => {
     if (query) {
       resetError();
@@ -208,6 +226,12 @@ const App = () => {
     }
     resetUsersState();
   }, [query, state.page]);
+
+  useEffect(() => {
+    if (state.user) {
+      getUserRepos(state.user.login, 10, state.page);
+    }
+  }, [state.user]);
 
   return (
     <>
@@ -218,12 +242,12 @@ const App = () => {
           {state.error && <ErrorMessage message={state.error} />}
 
           {state?.user ? (
-            <UserView user={state.user} />
+            <UserView user={state.user} onFavClick={toggleFavoriteClick} />
           ) : (
             showList && (
               <UsersListView
                 list={listToRender}
-                showListSpinner={loading}
+                showListSpinner={showListSpinner}
                 onGetUser={handleGetUser}
                 onFavClick={toggleFavoriteClick}
               />
