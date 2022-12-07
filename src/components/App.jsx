@@ -9,7 +9,14 @@ import React, {
 import { useDebouncedCallback } from "use-debounce";
 import Container from "./Container/Container";
 import Header from "./Header/Header";
-import { filterNewItems, addFavoriteStatus } from "../helpers";
+import {
+  filterNewItems,
+  toggleFavoriteClick,
+  addFavoriteStatus,
+  INITIAL_STATE,
+  USERS_PER_PAGE,
+  FAVORITES_DATA,
+} from "../helpers";
 import * as ghApi from "../api/ghApi";
 
 const Spinner = lazy(() => import(`../components/Spinner/Spinner`));
@@ -22,21 +29,10 @@ const UsersListView = lazy(() =>
 const UserView = lazy(() => import(`../views/UserView/UserView`));
 const ButtonToTop = lazy(() => import(`../components/ButtonToTop/ButtonToTop`));
 
-const favs = JSON.parse(window.localStorage.getItem("favorites"));
-const PER_PAGE = 15;
-
-const initialState = {
-  list: [],
-  user: null,
-  page: 1,
-  totalPages: 0,
-  error: "",
-};
-
 const App = () => {
-  const [favorites, setFavorites] = useState(favs || []);
+  const [state, setState] = useState(INITIAL_STATE);
+  const [favorites, setFavorites] = useState(FAVORITES_DATA || []);
   const [query, setQuery] = useState("");
-  const [state, setState] = useState(initialState);
   const [loading, setIsLoading] = useState(false);
   const [showFavList, setShowFavList] = useState(false);
   const [showTopBtn, setShowButton] = useState(false);
@@ -61,33 +57,33 @@ const App = () => {
     });
   };
 
-  const toggleFavoriteClick = (user) => {
-    const isFavorite = Boolean(user.isFavorite);
-    setFavorites((prevFavorites) => {
-      const newUser = { ...user, isFavorite: !isFavorite };
-      if (!isFavorite) {
-        const newFavorites = [...prevFavorites, newUser];
-        window.localStorage.setItem("favorites", JSON.stringify(newFavorites));
-        return newFavorites;
-      } else {
-        const newFavorites = prevFavorites.filter(({ id }) => id !== user.id);
-        window.localStorage.setItem("favorites", JSON.stringify(newFavorites));
-        return newFavorites;
-      }
-    });
+  // const toggleFavoriteClick = (user) => {
+  //   const isFavorite = Boolean(user.isFavorite);
+  //   setFavorites((prevFavorites) => {
+  //     const newUser = { ...user, isFavorite: !isFavorite };
+  //     if (!isFavorite) {
+  //       const newFavorites = [...prevFavorites, newUser];
+  //       window.localStorage.setItem("favorites", JSON.stringify(newFavorites));
+  //       return newFavorites;
+  //     } else {
+  //       const newFavorites = prevFavorites.filter(({ id }) => id !== user.id);
+  //       window.localStorage.setItem("favorites", JSON.stringify(newFavorites));
+  //       return newFavorites;
+  //     }
+  //   });
 
-    setState((prevState) => {
-      return {
-        ...prevState,
-        list: prevState.list.map((item) => {
-          if (item.id === user.id) {
-            item.isFavorite = !isFavorite;
-          }
-          return item;
-        }),
-      };
-    });
-  };
+  //   setState((prevState) => {
+  //     return {
+  //       ...prevState,
+  //       list: prevState.list.map((item) => {
+  //         if (item.id === user.id) {
+  //           item.isFavorite = !isFavorite;
+  //         }
+  //         return item;
+  //       }),
+  //     };
+  //   });
+  // };
 
   const handleGetUser = (user) => {
     setState((prev) => {
@@ -97,12 +93,6 @@ const App = () => {
       };
     });
   };
-
-  const getTotalPages = useCallback(({ total }) => {
-    setState((prev) => {
-      return { ...prev, totalPages: Math.ceil(total / PER_PAGE) };
-    });
-  }, []);
 
   const makeSearchQuery = useCallback(
     async (query, page, per_page) => {
@@ -115,14 +105,19 @@ const App = () => {
         if (response?.response?.status === 401) {
           throw new Error("Authenticate, pleace!");
         }
-        const { usersData, total } = response;
+        const { usersData, totalUsers } = response;
 
-        if (!total) {
+        if (!totalUsers) {
           throw new Error(`No users with username "${query}"`);
         }
         const users = addFavoriteStatus(usersData, favorites);
-        if (!state.totalPages) {
-          getTotalPages({ total });
+        if (!state.totalUsers) {
+          setState((prevState) => {
+            return {
+              ...prevState,
+              totalUsers,
+            };
+          });
         }
 
         setState((prev) => {
@@ -136,21 +131,20 @@ const App = () => {
           };
         });
       } catch (error) {
-        console.log(error);
         setState(() => {
           return {
-            ...initialState,
+            ...INITIAL_STATE,
             error: error.message,
           };
         });
       }
       setIsLoading(false);
     },
-    [state.totalPages, state.page, favorites]
+    [state.totalUsers, state.page, favorites]
   );
 
   const resetUsersState = () => {
-    setState(initialState);
+    setState(INITIAL_STATE);
   };
 
   const resetError = () => {
@@ -169,7 +163,11 @@ const App = () => {
     }
 
     setState((prevState) => {
-      if (prevState.totalPages === prevState.page) return prevState;
+      const totalUsers = prevState.totalUsers;
+      const userListLength = prevState.list.length;
+
+      if (totalUsers === userListLength) return prevState;
+
       return {
         ...prevState,
         page: prevState.page + 1,
@@ -204,21 +202,10 @@ const App = () => {
     });
   };
 
-  const getUserRepos = useCallback(async (username) => {
-    try {
-      setIsLoading(true);
-      const response = await ghApi.getUserRepos(username);
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
-    setIsLoading(false);
-  }, []);
-
   useEffect(() => {
     if (query) {
       resetError();
-      makeSearchQuery(query, state.page, PER_PAGE);
+      makeSearchQuery(query, state.page, USERS_PER_PAGE);
       return;
     }
     resetUsersState();
@@ -233,14 +220,21 @@ const App = () => {
           {state.error && <ErrorMessage message={state.error} />}
 
           {state?.user ? (
-            <UserView user={state.user} onFavClick={toggleFavoriteClick} />
+            <UserView
+              user={state.user}
+              onFavClick={() =>
+                toggleFavoriteClick(state.user, setFavorites, setState)
+              }
+              loadingHandler={setIsLoading}
+              loading={loading}
+            />
           ) : (
             showList && (
               <UsersListView
                 list={listToRender}
                 showListSpinner={showListSpinner}
                 onGetUser={handleGetUser}
-                onFavClick={toggleFavoriteClick}
+                handlers={{ setFavorites, setState }}
               />
             )
           )}

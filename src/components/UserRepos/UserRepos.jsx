@@ -1,33 +1,17 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
-import { useRef } from "react";
-import { useScroll } from "../../hooks";
-import Spinner from "../Spinner/Spinner";
 import ReposList from "../ReposList/ReposList";
 import ReposListItem from "../ReposList/ReposListItem/ReposListItem";
 import ReposHeader from "../ReposHeader/ReposHeader";
 import styles from "./UserRepos.module.scss";
 
-const HEADER_HEIGHT = 75;
-
-const UserRepos = ({ reposQuantity, repos, scrollRef, showListSpinner }) => {
+const UserRepos = ({ reposQuantity, repos }) => {
   const showDropdownIcon = Boolean(repos.length);
-  const { handleScrollTopClick } = useScroll({});
   const [open, setOpen] = useState(false);
   const toggleOpenClick = () => setOpen((prev) => !prev);
-  const reposRef = useRef(null);
-
-  useEffect(() => {
-    if (open) {
-      const target = reposRef?.current;
-      const targetHeight = target.getBoundingClientRect().top - HEADER_HEIGHT;
-      handleScrollTopClick(scrollRef, targetHeight);
-    }
-  }, [open]);
 
   return (
-    <div className={styles.container} ref={reposRef}>
+    <div className={styles.container}>
       <ReposHeader
         showDropdownIcon={showDropdownIcon}
         reposQuantity={reposQuantity}
@@ -49,9 +33,6 @@ const UserRepos = ({ reposQuantity, repos, scrollRef, showListSpinner }) => {
               );
             })}
           </ReposList>
-          <div className={styles.listOptions}>
-            {showListSpinner && <Spinner size={7} />}
-          </div>
         </div>
       )}
     </div>

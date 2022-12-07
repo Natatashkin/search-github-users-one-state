@@ -1,8 +1,0 @@
-@use "../../styles/mixins.scss" as mixins;
-@import "../../styles/variables.scss";
-
-.userListOptions {
-  @include mixins.display-flex(flex, center, center);
-  height: 40px;
-  margin-top: 15px;
-}

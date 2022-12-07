@@ -29,7 +29,7 @@ const searchUsers = async (name, page, per_page) => {
       return response;
     });
     const usersData = await Promise.all(findUsers);
-    return { usersData, total: data.total_count };
+    return { usersData, totalUsers: data.total_count };
   } catch (error) {
     return error;
   }
