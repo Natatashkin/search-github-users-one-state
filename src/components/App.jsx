@@ -16,6 +16,7 @@ import ErrorMessage from "./ErrorMessage/ErrorMessage";
 import { filterNewItems, addFavoriteStatus } from "../helpers";
 import * as ghApi from "../api/ghApi";
 import { useEffect } from "react";
+import { renderIntoDocument } from "react-dom/test-utils";
 
 const UsersListView = lazy(() =>
   import("../views/UsersListView/UsersListView")
@@ -40,10 +41,7 @@ const App = () => {
   const [loading, setIsLoading] = useState(false);
   const [showFavList, setShowFavList] = useState(false);
   const scrollRef = useRef(null);
-  const listToRender = useMemo(
-    () => (showFavList ? favorites : state.list),
-    [showFavList, favorites, state?.list]
-  );
+  const listToRender = showFavList ? favorites : state.list;
 
   const handleGetQuery = useCallback((value) => {
     setQuery(value);
@@ -60,23 +58,31 @@ const App = () => {
   };
 
   const toggleFavoriteClick = (user) => {
+    const isFavorite = Boolean(user.isFavorite);
     setFavorites((prevFavorites) => {
-      if (!user.isFavorite) {
-        const newUser = {
-          ...user,
-          isFavorite: !user.isFavorite,
-        };
-
-        return [...prevFavorites, newUser];
+      const newUser = { ...user, isFavorite: !isFavorite };
+      if (!isFavorite) {
+        const newFavorites = [...prevFavorites, newUser];
+        window.localStorage.setItem("favorites", JSON.stringify(newFavorites));
+        return newFavorites;
       } else {
         const newFavorites = prevFavorites.filter(({ id }) => id !== user.id);
-        const newUser = {
-          ...user,
-          isFavorite: !user.isFavorite,
-        };
+        window.localStorage.setItem("favorites", JSON.stringify(newFavorites));
+        return newFavorites;
       }
     });
-    // window.localStorage.setItem('favorites', JSON.stringify())
+
+    setState((prevState) => {
+      return {
+        ...prevState,
+        list: prevState.list.map((item) => {
+          if (item.id === user.id) {
+            item.isFavorite = !user.isFavorite;
+          }
+          return item;
+        }),
+      };
+    });
   };
 
   const handleGetUser = (user) => {
