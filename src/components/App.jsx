@@ -9,16 +9,14 @@ import React, {
 import { useDebouncedCallback } from "use-debounce";
 import Container from "./Container/Container";
 import Header from "./Header/Header";
-import Spinner from "./Spinner/Spinner";
-import ErrorMessage from "./ErrorMessage/ErrorMessage";
-import { filterNewItems, addFavoriteStatus } from "../helpers";
+import { filterNewItems, addFavoriteStatus, lazyLoading } from "../helpers";
 import * as ghApi from "../api/ghApi";
 
-const UsersListView = lazy(() =>
-  import("../views/UsersListView/UsersListView")
-);
-const UserView = lazy(() => import("../views/UserView/UserView"));
-const ButtonToTop = lazy(() => import("../components/ButtonToTop/ButtonToTop"));
+const Spinner = lazyLoading("components", "Spinner");
+const ErrorMessage = lazyLoading("components", "ErrorMessage");
+const UsersListView = lazyLoading("views", "UsersListView");
+const UserView = lazyLoading("views", "UserView");
+const ButtonToTop = lazyLoading("components", "ButtonToTo");
 
 const favs = JSON.parse(window.localStorage.getItem("favorites"));
 const PER_PAGE = 15;
@@ -39,9 +37,10 @@ const App = () => {
   const [showFavList, setShowFavList] = useState(false);
   const [showTopBtn, setShowButton] = useState(false);
   const scrollRef = useRef(null);
+
   const listToRender = showFavList ? favorites : state.list;
   const showMainSpinner = loading && state.page === 1;
-  const showListSpinner = loading && state.page > 1;
+
   const showList = query && !state.error;
 
   const handleGetQuery = useCallback((value) => {
@@ -214,25 +213,27 @@ const App = () => {
     <>
       <Header onGetQuery={handleGetQuery} onFavClick={handleShowFavorites} />
       <Container ref={scrollRef} onScroll={onScroll}>
-        {showMainSpinner && <Spinner />}
-        {state.error && <ErrorMessage message={state.error} />}
         <Suspense>
+          {showMainSpinner && <Spinner />}
+          {state.error && <ErrorMessage message={state.error} />}
+
           {state?.user ? (
             <UserView user={state.user} />
           ) : (
             showList && (
               <UsersListView
                 list={listToRender}
-                showListSpinner={showListSpinner}
+                showListSpinner={loading}
                 onGetUser={handleGetUser}
                 onFavClick={toggleFavoriteClick}
               />
             )
           )}
+
+          {showTopBtn && (
+            <ButtonToTop onClick={() => handleScrollTopClick(scrollRef, 0)} />
+          )}
         </Suspense>
-        {showTopBtn && (
-          <ButtonToTop onClick={() => handleScrollTopClick(scrollRef, 0)} />
-        )}
       </Container>
     </>
   );
