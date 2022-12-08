@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import * as ghApi from "../../api/ghApi";
-import { INITIAL_STATE } from "../../helpers";
+import { INITIAL_STATE } from "../../constants/constants";
 import UserRepos from "../../components/UserRepos/UserRepos";
 import PersonalInfo from "../../components/PersonalInfo/PersonalInfo";
 import UserAvatar from "../../components/UserAvatar/UserAvatar";

@@ -7,8 +7,6 @@
   width: 40px;
   height: 40px;
   border-radius: 4px;
-
-  & a {
-    color: $black;
-  }
+  cursor: pointer;
+  color: $black;
 }

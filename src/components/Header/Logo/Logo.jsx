@@ -5,9 +5,7 @@ import styles from "./Logo.module.scss";
 const Logo = () => {
   return (
     <div className={styles.logo}>
-      <a href="/" aria-label="Link to main page">
-        <LogoIcon size={28} />
-      </a>
+      <LogoIcon size={28} />
     </div>
   );
 };

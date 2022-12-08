@@ -8,6 +8,7 @@ import IconButton from "../IconButton/IconButton";
 import PageTitle from "../PageTitle/PageTitle";
 import Logo from "./Logo/Logo";
 import TextField from "../TextField/TextField";
+import { HEADER_TITLES } from "../../constants/constants";
 import styles from "./Header.module.scss";
 import variables from "../../styles/variables.scss";
 
@@ -18,12 +19,14 @@ const Header = ({ onGetQuery, onFavClick }) => {
   const [favClick, setFavClick] = useState(false);
 
   const handleFavClick = () => setFavClick((prevClick) => !prevClick);
+
   const handleInputChange = ({ target: { value } }) => {
     setQuery(value);
   };
 
   const debouncedQuery = useDebouncedCallback(onGetQuery, 350);
   const favButtonColor = favClick ? variables.yellow : variables.lightgrey;
+  const title = favClick ? HEADER_TITLES.favorites : HEADER_TITLES.search;
 
   useEffect(() => {
     if (query.length > 2 || !query) {
@@ -37,7 +40,10 @@ const Header = ({ onGetQuery, onFavClick }) => {
 
   return (
     <header
-      className={classNames([styles.container, styles["container--isSearch"]])}
+      className={classNames([
+        styles.container,
+        { [styles["container--isSearch"]]: !favClick },
+      ])}
     >
       <div className={styles.logoAndTitleContainer}>
         <Logo />
@@ -47,14 +53,22 @@ const Header = ({ onGetQuery, onFavClick }) => {
             styles[`titleContainer--isSearch`],
           ])}
         >
-          <PageTitle title="Search GitHub Users" />
+          <PageTitle title={title} />
         </div>
       </div>
 
-      <div className={styles.textFieldContainer}>
-        <TextField name="search" query={query} onChange={handleInputChange}>
-          <SearchIcon size={20} color={styles.lightgrey} />
-        </TextField>
+      <div
+        className={classNames([
+          styles.textFieldContainer,
+          { [styles.alignRight]: favClick },
+        ])}
+      >
+        {!favClick && (
+          <TextField name="search" query={query} onChange={handleInputChange}>
+            <SearchIcon size={20} color={styles.lightgrey} />
+          </TextField>
+        )}
+
         <div className={styles.favLinkContainer}>
           <IconButton
             type="click"

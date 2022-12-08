@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { toggleFavoriteClick } from "../../../helpers";
 import UserAvatar from "../../UserAvatar/UserAvatar";
 import IconButton from "../../IconButton/IconButton";
 import StarIcon from "../../icons/StarIcon/StarIcon";

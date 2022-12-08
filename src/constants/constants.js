@@ -6,8 +6,13 @@ const INITIAL_STATE = {
   error: "",
 };
 
+const HEADER_TITLES = {
+  search: "Search GitHub Users",
+  favorites: "Favorite Users",
+  user: "User Profile",
+};
 const USERS_PER_PAGE = 15;
 
 const FAVORITES_DATA = JSON.parse(window.localStorage.getItem("favorites"));
 
-export { INITIAL_STATE, USERS_PER_PAGE, FAVORITES_DATA };
+export { INITIAL_STATE, HEADER_TITLES, USERS_PER_PAGE, FAVORITES_DATA };
