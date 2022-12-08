@@ -7,7 +7,7 @@ import StarIcon from "../../icons/StarIcon/StarIcon";
 import styles from "./UsersListItem.module.scss";
 import variables from "../../../styles/variables.scss";
 
-const UsersListItem = ({ item, onGetUser, handlers }) => {
+const UsersListItem = ({ item, onGetUser, onFavClick }) => {
   const {
     name,
     login,
@@ -18,8 +18,6 @@ const UsersListItem = ({ item, onGetUser, handlers }) => {
     following,
     public_repos,
   } = item;
-
-  const { setFavorites, setState } = handlers;
 
   const username = name || login;
   const iconColor = isFavorite ? variables.yellow : variables.lightgrey;
@@ -39,7 +37,7 @@ const UsersListItem = ({ item, onGetUser, handlers }) => {
         <div className={styles.favorite}>
           <IconButton
             type="button"
-            onClick={() => toggleFavoriteClick(item, setFavorites, setState)}
+            onClick={onFavClick}
             ariaLabel="Add to Favorites"
           >
             <StarIcon color={iconColor} size={24} />

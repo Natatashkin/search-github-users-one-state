@@ -3,8 +3,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import UsersList from "../../components/UsersList/UsersList";
 import UsersListItem from "../../components/UsersList/UsersListItem/UsersListItem";
 
-const UsersListView = ({ list, onGetUser, handlers, showListSpinner }) => {
-  console.log(handlers);
+const UsersListView = ({ list, onGetUser, onFavClick, showListSpinner }) => {
   return (
     <>
       <UsersList>
@@ -14,7 +13,7 @@ const UsersListView = ({ list, onGetUser, handlers, showListSpinner }) => {
               key={String(item.id)}
               item={item}
               onGetUser={onGetUser}
-              handlers={handlers}
+              onFavClick={() => onFavClick(item)}
             />
           );
         })}

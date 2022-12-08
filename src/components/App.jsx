@@ -11,7 +11,6 @@ import Container from "./Container/Container";
 import Header from "./Header/Header";
 import {
   filterNewItems,
-  toggleFavoriteClick,
   addFavoriteStatus,
   INITIAL_STATE,
   USERS_PER_PAGE,
@@ -57,33 +56,33 @@ const App = () => {
     });
   };
 
-  // const toggleFavoriteClick = (user) => {
-  //   const isFavorite = Boolean(user.isFavorite);
-  //   setFavorites((prevFavorites) => {
-  //     const newUser = { ...user, isFavorite: !isFavorite };
-  //     if (!isFavorite) {
-  //       const newFavorites = [...prevFavorites, newUser];
-  //       window.localStorage.setItem("favorites", JSON.stringify(newFavorites));
-  //       return newFavorites;
-  //     } else {
-  //       const newFavorites = prevFavorites.filter(({ id }) => id !== user.id);
-  //       window.localStorage.setItem("favorites", JSON.stringify(newFavorites));
-  //       return newFavorites;
-  //     }
-  //   });
+  const toggleFavoriteClick = (user) => {
+    const isFavorite = Boolean(user.isFavorite);
+    setFavorites((prevFavorites) => {
+      const newUser = { ...user, isFavorite: !isFavorite };
+      if (!isFavorite) {
+        const newFavorites = [...prevFavorites, newUser];
+        window.localStorage.setItem("favorites", JSON.stringify(newFavorites));
+        return newFavorites;
+      } else {
+        const newFavorites = prevFavorites.filter(({ id }) => id !== user.id);
+        window.localStorage.setItem("favorites", JSON.stringify(newFavorites));
+        return newFavorites;
+      }
+    });
 
-  //   setState((prevState) => {
-  //     return {
-  //       ...prevState,
-  //       list: prevState.list.map((item) => {
-  //         if (item.id === user.id) {
-  //           item.isFavorite = !isFavorite;
-  //         }
-  //         return item;
-  //       }),
-  //     };
-  //   });
-  // };
+    setState((prevState) => {
+      return {
+        ...prevState,
+        list: prevState.list.map((item) => {
+          if (item.id === user.id) {
+            item.isFavorite = !isFavorite;
+          }
+          return item;
+        }),
+      };
+    });
+  };
 
   const handleGetUser = (user) => {
     setState((prev) => {
@@ -222,10 +221,9 @@ const App = () => {
           {state?.user ? (
             <UserView
               user={state.user}
-              onFavClick={() =>
-                toggleFavoriteClick(state.user, setFavorites, setState)
-              }
+              onFavClick={() => toggleFavoriteClick(state.user)}
               loadingHandler={setIsLoading}
+              errorHandler={setState}
               loading={loading}
             />
           ) : (
@@ -234,7 +232,7 @@ const App = () => {
                 list={listToRender}
                 showListSpinner={showListSpinner}
                 onGetUser={handleGetUser}
-                handlers={{ setFavorites, setState }}
+                onFavClick={toggleFavoriteClick}
               />
             )
           )}

@@ -1,11 +1,18 @@
 import React, { useState, useEffect, useCallback } from "react";
 import * as ghApi from "../../api/ghApi";
+import { INITIAL_STATE } from "../../helpers";
 import UserRepos from "../../components/UserRepos/UserRepos";
 import PersonalInfo from "../../components/PersonalInfo/PersonalInfo";
 import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import styles from "./UserView.module.scss";
 
-const UserView = ({ user, onFavClick, loadingHandler, loading }) => {
+const UserView = ({
+  user,
+  onFavClick,
+  loadingHandler,
+  loading,
+  errorHandler,
+}) => {
   const { login, avatar_url, name, public_repos } = user || {};
   const [repos, setRepos] = useState([]);
 
@@ -13,9 +20,20 @@ const UserView = ({ user, onFavClick, loadingHandler, loading }) => {
     try {
       loadingHandler(true);
       const response = await ghApi.getUserRepos(username);
+      if (response.code === "ERR_NETWORK") {
+        throw new Error("You are offline. Try later!");
+      }
+      if (response?.response?.status === 401) {
+        throw new Error("Authenticate, pleace!");
+      }
       setRepos(response);
     } catch (error) {
-      console.log(error);
+      errorHandler((prevState) => {
+        return {
+          ...INITIAL_STATE,
+          error: error.message,
+        };
+      });
     }
     loadingHandler(false);
   }, []);

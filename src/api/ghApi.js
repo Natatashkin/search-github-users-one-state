@@ -14,8 +14,12 @@ const getUser = async (username) => {
 };
 
 const getUserRepos = async (username) => {
-  const { data } = await axios.get(`/users/${username}/repos?type=owner`);
-  return data;
+  try {
+    const response = await axios.get(`/users/${username}/repos?type=owner`);
+    return response;
+  } catch (error) {
+    return error;
+  }
 };
 
 const searchUsers = async (name, page, per_page) => {
