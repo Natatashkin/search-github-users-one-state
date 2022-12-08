@@ -28,7 +28,7 @@ const UserView = ({
       }
       setRepos(response);
     } catch (error) {
-      errorHandler((prevState) => {
+      errorHandler(() => {
         return {
           ...INITIAL_STATE,
           error: error.message,
@@ -49,7 +49,7 @@ const UserView = ({
           <div className={styles.avatarContainer}>
             <UserAvatar url={avatar_url} name={name} size="large" />
           </div>
-          <PersonalInfo data={user} onFavClick={onFavClick} />
+          <PersonalInfo data={user} onFavClick={() => onFavClick(user)} />
           <UserRepos reposQuantity={public_repos} repos={repos} />
         </div>
       )}

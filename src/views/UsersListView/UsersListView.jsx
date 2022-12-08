@@ -13,7 +13,7 @@ const UsersListView = ({ list, onGetUser, onFavClick, showListSpinner }) => {
               key={String(item.id)}
               item={item}
               onGetUser={onGetUser}
-              onFavClick={() => onFavClick(item)}
+              onFavClick={onFavClick}
             />
           );
         })}

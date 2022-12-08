@@ -36,7 +36,7 @@ const UsersListItem = ({ item, onGetUser, onFavClick }) => {
         <div className={styles.favorite}>
           <IconButton
             type="button"
-            onClick={onFavClick}
+            onClick={() => onFavClick(item)}
             ariaLabel="Add to Favorites"
           >
             <StarIcon color={iconColor} size={24} />

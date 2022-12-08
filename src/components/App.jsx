@@ -57,6 +57,7 @@ const App = () => {
   };
 
   const toggleFavoriteClick = (user) => {
+    console.log(user);
     const isFavorite = Boolean(user.isFavorite);
     setFavorites((prevFavorites) => {
       const newUser = { ...user, isFavorite: !isFavorite };
@@ -221,7 +222,7 @@ const App = () => {
           {state?.user && (
             <UserView
               user={state.user}
-              onFavClick={() => toggleFavoriteClick(state.user)}
+              onFavClick={toggleFavoriteClick}
               loadingHandler={setIsLoading}
               errorHandler={setState}
               loading={loading}
