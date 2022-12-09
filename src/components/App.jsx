@@ -36,7 +36,11 @@ const App = () => {
   const [showTopBtn, setShowButton] = useState(false);
   const scrollRef = useRef(null);
 
+  console.log("showFavList", showFavList);
+  console.log("user", state.user);
+
   const showSearch = !showFavList && !state.user;
+  console.log(showSearch);
   const listToRender = showFavList ? favorites : state.list;
   const showMainSpinner = loading && state.page === 1;
   const showListSpinner = loading && state.page > 1;
@@ -65,7 +69,7 @@ const App = () => {
     setFavorites((prevFavorites) => {
       const newUser = { ...user, isFavorite: !isFavorite };
       if (!isFavorite) {
-        const newFavorites = [...prevFavorites, newUser];
+        const newFavorites = [newUser, ...prevFavorites];
         window.localStorage.setItem("favorites", JSON.stringify(newFavorites));
         return newFavorites;
       } else {
@@ -88,8 +92,6 @@ const App = () => {
       };
     });
   };
-
-  console.log(state.user);
 
   const handleGetUser = (user) => {
     setShowFavList(false);
@@ -223,7 +225,7 @@ const App = () => {
     <>
       <Header
         onGetQuery={handleGetQuery}
-        // showSearch={showSearch}
+        showSearch={showSearch}
         showFavList={showFavList}
         onFavClick={handleFavClick}
       />

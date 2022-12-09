@@ -24,7 +24,11 @@ const Header = ({ onGetQuery, showFavList, onFavClick, showSearch }) => {
   };
 
   const debouncedQuery = useDebouncedCallback(onGetQuery, 350);
-  const title = showFavList ? HEADER_TITLES.favorites : HEADER_TITLES.search;
+  const title = showFavList
+    ? HEADER_TITLES.favorites
+    : showSearch
+    ? HEADER_TITLES.search
+    : HEADER_TITLES.user;
 
   useEffect(() => {
     if (query.length > 2 || !query) {
@@ -36,7 +40,7 @@ const Header = ({ onGetQuery, showFavList, onFavClick, showSearch }) => {
     <header
       className={classNames([
         styles.container,
-        { [styles["container--isSearch"]]: !showFavList },
+        { [styles["container--isSearch"]]: showSearch },
       ])}
     >
       <div className={styles.logoAndTitleContainer}>
@@ -44,7 +48,7 @@ const Header = ({ onGetQuery, showFavList, onFavClick, showSearch }) => {
         <div
           className={classNames([
             styles.titleContainer,
-            styles[`titleContainer--isSearch`],
+            { [styles[`titleContainer--isSearch`]]: showSearch },
           ])}
         >
           <PageTitle title={title} />
@@ -54,10 +58,10 @@ const Header = ({ onGetQuery, showFavList, onFavClick, showSearch }) => {
       <div
         className={classNames([
           styles.textFieldContainer,
-          { [styles.alignRight]: showFavList },
+          { [styles.alignRight]: !showSearch },
         ])}
       >
-        {!showFavList && (
+        {showSearch && (
           <TextField name="search" query={query} onChange={handleInputChange}>
             <SearchIcon size={20} color={styles.lightgrey} />
           </TextField>
