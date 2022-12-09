@@ -35,13 +35,13 @@ const App = () => {
   const [loading, setIsLoading] = useState(false);
   const [showFavList, setShowFavList] = useState(false);
   const [showTopBtn, setShowButton] = useState(false);
-  const [backButton, setBackButton] = useState(false);
   const scrollRef = useRef(null);
 
   const showSearch = !showFavList && Boolean(!state.user);
   const listToRender = showFavList ? favorites : state.list;
   const showMainSpinner = loading && state.page === 1;
   const showListSpinner = loading && state.page > 1;
+  //поменять условие showList
   const showList = !showMainSpinner && !state.error && !state.user;
   const title = showFavList
     ? HEADER_TITLES.favorites
@@ -49,81 +49,26 @@ const App = () => {
     ? HEADER_TITLES.search
     : HEADER_TITLES.user;
 
-  const handleBackButtonClick = () => {
-    setShowButton(false);
-    setState((prevState) => {
-      return {
-        ...prevState,
-        user: null,
-      };
-    });
-  };
-
-  useEffect(() => {
-    if (title === HEADER_TITLES.user) {
-      setBackButton(true);
-      return;
-    }
-
-    setBackButton(false);
-  }, [title]);
-
-  const handleGetQuery = useCallback((value) => {
-    setQuery(value);
-  }, []);
-
+  // User handler
   const handleGetUser = (user) => {
     setShowFavList(false);
+    setState((prev) => ({ ...prev, user }));
+  };
 
+  // Reset handlers
+  const resetUsersState = () => {
+    setState(INITIAL_STATE);
+  };
+  const resetError = () => {
     setState((prev) => {
-      return {
-        ...prev,
-        user,
-      };
+      return { ...prev, error: "" };
     });
   };
 
-  const handleFavClick = () => {
-    setShowFavList((prev) => !prev);
-
-    if (!state.user) {
-      return;
-    }
-    setState((prev) => ({ ...prev, user: null }));
+  // Input handlers
+  const handleInputChange = ({ target: { value } }) => {
+    setQuery(value);
   };
-
-  const toggleFavoriteClick = (user) => {
-    const isFavorite = Boolean(user.isFavorite);
-    const newUser = { ...user, isFavorite: !isFavorite };
-
-    setFavorites((prevFavorites) => {
-      let newFavorites = [];
-      if (!isFavorite) {
-        newFavorites = [newUser, ...prevFavorites];
-      } else {
-        newFavorites = prevFavorites.filter(({ id }) => id !== user.id);
-      }
-      setLocalStorage(newFavorites);
-      return newFavorites;
-    });
-
-    setState((prevState) => {
-      const list = prevState.list.map((item) => {
-        if (item.id === user.id) {
-          item.isFavorite = !isFavorite;
-        }
-        return item;
-      });
-      return {
-        ...prevState,
-        list,
-        user: prevState.user
-          ? { ...prevState.user, isFavorite: !isFavorite }
-          : null,
-      };
-    });
-  };
-
   const makeSearchQuery = useCallback(
     async (query, page, per_page) => {
       try {
@@ -172,26 +117,77 @@ const App = () => {
     },
     [state.totalUsers, state.page, favorites]
   );
+  const debouncedQuery = useDebouncedCallback(makeSearchQuery, 350);
+  useEffect(() => {
+    if (query && query.length > 2) {
+      resetError();
+      debouncedQuery(query, state.page, USERS_PER_PAGE);
+      return;
+    }
+    resetUsersState();
+  }, [query, state.page]);
 
-  const resetUsersState = () => {
-    setState(INITIAL_STATE);
-  };
-
-  const resetError = () => {
-    setState((prev) => {
-      return { ...prev, error: "" };
+  // BackButton handlers
+  const showBackButton = Boolean(state.user);
+  const handleBackButtonClick = () => {
+    setShowButton(false);
+    setState((prevState) => {
+      return {
+        ...prevState,
+        user: null,
+      };
     });
   };
 
+  // Favorites handlers
+  const handleFavClick = () => {
+    setShowFavList((prev) => !prev);
+    if (!state.user) {
+      return;
+    }
+    setState((prev) => ({ ...prev, user: null }));
+  };
+
+  const toggleFavoriteClick = (user) => {
+    const isFavorite = Boolean(user.isFavorite);
+    const newUser = { ...user, isFavorite: !isFavorite };
+
+    setFavorites((prevFavorites) => {
+      let newFavorites = [];
+      if (!isFavorite) {
+        newFavorites = [newUser, ...prevFavorites];
+      } else {
+        newFavorites = prevFavorites.filter(({ id }) => id !== user.id);
+      }
+      setLocalStorage(newFavorites);
+      return newFavorites;
+    });
+
+    setState((prevState) => {
+      const list = prevState.list.map((item) => {
+        if (item.id === user.id) {
+          item.isFavorite = !isFavorite;
+        }
+        return item;
+      });
+      return {
+        ...prevState,
+        list,
+        user: prevState.user
+          ? { ...prevState.user, isFavorite: !isFavorite }
+          : null,
+      };
+    });
+  };
+
+  // Scroll handlers
   const handleScroll = ({
     target: { scrollHeight, scrollTop, clientHeight },
   }) => {
     const shouldUpdate = scrollHeight - Math.ceil(scrollTop) <= clientHeight;
-
     if (!shouldUpdate || loading) {
       return;
     }
-
     setState((prevState) => {
       const totalUsers = prevState.totalUsers;
       const userListLength = prevState.list.length;
@@ -206,15 +202,6 @@ const App = () => {
   };
   const debouncedScroll = useDebouncedCallback(handleScroll, 150);
 
-  const handleShowButtonTop = (e) => {
-    const { scrollTop } = e.target;
-    if (scrollTop > 150) {
-      setShowButton(true);
-      return;
-    }
-    setShowButton(false);
-  };
-
   const onScroll = useCallback(
     (e) => {
       handleShowButtonTop(e);
@@ -225,6 +212,16 @@ const App = () => {
     [debouncedScroll, showFavList]
   );
 
+  // ScrollToTop button handlers
+  const handleShowButtonTop = (e) => {
+    const { scrollTop } = e.target;
+    if (scrollTop > 150) {
+      setShowButton(true);
+      return;
+    }
+    setShowButton(false);
+  };
+
   const handleScrollTopClick = (ref, value) => {
     ref.current.scrollTo({
       top: value,
@@ -232,31 +229,24 @@ const App = () => {
     });
   };
 
-  useEffect(() => {
-    if (query) {
-      resetError();
-      makeSearchQuery(query, state.page, USERS_PER_PAGE);
-      return;
-    }
-    resetUsersState();
-  }, [query, state.page]);
-
   return (
     <>
       <Header
-        onGetQuery={handleGetQuery}
+        query={query}
+        onChange={handleInputChange}
         showSearch={showSearch}
         showFavList={showFavList}
         onFavClick={handleFavClick}
-        backButton={backButton}
+        showBackButton={showBackButton}
         onBackButtonClick={handleBackButtonClick}
         title={title}
       />
       <Container ref={scrollRef} onScroll={onScroll}>
+        {/* Suspens показывает предварительную загрузку даже без условий */}
+        {/* <Suspense fallback={<Spinner />}> */}
         <Suspense>
           {showMainSpinner && <Spinner />}
           {state.error && <ErrorMessage message={state.error} />}
-
           {state?.user && (
             <UserView
               user={state.user}

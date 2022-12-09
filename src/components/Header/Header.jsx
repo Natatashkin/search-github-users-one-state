@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback, lazy, Suspense } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import { useDebouncedCallback } from "use-debounce";
+// import { useDebouncedCallback } from "use-debounce";
 import BackIcon from "../icons/BackIcon/BackIcon";
 import StarIcon from "../icons/StarIcon/StarIcon";
 import SearchIcon from "../icons/SearchIcon/SearchIcon";
@@ -16,28 +16,16 @@ import styles from "./Header.module.scss";
 import variables from "../../styles/variables.scss";
 
 const Header = ({
-  onGetQuery,
+  title,
+  showSearch,
+  query,
+  onChange,
   showFavList,
   onFavClick,
-  showSearch,
-  backButton,
+  showBackButton,
   onBackButtonClick,
-  title,
 }) => {
-  const [query, setQuery] = useState("");
-
   const favButtonColor = showFavList ? variables.yellow : variables.lightgrey;
-
-  const handleInputChange = ({ target: { value } }) => {
-    setQuery(value);
-  };
-
-  const debouncedQuery = useDebouncedCallback(onGetQuery, 350);
-  useEffect(() => {
-    if (query.length > 2 || !query) {
-      debouncedQuery(query);
-    }
-  }, [query]);
 
   return (
     <header
@@ -47,7 +35,7 @@ const Header = ({
       ])}
     >
       <div className={styles.logoAndTitleContainer}>
-        {backButton && (
+        {showBackButton && (
           <div className={styles.backButtonContainer}>
             <Button
               title={BACK_BUTTON_TITLE}
@@ -77,7 +65,7 @@ const Header = ({
         ])}
       >
         {showSearch && (
-          <TextField name="search" query={query} onChange={handleInputChange}>
+          <TextField name="search" query={query} onChange={onChange}>
             <SearchIcon size={20} color={styles.lightgrey} />
           </TextField>
         )}
