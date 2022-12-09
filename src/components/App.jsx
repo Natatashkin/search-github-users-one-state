@@ -9,7 +9,7 @@ import React, {
 import { useDebouncedCallback } from "use-debounce";
 import Container from "./Container/Container";
 import Header from "./Header/Header";
-import { filterNewItems, addFavoriteStatus } from "../helpers";
+import { filterNewItems, addFavoriteStatus, setLocalStorage } from "../helpers";
 import {
   INITIAL_STATE,
   USERS_PER_PAGE,
@@ -36,11 +36,7 @@ const App = () => {
   const [showTopBtn, setShowButton] = useState(false);
   const scrollRef = useRef(null);
 
-  console.log("showFavList", showFavList);
-  console.log("user", state.user);
-
-  const showSearch = !showFavList && !state.user;
-  console.log(showSearch);
+  const showSearch = !showFavList && Boolean(!state.user);
   const listToRender = showFavList ? favorites : state.list;
   const showMainSpinner = loading && state.page === 1;
   const showListSpinner = loading && state.page > 1;
@@ -49,6 +45,17 @@ const App = () => {
   const handleGetQuery = useCallback((value) => {
     setQuery(value);
   }, []);
+
+  const handleGetUser = (user) => {
+    setShowFavList(false);
+
+    setState((prev) => {
+      return {
+        ...prev,
+        user,
+      };
+    });
+  };
 
   const handleFavClick = () => {
     setShowFavList((prev) => !prev);
@@ -66,17 +73,17 @@ const App = () => {
 
   const toggleFavoriteClick = (user) => {
     const isFavorite = Boolean(user.isFavorite);
+    const newUser = { ...user, isFavorite: !isFavorite };
+
     setFavorites((prevFavorites) => {
-      const newUser = { ...user, isFavorite: !isFavorite };
+      let newFavorites = [];
       if (!isFavorite) {
-        const newFavorites = [newUser, ...prevFavorites];
-        window.localStorage.setItem("favorites", JSON.stringify(newFavorites));
-        return newFavorites;
+        newFavorites = [newUser, ...prevFavorites];
       } else {
-        const newFavorites = prevFavorites.filter(({ id }) => id !== user.id);
-        window.localStorage.setItem("favorites", JSON.stringify(newFavorites));
-        return newFavorites;
+        newFavorites = prevFavorites.filter(({ id }) => id !== user.id);
       }
+      setLocalStorage(newFavorites);
+      return newFavorites;
     });
 
     setState((prevState) => {
@@ -89,17 +96,6 @@ const App = () => {
           return item;
         }),
         user: prevState.user && { ...prevState.user, isFavorite: !isFavorite },
-      };
-    });
-  };
-
-  const handleGetUser = (user) => {
-    setShowFavList(false);
-
-    setState((prev) => {
-      return {
-        ...prev,
-        user,
       };
     });
   };
