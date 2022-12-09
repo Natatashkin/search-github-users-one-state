@@ -14,6 +14,7 @@ import {
   INITIAL_STATE,
   USERS_PER_PAGE,
   FAVORITES_DATA,
+  HEADER_TITLES,
 } from "../constants/constants";
 import * as ghApi from "../api/ghApi";
 
@@ -34,6 +35,7 @@ const App = () => {
   const [loading, setIsLoading] = useState(false);
   const [showFavList, setShowFavList] = useState(false);
   const [showTopBtn, setShowButton] = useState(false);
+  const [backButton, setBackButton] = useState(false);
   const scrollRef = useRef(null);
 
   const showSearch = !showFavList && Boolean(!state.user);
@@ -41,6 +43,30 @@ const App = () => {
   const showMainSpinner = loading && state.page === 1;
   const showListSpinner = loading && state.page > 1;
   const showList = !showMainSpinner && !state.error && !state.user;
+  const title = showFavList
+    ? HEADER_TITLES.favorites
+    : showSearch
+    ? HEADER_TITLES.search
+    : HEADER_TITLES.user;
+
+  const handleBackButtonClick = () => {
+    setShowButton(false);
+    setState((prevState) => {
+      return {
+        ...prevState,
+        user: null,
+      };
+    });
+  };
+
+  useEffect(() => {
+    if (title === HEADER_TITLES.user) {
+      setBackButton(true);
+      return;
+    }
+
+    setBackButton(false);
+  }, [title]);
 
   const handleGetQuery = useCallback((value) => {
     setQuery(value);
@@ -60,15 +86,10 @@ const App = () => {
   const handleFavClick = () => {
     setShowFavList((prev) => !prev);
 
-    setState((prev) => {
-      if (prev.user) {
-        return {
-          ...prev,
-          user: null,
-        };
-      }
-      return prev;
-    });
+    if (!state.user) {
+      return;
+    }
+    setState((prev) => ({ ...prev, user: null }));
   };
 
   const toggleFavoriteClick = (user) => {
@@ -87,15 +108,18 @@ const App = () => {
     });
 
     setState((prevState) => {
+      const list = prevState.list.map((item) => {
+        if (item.id === user.id) {
+          item.isFavorite = !isFavorite;
+        }
+        return item;
+      });
       return {
         ...prevState,
-        list: prevState.list.map((item) => {
-          if (item.id === user.id) {
-            item.isFavorite = !isFavorite;
-          }
-          return item;
-        }),
-        user: prevState.user && { ...prevState.user, isFavorite: !isFavorite },
+        list,
+        user: prevState.user
+          ? { ...prevState.user, isFavorite: !isFavorite }
+          : null,
       };
     });
   };
@@ -128,7 +152,7 @@ const App = () => {
 
         setState((prev) => {
           let newUniqueUsers = prev.list;
-          if (!!newUniqueUsers.length) {
+          if (newUniqueUsers.length) {
             newUniqueUsers = filterNewItems(prev.list, users);
           }
           return {
@@ -224,6 +248,9 @@ const App = () => {
         showSearch={showSearch}
         showFavList={showFavList}
         onFavClick={handleFavClick}
+        backButton={backButton}
+        onBackButtonClick={handleBackButtonClick}
+        title={title}
       />
       <Container ref={scrollRef} onScroll={onScroll}>
         <Suspense>

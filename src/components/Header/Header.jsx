@@ -2,41 +2,35 @@ import React, { useState, useEffect, useCallback, lazy, Suspense } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { useDebouncedCallback } from "use-debounce";
-import BackButton from "../BackButton/BackButton";
+import BackIcon from "../icons/BackIcon/BackIcon";
 import StarIcon from "../icons/StarIcon/StarIcon";
 import SearchIcon from "../icons/SearchIcon/SearchIcon";
-import IconButton from "../IconButton/IconButton";
-import PageTitle from "../PageTitle/PageTitle";
 import Logo from "./Logo/Logo";
+import PageTitle from "../PageTitle/PageTitle";
+import IconButton from "../IconButton/IconButton";
+import Button from "../Button/Button";
 import TextField from "../TextField/TextField";
-import { HEADER_TITLES } from "../../constants/constants";
+import { BACK_BUTTON_TITLE } from "../../constants/constants";
+// import { HEADER_TITLES } from "../../constants/constants";
 import styles from "./Header.module.scss";
 import variables from "../../styles/variables.scss";
 
-const Header = ({ onGetQuery, showFavList, onFavClick, showSearch }) => {
+const Header = ({
+  onGetQuery,
+  showFavList,
+  onFavClick,
+  showSearch,
+  backButton,
+  onBackButtonClick,
+  title,
+}) => {
   const [query, setQuery] = useState("");
-  const [back, setBack] = useState(false);
 
   const favButtonColor = showFavList ? variables.yellow : variables.lightgrey;
 
   const handleInputChange = ({ target: { value } }) => {
     setQuery(value);
   };
-
-  const title = showFavList
-    ? HEADER_TITLES.favorites
-    : showSearch
-    ? HEADER_TITLES.search
-    : HEADER_TITLES.user;
-
-  useEffect(() => {
-    if (title === HEADER_TITLES.user) {
-      setBack(true);
-      return;
-    }
-
-    setBack(false);
-  }, [title]);
 
   const debouncedQuery = useDebouncedCallback(onGetQuery, 350);
   useEffect(() => {
@@ -53,9 +47,16 @@ const Header = ({ onGetQuery, showFavList, onFavClick, showSearch }) => {
       ])}
     >
       <div className={styles.logoAndTitleContainer}>
-        {back && (
+        {backButton && (
           <div className={styles.backButtonContainer}>
-            <BackButton />
+            <Button
+              title={BACK_BUTTON_TITLE}
+              ariaLabel="Back button"
+              type="button"
+              onClick={onBackButtonClick}
+            >
+              <BackIcon />
+            </Button>
           </div>
         )}
         <Logo />

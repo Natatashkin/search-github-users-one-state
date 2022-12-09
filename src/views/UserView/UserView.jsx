@@ -24,7 +24,7 @@ const UserView = ({ user, onFavClick, errorHandler }) => {
       if (response?.response?.status === 401) {
         throw new Error("Authenticate, pleace!");
       }
-      setRepos(response.data);
+      setRepos(response.data || []);
     } catch (error) {
       errorHandler(() => {
         return {
