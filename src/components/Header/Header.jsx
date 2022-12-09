@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, lazy, Suspense } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { useDebouncedCallback } from "use-debounce";
+import BackButton from "../BackButton/BackButton";
 import StarIcon from "../icons/StarIcon/StarIcon";
 import SearchIcon from "../icons/SearchIcon/SearchIcon";
 import IconButton from "../IconButton/IconButton";
@@ -12,10 +13,9 @@ import { HEADER_TITLES } from "../../constants/constants";
 import styles from "./Header.module.scss";
 import variables from "../../styles/variables.scss";
 
-// const BackLink = lazy(() => import("../BackLink/BackLink"));
-
 const Header = ({ onGetQuery, showFavList, onFavClick, showSearch }) => {
   const [query, setQuery] = useState("");
+  const [back, setBack] = useState(false);
 
   const favButtonColor = showFavList ? variables.yellow : variables.lightgrey;
 
@@ -23,13 +23,22 @@ const Header = ({ onGetQuery, showFavList, onFavClick, showSearch }) => {
     setQuery(value);
   };
 
-  const debouncedQuery = useDebouncedCallback(onGetQuery, 350);
   const title = showFavList
     ? HEADER_TITLES.favorites
     : showSearch
     ? HEADER_TITLES.search
     : HEADER_TITLES.user;
 
+  useEffect(() => {
+    if (title === HEADER_TITLES.user) {
+      setBack(true);
+      return;
+    }
+
+    setBack(false);
+  }, [title]);
+
+  const debouncedQuery = useDebouncedCallback(onGetQuery, 350);
   useEffect(() => {
     if (query.length > 2 || !query) {
       debouncedQuery(query);
@@ -44,6 +53,11 @@ const Header = ({ onGetQuery, showFavList, onFavClick, showSearch }) => {
       ])}
     >
       <div className={styles.logoAndTitleContainer}>
+        {back && (
+          <div className={styles.backButtonContainer}>
+            <BackButton />
+          </div>
+        )}
         <Logo />
         <div
           className={classNames([

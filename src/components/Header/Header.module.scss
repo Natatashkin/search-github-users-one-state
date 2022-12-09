@@ -48,6 +48,11 @@
   }
 }
 
+.backButtonContainer {
+  margin-left: 15px;
+  margin-right: 8px;
+}
+
 .textFieldContainer {
   @include mixins.display-flex(flex);
 }

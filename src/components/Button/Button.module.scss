@@ -2,13 +2,15 @@
 @import "../../styles/variables.scss";
 
 .button {
-  padding: 8px 20px;
+  @include mixins.display-flex(inline-flex, center, center);
+  padding: 8px 8px;
   border: none;
   border-radius: $radius;
   background-color: $black;
   color: $white;
-  font-weight: 500;
-  box-shadow: $outerShadow;
+  font-family: "Roboto-Medium", sans-serif;
+  font-size: 16px;
+  line-height: 1;
 
   &:hover {
     outline: 1px solid $black;
@@ -21,5 +23,19 @@
     background-color: $white;
     color: $black;
     box-shadow: $innerShadow;
+  }
+
+  & svg {
+    margin-right: 0;
+    @include mixins.breakpoint(min-width, $tablet) {
+      margin-right: 4px;
+    }
+  }
+
+  & span {
+    display: none;
+    @include mixins.breakpoint(min-width, $tablet) {
+      display: inline;
+    }
   }
 }

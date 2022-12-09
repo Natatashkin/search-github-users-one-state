@@ -234,9 +234,7 @@ const App = () => {
             <UserView
               user={state.user}
               onFavClick={toggleFavoriteClick}
-              loadingHandler={setIsLoading}
               errorHandler={setState}
-              loading={loading}
             />
           )}
           {showList && (
@@ -257,26 +255,3 @@ const App = () => {
 };
 
 export default App;
-
-// const handleFavView = (user) => {
-//   const isFavUser = Boolean(user?.isFavorite);
-//   const data = JSON.parse(localStorage.getItem("favorites"));
-//   setFavorites((prev) => {
-//     if (user.isFavorite) {
-//       const newData = data.filter(({ id }) => user.id !== id);
-//       localStorage.setItem("favorites", JSON.stringify(newData));
-//     } else {
-//       const newData = [...data, user];
-//       localStorage.setItem("favorites", JSON.stringify(newData));
-//     }
-
-//     return prev.map((item) => ({ ...item, isFavorite: !isFavUser }));
-//   });
-
-//   setSearchState((prev) => {
-//     return {
-//       ...prev,
-//       list: prev.list.map((item) => ({ ...item, isFavorite: !isFavUser })),
-//     };
-//   });
-// };

@@ -17,7 +17,7 @@ const Button = ({
       aria-label={ariaLabel}
     >
       {children}
-      {title}
+      <span>{title}</span>
     </button>
   );
 };
