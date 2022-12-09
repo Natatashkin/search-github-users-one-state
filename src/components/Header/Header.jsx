@@ -14,19 +14,17 @@ import variables from "../../styles/variables.scss";
 
 // const BackLink = lazy(() => import("../BackLink/BackLink"));
 
-const Header = ({ onGetQuery, onFavClick }) => {
+const Header = ({ onGetQuery, showFavList, onFavClick, showSearch }) => {
   const [query, setQuery] = useState("");
-  const [favClick, setFavClick] = useState(false);
 
-  const handleFavClick = () => setFavClick((prevClick) => !prevClick);
+  const favButtonColor = showFavList ? variables.yellow : variables.lightgrey;
 
   const handleInputChange = ({ target: { value } }) => {
     setQuery(value);
   };
 
   const debouncedQuery = useDebouncedCallback(onGetQuery, 350);
-  const favButtonColor = favClick ? variables.yellow : variables.lightgrey;
-  const title = favClick ? HEADER_TITLES.favorites : HEADER_TITLES.search;
+  const title = showFavList ? HEADER_TITLES.favorites : HEADER_TITLES.search;
 
   useEffect(() => {
     if (query.length > 2 || !query) {
@@ -34,15 +32,11 @@ const Header = ({ onGetQuery, onFavClick }) => {
     }
   }, [query]);
 
-  useEffect(() => {
-    onFavClick(favClick);
-  }, [favClick]);
-
   return (
     <header
       className={classNames([
         styles.container,
-        { [styles["container--isSearch"]]: !favClick },
+        { [styles["container--isSearch"]]: !showFavList },
       ])}
     >
       <div className={styles.logoAndTitleContainer}>
@@ -60,10 +54,10 @@ const Header = ({ onGetQuery, onFavClick }) => {
       <div
         className={classNames([
           styles.textFieldContainer,
-          { [styles.alignRight]: favClick },
+          { [styles.alignRight]: showFavList },
         ])}
       >
-        {!favClick && (
+        {!showFavList && (
           <TextField name="search" query={query} onChange={handleInputChange}>
             <SearchIcon size={20} color={styles.lightgrey} />
           </TextField>
@@ -73,7 +67,7 @@ const Header = ({ onGetQuery, onFavClick }) => {
           <IconButton
             type="click"
             ariaLabel="Open favorites users"
-            onClick={handleFavClick}
+            onClick={onFavClick}
           >
             <StarIcon size={24} color={favButtonColor} />
           </IconButton>

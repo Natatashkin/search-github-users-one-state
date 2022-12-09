@@ -33,10 +33,10 @@ const App = () => {
   const [query, setQuery] = useState("");
   const [loading, setIsLoading] = useState(false);
   const [showFavList, setShowFavList] = useState(false);
-
   const [showTopBtn, setShowButton] = useState(false);
   const scrollRef = useRef(null);
 
+  const showSearch = !showFavList && !state.user;
   const listToRender = showFavList ? favorites : state.list;
   const showMainSpinner = loading && state.page === 1;
   const showListSpinner = loading && state.page > 1;
@@ -46,18 +46,21 @@ const App = () => {
     setQuery(value);
   }, []);
 
-  const handleShowFavorites = (status) => {
-    setShowFavList(status);
+  const handleFavClick = () => {
+    setShowFavList((prev) => !prev);
+
     setState((prev) => {
-      return {
-        ...prev,
-        user: null,
-      };
+      if (prev.user) {
+        return {
+          ...prev,
+          user: null,
+        };
+      }
+      return prev;
     });
   };
 
   const toggleFavoriteClick = (user) => {
-    console.log(user);
     const isFavorite = Boolean(user.isFavorite);
     setFavorites((prevFavorites) => {
       const newUser = { ...user, isFavorite: !isFavorite };
@@ -81,11 +84,16 @@ const App = () => {
           }
           return item;
         }),
+        user: prevState.user && { ...prevState.user, isFavorite: !isFavorite },
       };
     });
   };
 
+  console.log(state.user);
+
   const handleGetUser = (user) => {
+    setShowFavList(false);
+
     setState((prev) => {
       return {
         ...prev,
@@ -213,7 +221,12 @@ const App = () => {
 
   return (
     <>
-      <Header onGetQuery={handleGetQuery} onFavClick={handleShowFavorites} />
+      <Header
+        onGetQuery={handleGetQuery}
+        // showSearch={showSearch}
+        showFavList={showFavList}
+        onFavClick={handleFavClick}
+      />
       <Container ref={scrollRef} onScroll={onScroll}>
         <Suspense>
           {showMainSpinner && <Spinner />}
