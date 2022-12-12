@@ -11,9 +11,7 @@ const UserContacts = ({ email, company, country }) => {
       {email && (
         <li className={styles.listItem}>
           <EmailIcon />
-          <span>
-            <a href={`mailto:${email}`}>{email}</a>
-          </span>
+          <a href={`mailto:${email}`}>{email}</a>
         </li>
       )}
 

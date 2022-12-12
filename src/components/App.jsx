@@ -18,6 +18,16 @@ import {
 } from "../constants/constants";
 import * as ghApi from "../api/ghApi";
 
+// перенести состояние инпута в хедер
+// сделать юзер репос одним компоненотом
+// сделать списки и айтемы одним компонентом
+// перенести обработку ошибок в апи
+// пересмотреть стейт
+//    -убрать стейт ошибки, перенести в нотификашки
+//    -пейджу и общее кол-во страниц вынести в реф объектом
+// иконки передавать через проп
+// пофиксить подгрузку страниц и отпавку запроса за юзерами при скроле репозиториев
+
 const Spinner = lazy(() => import(`../components/Spinner/Spinner`));
 const ErrorMessage = lazy(() =>
   import(`../components/ErrorMessage/ErrorMessage`)
@@ -37,7 +47,7 @@ const App = () => {
   const [showTopBtn, setShowButton] = useState(false);
   const scrollRef = useRef(null);
 
-  const showSearch = !showFavList && Boolean(!state.user);
+  const showSearch = !showFavList && !state.user;
   const listToRender = showFavList ? favorites : state.list;
   const showMainSpinner = loading && state.page === 1;
   const showListSpinner = loading && state.page > 1;
@@ -74,6 +84,8 @@ const App = () => {
       try {
         setIsLoading(true);
         const response = await ghApi.searchUsers(query, page, per_page);
+        debugger;
+        // remove all errors from try block to api function
         if (response.code === "ERR_NETWORK") {
           throw new Error("You are offline. Try later!");
         }
@@ -128,7 +140,6 @@ const App = () => {
   }, [query, state.page]);
 
   // BackButton handlers
-  const showBackButton = Boolean(state.user);
   const handleBackButtonClick = () => {
     setShowButton(false);
     setState((prevState) => {
@@ -153,7 +164,7 @@ const App = () => {
     const newUser = { ...user, isFavorite: !isFavorite };
 
     setFavorites((prevFavorites) => {
-      let newFavorites = [];
+      const newFavorites = [];
       if (!isFavorite) {
         newFavorites = [newUser, ...prevFavorites];
       } else {
@@ -166,7 +177,10 @@ const App = () => {
     setState((prevState) => {
       const list = prevState.list.map((item) => {
         if (item.id === user.id) {
-          item.isFavorite = !isFavorite;
+          return {
+            ...item,
+            isFavorite: !isFavorite,
+          };
         }
         return item;
       });
@@ -237,7 +251,7 @@ const App = () => {
         showSearch={showSearch}
         showFavList={showFavList}
         onFavClick={handleFavClick}
-        showBackButton={showBackButton}
+        showBackButton={state.user}
         onBackButtonClick={handleBackButtonClick}
         title={title}
       />

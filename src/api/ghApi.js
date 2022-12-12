@@ -24,10 +24,9 @@ const getUserRepos = async (username) => {
 
 const searchUsers = async (name, page, per_page) => {
   try {
-    const response = await axios.get(
+    const { data } = await axios.get(
       `/search/users?q=${name}&type=user&in=name&per_page=${per_page}&page=${page}`
     );
-    const { data } = response;
     const findUsers = data.items.map(({ login }) => {
       const response = getUser(login);
       return response;
