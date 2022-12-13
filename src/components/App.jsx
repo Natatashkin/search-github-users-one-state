@@ -1,63 +1,59 @@
-import React, {
-  useState,
-  useCallback,
-  useEffect,
-  useRef,
-  lazy,
-  Suspense,
-} from "react";
+import React, { useState, useCallback, useRef, lazy, Suspense } from "react";
 import { useDebouncedCallback } from "use-debounce";
-import Container from "./Container/Container";
-import Header from "./Header/Header";
+import { Toaster } from "react-hot-toast";
+import Spinner from "./Spinner/Spinner";
 import { filterNewItems, addFavoriteStatus, setLocalStorage } from "../helpers";
 import {
   INITIAL_STATE,
   USERS_PER_PAGE,
   FAVORITES_DATA,
-  HEADER_TITLES,
+  PAGE_STEP,
 } from "../constants/constants";
 import * as ghApi from "../api/ghApi";
 
-// перенести состояние инпута в хедер
-// сделать юзер репос одним компоненотом
-// сделать списки и айтемы одним компонентом
-// перенести обработку ошибок в апи
+// перенести состояние инпута в хедер ++
+// объединить список с айтемами (юзерслист +,)
+// перенести обработку ошибок в апи ++
 // пересмотреть стейт
 //    -убрать стейт ошибки, перенести в нотификашки
 //    -пейджу и общее кол-во страниц вынести в реф объектом
 // иконки передавать через проп
 // пофиксить подгрузку страниц и отпавку запроса за юзерами при скроле репозиториев
 
-const Spinner = lazy(() => import(`../components/Spinner/Spinner`));
-const ErrorMessage = lazy(() =>
-  import(`../components/ErrorMessage/ErrorMessage`)
-);
+// const Spinner = lazy(() => import(`../components/Spinner/Spinner`));
+
+const Header = lazy(() => import("./Header/Header"));
+const Container = lazy(() => import("./Container/Container"));
+
 const UsersListView = lazy(() =>
   import(`../views/UsersListView/UsersListView`)
 );
 const UserView = lazy(() => import(`../views/UserView/UserView`));
 const ButtonToTop = lazy(() => import(`../components/ButtonToTop/ButtonToTop`));
 
+// const INITIAL_STATE = {
+//   list: [],
+//   user: null,
+// };
+
 const App = () => {
   const [state, setState] = useState(INITIAL_STATE);
   const [favorites, setFavorites] = useState(FAVORITES_DATA || []);
-  const [query, setQuery] = useState("");
   const [loading, setIsLoading] = useState(false);
   const [showFavList, setShowFavList] = useState(false);
   const [showTopBtn, setShowButton] = useState(false);
+  const pageRef = useRef({ page: 1, totalUsers: 0 });
+  const queryRef = useRef(null);
   const scrollRef = useRef(null);
 
   const showSearch = !showFavList && !state.user;
   const listToRender = showFavList ? favorites : state.list;
-  const showMainSpinner = loading && state.page === 1;
-  const showListSpinner = loading && state.page > 1;
-  //поменять условие showList
-  const showList = !showMainSpinner && !state.error && !state.user;
-  const title = showFavList
-    ? HEADER_TITLES.favorites
-    : showSearch
-    ? HEADER_TITLES.search
-    : HEADER_TITLES.user;
+  const showSpinner = loading && Boolean(!state.list.length);
+
+  // Reset state
+  // const resetState = () => {
+  //   setState(INITIAL_STATE);
+  // };
 
   // User handler
   const handleGetUser = (user) => {
@@ -65,79 +61,76 @@ const App = () => {
     setState((prev) => ({ ...prev, user }));
   };
 
-  // Reset handlers
-  const resetUsersState = () => {
-    setState(INITIAL_STATE);
-  };
-  const resetError = () => {
-    setState((prev) => {
-      return { ...prev, error: "" };
-    });
-  };
+  // const makeSearchQuery = useCallback(
+  //   async (query, page, per_page) => {
+  //     setIsLoading(true);
+  //     const response = await ghApi.searchUsers(query, page, per_page);
+  // if (!response) {
+  //   return;
+  // }
+  //     const { usersData, totalUsers } = response;
+  //     if (!pageRef.current.totalPages) {
+  //       pageRef.current.totalUsers = totalUsers;
+  //     }
 
-  // Input handlers
-  const handleInputChange = ({ target: { value } }) => {
-    setQuery(value);
-  };
-  const makeSearchQuery = useCallback(
-    async (query, page, per_page) => {
-      try {
-        setIsLoading(true);
-        const response = await ghApi.searchUsers(query, page, per_page);
-        debugger;
-        // remove all errors from try block to api function
-        if (response.code === "ERR_NETWORK") {
-          throw new Error("You are offline. Try later!");
-        }
-        if (response?.response?.status === 401) {
-          throw new Error("Authenticate, pleace!");
-        }
-        const { usersData, totalUsers } = response;
+  //     const users = addFavoriteStatus(usersData, favorites);
 
-        if (!totalUsers) {
-          throw new Error(`No users with username "${query}"`);
-        }
-        const users = addFavoriteStatus(usersData, favorites);
-        if (!state.totalUsers) {
-          setState((prevState) => {
-            return {
-              ...prevState,
-              totalUsers,
-            };
-          });
-        }
+  //     setState((prev) => {
+  //       let newUniqueUsers = prev.list;
+  //       if (newUniqueUsers.length) {
+  //         newUniqueUsers = filterNewItems(prev.list, users);
+  //       }
+  //       return {
+  //         ...prev,
+  //         list: pageRef > 1 ? [...prev.list, ...newUniqueUsers] : users,
+  //       };
+  //     });
 
-        setState((prev) => {
-          let newUniqueUsers = prev.list;
-          if (newUniqueUsers.length) {
-            newUniqueUsers = filterNewItems(prev.list, users);
-          }
+  //     setIsLoading(false);
+  //   },
+  //   [state.totalUsers, state.page, favorites]
+  // );
+  const request = async (query) => {
+    queryRef.current = query;
+    if (query?.length > 2) {
+      setIsLoading(true);
+      const response = await ghApi.searchUsers(query, pageRef.current.page);
+      console.log(response);
+      if (!response) {
+        return;
+      }
+      const { usersData, totalUsers } = response;
+      if (!pageRef.current.totalUsers) {
+        pageRef.current.totalUsers = totalUsers;
+      }
+
+      const users = addFavoriteStatus(usersData, favorites);
+      console.log(queryRef.current !== query);
+      if (queryRef.current !== query) {
+        pageRef.current.page = 1;
+        setState((prevState) => {
           return {
-            ...prev,
-            list: state.page > 1 ? [...prev.list, ...newUniqueUsers] : users,
+            ...prevState,
+            list: users,
           };
         });
-      } catch (error) {
-        setState(() => {
+      } else {
+        pageRef.current.page += PAGE_STEP;
+        setState((prevState) => {
+          let newUniqueUsers = prevState.list;
+          if (newUniqueUsers.length) {
+            newUniqueUsers = filterNewItems(prevState.list, users);
+          }
           return {
-            ...INITIAL_STATE,
-            error: error.message,
+            ...prevState,
+            list: [...prevState.list, ...newUniqueUsers],
           };
         });
       }
-      setIsLoading(false);
-    },
-    [state.totalUsers, state.page, favorites]
-  );
-  const debouncedQuery = useDebouncedCallback(makeSearchQuery, 350);
-  useEffect(() => {
-    if (query && query.length > 2) {
-      resetError();
-      debouncedQuery(query, state.page, USERS_PER_PAGE);
-      return;
     }
-    resetUsersState();
-  }, [query, state.page]);
+    setIsLoading(false);
+  };
+  const debouncedQuery = useDebouncedCallback(request, 350);
 
   // BackButton handlers
   const handleBackButtonClick = () => {
@@ -202,18 +195,14 @@ const App = () => {
     if (!shouldUpdate || loading) {
       return;
     }
-    setState((prevState) => {
-      const totalUsers = prevState.totalUsers;
-      const userListLength = prevState.list.length;
+    const totalUsers = pageRef.current.totalUsers;
+    const userListLength = state.list.length;
 
-      if (totalUsers === userListLength) return prevState;
-
-      return {
-        ...prevState,
-        page: prevState.page + 1,
-      };
-    });
+    if (totalUsers > userListLength) {
+      request(queryRef.current);
+    }
   };
+
   const debouncedScroll = useDebouncedCallback(handleScroll, 150);
 
   const onScroll = useCallback(
@@ -243,45 +232,45 @@ const App = () => {
     });
   };
 
+  console.log(state);
   return (
-    <>
+    <Suspense fallback={<Spinner />}>
       <Header
-        query={query}
-        onChange={handleInputChange}
         showSearch={showSearch}
         showFavList={showFavList}
+        onSendRequest={debouncedQuery}
         onFavClick={handleFavClick}
         showBackButton={state.user}
         onBackButtonClick={handleBackButtonClick}
-        title={title}
       />
       <Container ref={scrollRef} onScroll={onScroll}>
-        {/* Suspens показывает предварительную загрузку даже без условий */}
-        {/* <Suspense fallback={<Spinner />}> */}
-        <Suspense>
-          {showMainSpinner && <Spinner />}
-          {state.error && <ErrorMessage message={state.error} />}
-          {state?.user && (
-            <UserView
-              user={state.user}
-              onFavClick={toggleFavoriteClick}
-              errorHandler={setState}
-            />
-          )}
-          {showList && (
-            <UsersListView
-              list={listToRender}
-              showListSpinner={showListSpinner}
-              onGetUser={handleGetUser}
-              onFavClick={toggleFavoriteClick}
-            />
-          )}
-          {showTopBtn && (
-            <ButtonToTop onClick={() => handleScrollTopClick(scrollRef, 0)} />
-          )}
-        </Suspense>
+        {showSpinner && <Spinner />}
+        {state?.user && (
+          <UserView
+            user={state.user}
+            onFavClick={toggleFavoriteClick}
+            errorHandler={setState}
+          />
+        )}
+        {listToRender && (
+          <UsersListView
+            list={listToRender}
+            // showListSpinner={showListSpinner}
+            onGetUser={handleGetUser}
+            onFavClick={toggleFavoriteClick}
+          />
+        )}
+        {showTopBtn && (
+          <ButtonToTop onClick={() => handleScrollTopClick(scrollRef, 0)} />
+        )}
+        <Toaster
+          containerStyle={{
+            position: "absolute",
+            top: "10px",
+          }}
+        />
       </Container>
-    </>
+    </Suspense>
   );
 };
 

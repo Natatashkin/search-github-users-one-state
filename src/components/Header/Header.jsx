@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 // import { useDebouncedCallback } from "use-debounce";
@@ -10,22 +10,34 @@ import PageTitle from "../PageTitle/PageTitle";
 import IconButton from "../IconButton/IconButton";
 import Button from "../Button/Button";
 import TextField from "../TextField/TextField";
-import { BACK_BUTTON_TITLE } from "../../constants/constants";
-// import { HEADER_TITLES } from "../../constants/constants";
+import { BACK_BUTTON_TITLE, HEADER_TITLES } from "../../constants/constants";
 import styles from "./Header.module.scss";
 import variables from "../../styles/variables.scss";
 
 const Header = ({
-  title,
   showSearch,
-  query,
-  onChange,
+  onSendRequest,
   showFavList,
   onFavClick,
   showBackButton,
   onBackButtonClick,
 }) => {
+  const [query, setQuery] = useState("");
   const favButtonColor = showFavList ? variables.yellow : variables.lightgrey;
+
+  const title = showFavList
+    ? HEADER_TITLES.favorites
+    : showSearch
+    ? HEADER_TITLES.search
+    : HEADER_TITLES.user;
+
+  const handleInputChange = ({ target: { value } }) => {
+    setQuery(value);
+  };
+
+  useEffect(() => {
+    onSendRequest(query);
+  }, [query]);
 
   return (
     <header
@@ -65,7 +77,7 @@ const Header = ({
         ])}
       >
         {showSearch && (
-          <TextField name="search" query={query} onChange={onChange}>
+          <TextField name="search" query={query} onChange={handleInputChange}>
             <SearchIcon size={20} color={styles.lightgrey} />
           </TextField>
         )}
