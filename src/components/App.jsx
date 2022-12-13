@@ -14,11 +14,11 @@ import * as ghApi from "../api/ghApi";
 // перенести состояние инпута в хедер ++
 // объединить список с айтемами (юзерслист +,)
 // перенести обработку ошибок в апи ++
-// пересмотреть стейт
-//    -убрать стейт ошибки, перенести в нотификашки
-//    -пейджу и общее кол-во страниц вынести в реф объектом
+// пересмотреть стейт +
+//    -убрать стейт ошибки, перенести в нотификашки +
+//    -пейджу и общее кол-во страниц вынести в реф объектом +
 // иконки передавать через проп
-// пофиксить подгрузку страниц и отпавку запроса за юзерами при скроле репозиториев
+// пофиксить подгрузку страниц и отпавку запроса за юзерами при скроле репозиториев +
 
 // const Spinner = lazy(() => import(`../components/Spinner/Spinner`));
 
@@ -61,35 +61,6 @@ const App = () => {
     setState((prev) => ({ ...prev, user }));
   };
 
-  // const makeSearchQuery = useCallback(
-  //   async (query, page, per_page) => {
-  //     setIsLoading(true);
-  //     const response = await ghApi.searchUsers(query, page, per_page);
-  // if (!response) {
-  //   return;
-  // }
-  //     const { usersData, totalUsers } = response;
-  //     if (!pageRef.current.totalPages) {
-  //       pageRef.current.totalUsers = totalUsers;
-  //     }
-
-  //     const users = addFavoriteStatus(usersData, favorites);
-
-  //     setState((prev) => {
-  //       let newUniqueUsers = prev.list;
-  //       if (newUniqueUsers.length) {
-  //         newUniqueUsers = filterNewItems(prev.list, users);
-  //       }
-  //       return {
-  //         ...prev,
-  //         list: pageRef > 1 ? [...prev.list, ...newUniqueUsers] : users,
-  //       };
-  //     });
-
-  //     setIsLoading(false);
-  //   },
-  //   [state.totalUsers, state.page, favorites]
-  // );
   const request = async (query) => {
     // queryRef.current = query;
     if (query?.length > 2) {
