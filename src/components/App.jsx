@@ -91,8 +91,9 @@ const App = () => {
   //   [state.totalUsers, state.page, favorites]
   // );
   const request = async (query) => {
-    queryRef.current = query;
+    // queryRef.current = query;
     if (query?.length > 2) {
+      // debugger;
       setIsLoading(true);
       const response = await ghApi.searchUsers(query, pageRef.current.page);
       console.log(response);
@@ -105,9 +106,10 @@ const App = () => {
       }
 
       const users = addFavoriteStatus(usersData, favorites);
-      console.log(queryRef.current !== query);
+
       if (queryRef.current !== query) {
         pageRef.current.page = 1;
+        queryRef.current = query;
         setState((prevState) => {
           return {
             ...prevState,
@@ -157,7 +159,8 @@ const App = () => {
     const newUser = { ...user, isFavorite: !isFavorite };
 
     setFavorites((prevFavorites) => {
-      const newFavorites = [];
+      //перезаписывается массив заново!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      let newFavorites = [];
       if (!isFavorite) {
         newFavorites = [newUser, ...prevFavorites];
       } else {
