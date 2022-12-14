@@ -42,7 +42,10 @@ const App = () => {
   const [loading, setIsLoading] = useState(false);
   const [showFavList, setShowFavList] = useState(false);
   const [showTopBtn, setShowButton] = useState(false);
-  const pageRef = useRef({ page: 1, totalUsers: 0 });
+  const pageRef = useRef({
+    page: 1,
+    totalUsers: 0,
+  });
   const queryRef = useRef(null);
   const scrollRef = useRef(null);
 
@@ -51,9 +54,14 @@ const App = () => {
   const showSpinner = loading && Boolean(!state.list.length);
 
   // Reset state
-  // const resetState = () => {
-  //   setState(INITIAL_STATE);
-  // };
+  const resetState = () => {
+    queryRef.current = null;
+    pageRef.current = {
+      page: 1,
+      totalUsers: 0,
+    };
+    setState(INITIAL_STATE);
+  };
 
   // User handler
   const handleGetUser = (user) => {
@@ -62,45 +70,52 @@ const App = () => {
   };
 
   const request = async (query) => {
-    // queryRef.current = query;
-    if (query?.length > 2) {
-      // debugger;
+    // reset if empty string
+    if (!query) {
+      resetState();
+      return;
+    }
+    // send query if query length > 2
+    if (query.length > 2) {
+      // reset evrything if new query or grow page +1
+      if (queryRef.current !== query) {
+        resetState();
+        console.log("reset state, change query");
+      } else {
+        pageRef.current.page += PAGE_STEP;
+      }
       setIsLoading(true);
+      // if new query set queryRef
+      queryRef.current = query;
+      // send request and proccess data
       const response = await ghApi.searchUsers(query, pageRef.current.page);
-      console.log(response);
+      // console.log(response, "api response");
+
       if (!response) {
+        setIsLoading(false);
         return;
       }
       const { usersData, totalUsers } = response;
+      // if totalUsers === 0, add total
       if (!pageRef.current.totalUsers) {
         pageRef.current.totalUsers = totalUsers;
       }
-
+      // add isFavorites option
       const users = addFavoriteStatus(usersData, favorites);
+      // update state
+      setState((prevState) => {
+        const hasStateList = Boolean(prevState.list.length);
+        const newList = hasStateList
+          ? [...prevState.list, ...filterNewItems(prevState.list, users)]
+          : users;
 
-      if (queryRef.current !== query) {
-        pageRef.current.page = 1;
-        queryRef.current = query;
-        setState((prevState) => {
-          return {
-            ...prevState,
-            list: users,
-          };
-        });
-      } else {
-        pageRef.current.page += PAGE_STEP;
-        setState((prevState) => {
-          let newUniqueUsers = prevState.list;
-          if (newUniqueUsers.length) {
-            newUniqueUsers = filterNewItems(prevState.list, users);
-          }
-          return {
-            ...prevState,
-            list: [...prevState.list, ...newUniqueUsers],
-          };
-        });
-      }
+        return {
+          ...prevState,
+          list: newList,
+        };
+      });
     }
+
     setIsLoading(false);
   };
   const debouncedQuery = useDebouncedCallback(request, 350);
@@ -130,13 +145,9 @@ const App = () => {
     const newUser = { ...user, isFavorite: !isFavorite };
 
     setFavorites((prevFavorites) => {
-      //перезаписывается массив заново!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      let newFavorites = [];
-      if (!isFavorite) {
-        newFavorites = [newUser, ...prevFavorites];
-      } else {
-        newFavorites = prevFavorites.filter(({ id }) => id !== user.id);
-      }
+      const newFavorites = isFavorite
+        ? prevFavorites.filter(({ id }) => id !== user.id)
+        : [newUser, ...prevFavorites];
       setLocalStorage(newFavorites);
       return newFavorites;
     });
@@ -249,3 +260,45 @@ const App = () => {
 };
 
 export default App;
+
+// const request = async (query) => {
+//   // queryRef.current = query;
+//   if (query?.length > 2) {
+//     setIsLoading(true);
+//     const response = await ghApi.searchUsers(query, pageRef.current.page);
+//     console.log(response);
+// if (!response) {
+//   return;
+// }
+// const { usersData, totalUsers } = response;
+// if (!pageRef.current.totalUsers) {
+//   pageRef.current.totalUsers = totalUsers;
+// }
+
+//     const users = addFavoriteStatus(usersData, favorites);
+
+//     if (queryRef.current !== query) {
+//       pageRef.current.page = 1;
+//       queryRef.current = query;
+//       setState((prevState) => {
+//         return {
+//           ...prevState,
+//           list: users,
+//         };
+//       });
+//     } else {
+//       pageRef.current.page += PAGE_STEP;
+//       setState((prevState) => {
+//         let newUniqueUsers = prevState.list;
+//         if (newUniqueUsers.length) {
+//           newUniqueUsers = filterNewItems(prevState.list, users);
+//         }
+//         return {
+//           ...prevState,
+//           list: [...prevState.list, ...newUniqueUsers],
+//         };
+//       });
+//     }
+//   }
+//   setIsLoading(false);
+// };
