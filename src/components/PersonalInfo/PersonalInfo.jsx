@@ -44,7 +44,7 @@ const PersonalInfo = ({ data, onFavClick }) => {
             >{`@${login}`}</a>
           </h3>
         </div>
-        <div className="favorite">
+        <div className={styles.favorite}>
           <IconButton
             onClick={onFavClick}
             ariaLabel="Add to Favorites"

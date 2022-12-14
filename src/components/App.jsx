@@ -29,11 +29,6 @@ const UsersListView = lazy(() =>
 const UserView = lazy(() => import(`../views/UserView/UserView`));
 const ButtonToTop = lazy(() => import(`../components/ButtonToTop/ButtonToTop`));
 
-// const INITIAL_STATE = {
-//   list: [],
-//   user: null,
-// };
-
 const App = () => {
   const [state, setState] = useState(INITIAL_STATE);
   const [favorites, setFavorites] = useState(FAVORITES_DATA || []);
@@ -206,7 +201,6 @@ const App = () => {
     });
   };
 
-  console.log(state);
   return (
     <Suspense fallback={<Spinner />}>
       <Header

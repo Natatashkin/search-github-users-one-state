@@ -1,4 +1,5 @@
 @use "../../styles/mixins.scss" as mixins;
+@import "../../styles/placeholders.scss";
 @import "../../styles/variables.scss";
 
 .nameContainer {
@@ -17,7 +18,7 @@
 
 .link {
   color: $grey;
-  transition: color $time ease-in-out;
+  transition: color $transition;
 
   &:hover {
     color: rgb(67, 67, 252);
@@ -30,6 +31,10 @@
 .username {
   font-family: "Roboto-Medium", sans-serif;
   font-size: $h3;
+}
+
+.favorite {
+  @extend %favorite-btn-hover;
 }
 
 .userBio {

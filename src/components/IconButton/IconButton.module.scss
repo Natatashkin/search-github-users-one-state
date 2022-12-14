@@ -10,6 +10,7 @@
   border-radius: $radius;
   background-color: transparent;
   cursor: pointer;
+  transition: box-shadow $transition;
 
   &:hover {
     box-shadow: $outerShadow;
