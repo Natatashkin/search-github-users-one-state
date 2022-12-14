@@ -20,7 +20,11 @@ const UsersListItem = ({ item, onGetUser, onFavClick }) => {
 
   const username = name || login;
   const iconColor = isFavorite ? variables.yellow : variables.lightgrey;
-
+  const userStats = [
+    { name: "followers", data: followers },
+    { name: "following", data: following },
+    { name: "repos", data: public_repos },
+  ];
   return (
     <li className={styles.card}>
       <div className={styles.container}>
@@ -38,24 +42,19 @@ const UsersListItem = ({ item, onGetUser, onFavClick }) => {
             type="button"
             onClick={() => onFavClick(item)}
             ariaLabel="Add to Favorites"
-          >
-            <StarIcon color={iconColor} size={24} />
-          </IconButton>
+            Icon={<StarIcon color={iconColor} size={24} />}
+          />
         </div>
       </div>
       <div className={styles.container}>
-        <div className={styles.stats}>
-          <h3>followers</h3>
-          <p>{followers}</p>
-        </div>
-        <div className={styles.stats}>
-          <h3>following</h3>
-          <p>{following}</p>
-        </div>
-        <div className={styles.stats}>
-          <h3>repos</h3>
-          <p>{public_repos}</p>
-        </div>
+        {userStats.map(({ name, data }) => {
+          return (
+            <div className={styles.stats}>
+              <h3>{name}</h3>
+              <p>{data}</p>
+            </div>
+          );
+        })}
       </div>
     </li>
   );

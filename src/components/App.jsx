@@ -5,7 +5,6 @@ import Spinner from "./Spinner/Spinner";
 import { filterNewItems, addFavoriteStatus, setLocalStorage } from "../helpers";
 import {
   INITIAL_STATE,
-  USERS_PER_PAGE,
   FAVORITES_DATA,
   PAGE_STEP,
 } from "../constants/constants";
@@ -215,7 +214,7 @@ const App = () => {
         showFavList={showFavList}
         onSendRequest={debouncedQuery}
         onFavClick={handleFavClick}
-        showBackButton={state.user}
+        showBackButton={Boolean(state.user)}
         onBackButtonClick={handleBackButtonClick}
       />
       <Container ref={scrollRef} onScroll={onScroll}>

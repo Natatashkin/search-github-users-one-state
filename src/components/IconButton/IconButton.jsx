@@ -10,7 +10,7 @@ const IconButton = ({
   type = "submit",
   variant = "default",
   onClick = () => {},
-  children,
+  Icon,
   ariaLabel,
 }) => {
   return (
@@ -24,7 +24,7 @@ const IconButton = ({
       onClick={onClick}
       aria-label={ariaLabel}
     >
-      {children}
+      {Icon}
     </button>
   );
 };
@@ -35,5 +35,5 @@ IconButton.propTypes = {
   type: PropTypes.string,
   variant: PropTypes.string,
   onClick: PropTypes.func,
-  children: PropTypes.node.isRequired,
+  Icon: PropTypes.node.isRequired,
 };

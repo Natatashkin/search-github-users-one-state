@@ -12,7 +12,7 @@
   background-color: $white;
   box-shadow: $outerShadow;
 
-  &--isSearch {
+  &__isSearch {
     grid-template-columns: 0.5fr 7.5fr;
 
     @include mixins.breakpoint(min-width, $laptop) {
@@ -30,7 +30,7 @@
   padding-right: 8px;
   width: 100%;
 
-  &--isSearch {
+  &__isSearch {
     visibility: hidden;
     max-width: 0;
     padding-right: 0;

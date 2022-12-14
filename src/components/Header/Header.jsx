@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-// import { useDebouncedCallback } from "use-debounce";
 import BackIcon from "../icons/BackIcon/BackIcon";
 import StarIcon from "../icons/StarIcon/StarIcon";
 import SearchIcon from "../icons/SearchIcon/SearchIcon";
@@ -42,7 +41,7 @@ const Header = ({
     <header
       className={classNames([
         styles.container,
-        { [styles["container--isSearch"]]: showSearch },
+        { [styles.container__isSearch]: showSearch },
       ])}
     >
       <div className={styles.logoAndTitleContainer}>
@@ -53,16 +52,15 @@ const Header = ({
               ariaLabel="Back button"
               type="button"
               onClick={onBackButtonClick}
-            >
-              <BackIcon />
-            </Button>
+              Icon={<BackIcon />}
+            />
           </div>
         )}
         <Logo />
         <div
           className={classNames([
             styles.titleContainer,
-            { [styles[`titleContainer--isSearch`]]: showSearch },
+            { [styles.titleContainer__isSearch]: showSearch },
           ])}
         >
           <h1 className={styles.pageTitle}>{title}</h1>
@@ -76,9 +74,12 @@ const Header = ({
         ])}
       >
         {showSearch && (
-          <TextField name="search" query={query} onChange={handleInputChange}>
-            <SearchIcon size={20} color={styles.lightgrey} />
-          </TextField>
+          <TextField
+            name="search"
+            query={query}
+            onChange={handleInputChange}
+            Icon={<SearchIcon size={20} color={styles.lightgrey} />}
+          />
         )}
 
         <div className={styles.favLinkContainer}>
@@ -86,9 +87,8 @@ const Header = ({
             type="click"
             ariaLabel="Open favorites users"
             onClick={onFavClick}
-          >
-            <StarIcon size={24} color={favButtonColor} />
-          </IconButton>
+            Icon={<StarIcon size={24} color={favButtonColor} />}
+          />
         </div>
       </div>
     </header>
@@ -97,4 +97,11 @@ const Header = ({
 
 export default Header;
 
-Header.propTypes = {};
+Header.propTypes = {
+  showSearch: PropTypes.bool.isRequired,
+  onSendRequest: PropTypes.func.isRequired,
+  showFavList: PropTypes.bool.isRequired,
+  onFavClick: PropTypes.func.isRequired,
+  showBackButton: PropTypes.bool.isRequired,
+  onBackButtonClick: PropTypes.func.isRequired,
+};

@@ -9,11 +9,11 @@ const TextField = ({
   label = "",
   type = "text",
   name,
-  children,
+  Icon,
 }) => {
   return (
     <div className={styles.container}>
-      <div className={styles.adornment}>{children}</div>
+      <div className={styles.adornment}>{Icon}</div>
       {label && (
         <label htmlFor={name} className={styles.label}>
           {label}
@@ -39,5 +39,5 @@ TextField.propTypes = {
   query: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  children: PropTypes.node,
+  adornment: PropTypes.node,
 };

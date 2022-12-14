@@ -7,7 +7,7 @@ const Button = ({
   ariaLabel,
   type = "submit",
   onClick = () => {},
-  children,
+  Icon,
 }) => {
   return (
     <button
@@ -16,7 +16,7 @@ const Button = ({
       onClick={onClick}
       aria-label={ariaLabel}
     >
-      {children}
+      {Icon}
       <span>{title}</span>
     </button>
   );
@@ -28,5 +28,5 @@ Button.propTypes = {
   title: PropTypes.string.isRequired,
   type: PropTypes.string,
   onClick: PropTypes.func,
-  children: PropTypes.node,
+  Icon: PropTypes.node,
 };
