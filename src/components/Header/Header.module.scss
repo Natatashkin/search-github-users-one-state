@@ -48,6 +48,21 @@
   }
 }
 
+.pageTitle {
+  font-size: $h3;
+  line-height: 1;
+  white-space: nowrap;
+  transition: font-size $transition;
+
+  @include mixins.breakpoint(min-width, $tablet) {
+    font-size: $h2;
+  }
+
+  @include mixins.breakpoint(min-width, $laptop) {
+    font-size: $h1;
+  }
+}
+
 .backButtonContainer {
   margin-left: 15px;
   margin-right: 8px;

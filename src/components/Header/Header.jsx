@@ -6,7 +6,6 @@ import BackIcon from "../icons/BackIcon/BackIcon";
 import StarIcon from "../icons/StarIcon/StarIcon";
 import SearchIcon from "../icons/SearchIcon/SearchIcon";
 import Logo from "./Logo/Logo";
-import PageTitle from "../PageTitle/PageTitle";
 import IconButton from "../IconButton/IconButton";
 import Button from "../Button/Button";
 import TextField from "../TextField/TextField";
@@ -66,7 +65,7 @@ const Header = ({
             { [styles[`titleContainer--isSearch`]]: showSearch },
           ])}
         >
-          <PageTitle title={title} />
+          <h1 className={styles.pageTitle}>{title}</h1>
         </div>
       </div>
 

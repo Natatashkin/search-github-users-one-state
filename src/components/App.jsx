@@ -12,15 +12,14 @@ import {
 import * as ghApi from "../api/ghApi";
 
 // перенести состояние инпута в хедер ++
-// объединить список с айтемами (юзерслист +,)
+// объединить список с айтемами (юзерслист ++,)
 // перенести обработку ошибок в апи ++
 // пересмотреть стейт +
-//    -убрать стейт ошибки, перенести в нотификашки +
-//    -пейджу и общее кол-во страниц вынести в реф объектом +
+//    -убрать стейт ошибки, перенести в нотификашки ++
+//    -пейджу и общее кол-во страниц вынести в реф объектом ++
 // иконки передавать через проп
 // пофиксить подгрузку страниц и отпавку запроса за юзерами при скроле репозиториев +
-
-// const Spinner = lazy(() => import(`../components/Spinner/Spinner`));
+// пофиксить адаптивность title и search
 
 const Header = lazy(() => import("./Header/Header"));
 const Container = lazy(() => import("./Container/Container"));
@@ -70,14 +69,11 @@ const App = () => {
   };
 
   const request = async (query) => {
-    // reset if empty string
     if (!query) {
       resetState();
       return;
     }
-    // send query if query length > 2
     if (query.length > 2) {
-      // reset evrything if new query or grow page +1
       if (queryRef.current !== query) {
         resetState();
         console.log("reset state, change query");
@@ -85,24 +81,18 @@ const App = () => {
         pageRef.current.page += PAGE_STEP;
       }
       setIsLoading(true);
-      // if new query set queryRef
       queryRef.current = query;
-      // send request and proccess data
       const response = await ghApi.searchUsers(query, pageRef.current.page);
-      // console.log(response, "api response");
 
       if (!response) {
         setIsLoading(false);
         return;
       }
       const { usersData, totalUsers } = response;
-      // if totalUsers === 0, add total
       if (!pageRef.current.totalUsers) {
         pageRef.current.totalUsers = totalUsers;
       }
-      // add isFavorites option
       const users = addFavoriteStatus(usersData, favorites);
-      // update state
       setState((prevState) => {
         const hasStateList = Boolean(prevState.list.length);
         const newList = hasStateList
@@ -237,10 +227,9 @@ const App = () => {
             errorHandler={setState}
           />
         )}
-        {listToRender && (
+        {listToRender && !state.user && (
           <UsersListView
             list={listToRender}
-            // showListSpinner={showListSpinner}
             onGetUser={handleGetUser}
             onFavClick={toggleFavoriteClick}
           />
@@ -260,45 +249,3 @@ const App = () => {
 };
 
 export default App;
-
-// const request = async (query) => {
-//   // queryRef.current = query;
-//   if (query?.length > 2) {
-//     setIsLoading(true);
-//     const response = await ghApi.searchUsers(query, pageRef.current.page);
-//     console.log(response);
-// if (!response) {
-//   return;
-// }
-// const { usersData, totalUsers } = response;
-// if (!pageRef.current.totalUsers) {
-//   pageRef.current.totalUsers = totalUsers;
-// }
-
-//     const users = addFavoriteStatus(usersData, favorites);
-
-//     if (queryRef.current !== query) {
-//       pageRef.current.page = 1;
-//       queryRef.current = query;
-//       setState((prevState) => {
-//         return {
-//           ...prevState,
-//           list: users,
-//         };
-//       });
-//     } else {
-//       pageRef.current.page += PAGE_STEP;
-//       setState((prevState) => {
-//         let newUniqueUsers = prevState.list;
-//         if (newUniqueUsers.length) {
-//           newUniqueUsers = filterNewItems(prevState.list, users);
-//         }
-//         return {
-//           ...prevState,
-//           list: [...prevState.list, ...newUniqueUsers],
-//         };
-//       });
-//     }
-//   }
-//   setIsLoading(false);
-// };
