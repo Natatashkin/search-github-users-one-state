@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import IconButton from "../IconButton/IconButton";
+import ArrowUpIcon from "../icons/ArrowUpIcon/ArrowUpIcon";
+import ArrowDownIcon from "../icons/ArrowDownIcon/ArrowDownIcon";
 import ReposList from "../ReposList/ReposList";
 import ReposListItem from "../ReposList/ReposListItem/ReposListItem";
-import ReposHeader from "../ReposHeader/ReposHeader";
+// import ReposHeader from "../ReposHeader/ReposHeader";
 import styles from "./UserRepos.module.scss";
 
 const UserRepos = ({ reposQuantity, repos }) => {
@@ -12,12 +15,25 @@ const UserRepos = ({ reposQuantity, repos }) => {
 
   return (
     <div className={styles.container}>
-      <ReposHeader
-        showDropdownIcon={showDropdownIcon}
-        reposQuantity={reposQuantity}
-        onClick={toggleOpenClick}
-        open={open}
-      />
+      {/* Repos header */}
+      <div className={styles.repos_header}>
+        <p className={styles.title}>
+          Repositories: <span className={styles.quantity}>{reposQuantity}</span>
+        </p>
+        {showDropdownIcon && (
+          <div className={styles.buttonContainer}>
+            <IconButton
+              onClick={toggleOpenClick}
+              ariaLabel="Open user repos"
+              Icon={
+                open ? <ArrowUpIcon size={18} /> : <ArrowDownIcon size={18} />
+              }
+            />
+          </div>
+        )}
+      </div>
+
+      {/* Repos List */}
       {open && (
         <div className={styles.listContainer}>
           <ReposList>
