@@ -2,11 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import StarIcon from "../icons/StarIcon/StarIcon";
-import UserSubscriptions from "../UserSubscriptions/UserSubscriptions";
+import EmailIcon from "../icons/EmailIcon/EmailIcon";
+import CompanyIcon from "../icons/CompanyIcon/CompanyIcon";
+import LocationIcon from "../icons/LocationIcon/LocationIcon";
+import FollowersIcon from "../icons/FollowersIcon/FollowersIcon";
+import DotIcon from "../icons/DotIcon/DotIcon";
 import IconButton from "../IconButton/IconButton";
-import UserName from "../UserName/UserName";
-import UserContacts from "../UserContacts/UserContacts";
-import UserBio from "../UserBio/UserBio";
 import styles from "./PersonalInfo.module.scss";
 import variables from "../../styles/variables.scss";
 
@@ -23,14 +24,27 @@ const PersonalInfo = ({ data, onFavClick }) => {
     location,
     isFavorite,
   } = data;
+  const hasUsername = name || "No username";
   const iconColor = isFavorite ? variables.yellow : variables.lightgrey;
   const shouldRenderContacts = Boolean(email ?? company ?? location);
 
   return (
     <>
-      <div className={classNames([styles.nameContainer, styles.container])}>
-        <UserName name={name} login={login} url={html_url} />
-        <div>
+      {/* Block Name and favorite btn ------------------------*/}
+      <div className={classNames([styles.nameContainer, styles.marginTop])}>
+        <div className="name">
+          <h2 className={styles.fullName}>{hasUsername}</h2>
+          <h3 className={styles.username}>
+            <a
+              className={styles.link}
+              href={html_url}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="See user profile on GitHub"
+            >{`@${login}`}</a>
+          </h3>
+        </div>
+        <div className="favorite">
           <IconButton
             onClick={onFavClick}
             ariaLabel="Add to Favorites"
@@ -38,18 +52,53 @@ const PersonalInfo = ({ data, onFavClick }) => {
           />
         </div>
       </div>
-      <div className={styles.container}>
-        <UserSubscriptions followers={followers} following={following} />
+      {/* Subscription Block --------------------------- */}
+      <div className={classNames([styles.subscriptions, styles.marginTop])}>
+        <FollowersIcon />
+        <div className={styles.item}>
+          <span className={styles.quantity}>{followers}</span>
+          <span>followers</span>
+        </div>
+        <div className={styles.divider}>
+          <DotIcon size={10} />
+        </div>
+        <div className={styles.item}>
+          <span className={styles.quantity}>{following}</span>
+          <span>following</span>
+        </div>
       </div>
+
+      {/* BIO Block ------------------------------------- */}
       {bio && (
-        <div className={styles.container}>
-          <UserBio text={bio} />
+        <div className={classNames([styles.userBio, styles.marginTop])}>
+          <p className={styles.text}>{bio}</p>
         </div>
       )}
+
+      {/* Contacts Block ------------------------------------ */}
       {shouldRenderContacts && (
-        <div className={styles.container}>
-          <UserContacts email={email} company={company} country={location} />
-        </div>
+        <ul className={styles.marginTop}>
+          {email && (
+            <li className={classNames([styles.listItem, styles.link])}>
+              <EmailIcon />
+              <a className={styles.link} href={`mailto:${email}`}>
+                {email}
+              </a>
+            </li>
+          )}
+          {company && (
+            <li className={styles.listItem}>
+              <CompanyIcon />
+              <span>{company}</span>
+            </li>
+          )}
+          {location && (
+            <li className={styles.listItem}>
+              <LocationIcon />
+              <span>{location}</span>
+            </li>
+          )}
+        </ul>
       )}
     </>
   );
