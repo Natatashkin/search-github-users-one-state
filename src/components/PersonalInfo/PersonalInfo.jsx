@@ -31,9 +31,11 @@ const PersonalInfo = ({ data, onFavClick }) => {
       <div className={classNames([styles.nameContainer, styles.container])}>
         <UserName name={name} login={login} url={html_url} />
         <div>
-          <IconButton onClick={onFavClick} ariaLabel="Add to Favorites">
-            <StarIcon color={iconColor} size={24} />
-          </IconButton>
+          <IconButton
+            onClick={onFavClick}
+            ariaLabel="Add to Favorites"
+            Icon={<StarIcon color={iconColor} size={24} />}
+          />
         </div>
       </div>
       <div className={styles.container}>

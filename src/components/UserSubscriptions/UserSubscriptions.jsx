@@ -8,7 +8,6 @@ const UserSubscriptions = ({ followers, following }) => {
   return (
     <div className={styles.subscriptions}>
       <FollowersIcon />
-
       <div>
         <span className="quantity">{followers}</span>
         <span>followers</span>
