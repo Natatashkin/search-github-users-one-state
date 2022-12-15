@@ -1,14 +1,23 @@
-import React from "react";
-import Spinner from "../../components/Spinner/Spinner";
+import React, { lazy } from "react";
 import UsersList from "../../components/UsersList/UsersList";
+import styles from "./UsersListView.module.scss";
 
-const UsersListView = ({ list, onGetUser, onFavClick }) => {
+const Spinner = lazy(() => import("../../components/Spinner/Spinner"));
+
+const UsersListView = ({
+  list,
+  onGetUser,
+  onFavClick,
+  showListSpinner,
+  isEndOfList,
+}) => {
   return (
     <>
       <UsersList list={list} onGetUser={onGetUser} onFavClick={onFavClick} />
-      {/* <div className="options" style={{ height: "30px" }}>
+      <div className={styles.listOptions}>
         {showListSpinner && <Spinner size={7} />}
-      </div> */}
+        {isEndOfList && <p className={styles.finalText}>The end of list</p>}
+      </div>
     </>
   );
 };

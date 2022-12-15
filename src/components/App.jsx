@@ -35,6 +35,10 @@ const App = () => {
   const showSearch = !showFavList && !state.user;
   const listToRender = showFavList ? favorites : state.list;
   const showSpinner = loading && Boolean(!state.list.length);
+  const showListSpinner = loading && Boolean(state.list.length);
+  const isEndOfList =
+    Boolean(state.list.length) &&
+    pageRef.current.totalUsers === state.list.length;
 
   // Reset state
   const resetState = () => {
@@ -211,8 +215,11 @@ const App = () => {
             list={listToRender}
             onGetUser={handleGetUser}
             onFavClick={toggleFavoriteClick}
+            showListSpinner={showListSpinner}
+            isEndOfList={isEndOfList}
           />
         )}
+
         {showTopBtn && (
           <ButtonToTop onClick={() => handleScrollTopClick(scrollRef, 0)} />
         )}
