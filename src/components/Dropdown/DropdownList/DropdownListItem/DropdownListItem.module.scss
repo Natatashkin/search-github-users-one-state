@@ -1,9 +1,8 @@
-@use "../../../styles/mixins.scss" as mixins;
-@import "../../../styles/variables.scss";
+@use "../../../../styles/mixins.scss" as mixins;
+@import "../../../../styles/variables.scss";
 
-.listItem {
+.dropdown_item {
   @include mixins.display-flex(flex, null, null, column);
-  padding: 10px 8px;
   background-color: $white;
   border-radius: $radius;
   box-shadow: $outerShadow;
@@ -30,6 +29,22 @@
   @include mixins.delay(animation, 15, $delay);
   animation-fill-mode: forwards;
 
+  & .link {
+    padding: 10px 8px;
+    border-radius: $radius;
+    color: $black;
+
+    &:hover,
+    &:focus {
+      background-color: $grey;
+      color: $white;
+
+      & .itemDescription {
+        color: $white;
+      }
+    }
+  }
+
   &:not(:last-child) {
     margin-bottom: 15px;
   }
@@ -40,7 +55,6 @@
 
   & .itemTitle {
     margin-bottom: 10px;
-    color: $black;
   }
 
   & .itemDescription {

@@ -14,3 +14,23 @@
     }
   }
 }
+
+%margin-top {
+  margin-top: 15px;
+}
+
+%white-box-with-shadow {
+  @include mixins.display-flex(flex, space-between, center);
+  width: 100%;
+  height: 38px;
+  border-radius: $radius;
+  background-color: $white;
+  box-shadow: $outerShadow;
+  margin-bottom: 15px;
+  & .title {
+    padding-left: 8px;
+  }
+  & .quantity {
+    font-weight: 700;
+  }
+}

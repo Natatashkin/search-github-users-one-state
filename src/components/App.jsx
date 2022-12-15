@@ -112,7 +112,6 @@ const App = () => {
   // Favorites handlers
   const handleFavClick = () => {
     setShowFavList((prev) => !prev);
-    console.log(state.user);
     if (!state.user) {
       return;
     }

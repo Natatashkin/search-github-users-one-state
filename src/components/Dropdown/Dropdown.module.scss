@@ -1,0 +1,19 @@
+@use "../../styles/mixins.scss" as mixins;
+@import "../../styles/placeholders.scss";
+@import "../../styles/variables.scss";
+
+.container {
+  @extend %margin-top;
+}
+
+.dropdown_header {
+  @extend %white-box-with-shadow;
+}
+
+.dropdown_button {
+  border-radius: $radius;
+}
+
+.dropdown_list_container {
+  margin: 0 -4px;
+}

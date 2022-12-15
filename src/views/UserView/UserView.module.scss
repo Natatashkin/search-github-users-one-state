@@ -1,4 +1,5 @@
 @use "../../styles/mixins.scss" as mixins;
+@import "../../styles/placeholders.scss";
 @import "../../styles/variables.scss";
 
 .container {
@@ -8,4 +9,9 @@
 .avatarContainer {
   width: fit-content;
   margin: 0 auto;
+}
+
+.noRepos {
+  @extend %white-box-with-shadow;
+  @extend %margin-top;
 }

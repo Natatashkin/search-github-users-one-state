@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import { useThrottledCallback } from "use-debounce";
 import BackIcon from "../icons/BackIcon/BackIcon";
 import StarIcon from "../icons/StarIcon/StarIcon";
 import SearchIcon from "../icons/SearchIcon/SearchIcon";
@@ -21,12 +22,13 @@ const Header = ({
   onBackButtonClick,
 }) => {
   const [query, setQuery] = useState("");
+  const [width, setWidth] = useState(null);
   const favButtonColor = showFavList ? variables.yellow : variables.lightgrey;
 
   const title = showFavList
     ? HEADER_TITLES.FAVORITES_TITLE
     : showSearch
-    ? window.innerWidth < 1024
+    ? width < variables.laptop
       ? HEADER_TITLES.SHIRT_SEARCH_TITLE
       : HEADER_TITLES.SEARCH_TITLE
     : HEADER_TITLES.USER_TITLE;
@@ -35,9 +37,22 @@ const Header = ({
     setQuery(value);
   };
 
+  //
+  const onGetWidth = (e) => {
+    setWidth(e.target.innerWidth);
+  };
+  const throttledWidth = useThrottledCallback(onGetWidth, 150);
+
+  useEffect(() => {
+    window.addEventListener("resize", throttledWidth);
+    return () => window.removeEventListener("resize", throttledWidth);
+  }, []);
+
   useEffect(() => {
     onSendRequest(query);
   }, [query]);
+
+  console.log(width);
 
   return (
     <header

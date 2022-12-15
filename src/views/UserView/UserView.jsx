@@ -6,7 +6,7 @@ import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import styles from "./UserView.module.scss";
 
 const Spinner = lazy(() => import("../../components/Spinner/Spinner"));
-const UserRepos = lazy(() => import("../../components/UserRepos/UserRepos"));
+const Dropdown = lazy(() => import("../../components/Dropdown/Dropdown"));
 
 const UserView = ({ user, onFavClick }) => {
   const { login, avatar_url, name, public_repos } = user || {};
@@ -34,7 +34,15 @@ const UserView = ({ user, onFavClick }) => {
       <PersonalInfo data={user} onFavClick={() => onFavClick(user)} />
       <Suspense>
         {loading && <Spinner size={7} />}
-        {showRepos && <UserRepos reposQuantity={public_repos} repos={repos} />}
+        {showRepos && <Dropdown reposQuantity={public_repos} repos={repos} />}
+        {!showRepos && !loading && (
+          <div className={styles.noRepos}>
+            <p className={styles.title}>
+              Repositories:
+              <span className={styles.quantity}>{public_repos}</span>
+            </p>
+          </div>
+        )}
       </Suspense>
     </div>
   );

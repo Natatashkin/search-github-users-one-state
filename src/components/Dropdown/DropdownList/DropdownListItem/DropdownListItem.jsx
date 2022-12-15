@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styles from "./ReposListItem.module.scss";
+import styles from "./DropdownListItem.module.scss";
 
-const ReposListItem = ({ repo, showDescription }) => {
+const DropdownListItem = ({ repo, showDescription }) => {
   const { html_url, name } = repo;
   return (
-    <li className={styles.listItem}>
+    <li className={styles.dropdown_item}>
       <a
+        className={styles.link}
         href={html_url}
         target="_blank"
         rel="noreferrer"
@@ -19,9 +20,9 @@ const ReposListItem = ({ repo, showDescription }) => {
   );
 };
 
-export default ReposListItem;
+export default DropdownListItem;
 
-ReposListItem.propTypes = {
+DropdownListItem.propTypes = {
   repo: PropTypes.shape({
     html_url: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,

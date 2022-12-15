@@ -1,12 +1,11 @@
 @use "../../styles/mixins.scss" as mixins;
+@import "../../styles/placeholders.scss";
 @import "../../styles/variables.scss";
 
 .listOptions {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include mixins.display-flex(flex, center, center);
   height: 40px;
-  padding: 8px 0;
+  margin-top: 15px;
 
   & .finalText {
     font-family: "Roboto-Bold", sun-serif;
