@@ -26,7 +26,7 @@
     }
   }
 
-  animation: showItem $time ease-in-out;
+  animation: showItem $transition;
   @include mixins.delay(animation, 15, $delay);
   animation-fill-mode: forwards;
 
@@ -38,12 +38,12 @@
     margin-bottom: 4px;
   }
 
-  & h4 {
+  & .itemTitle {
     margin-bottom: 10px;
     color: $black;
   }
 
-  & p {
+  & .itemDescription {
     color: $grey;
   }
 }

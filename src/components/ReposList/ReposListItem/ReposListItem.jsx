@@ -12,8 +12,8 @@ const ReposListItem = ({ repo, showDescription }) => {
         rel="noreferrer"
         aria-label="See that repo on GitHub"
       >
-        <h4>{name}</h4>
-        <p>{showDescription}</p>
+        <h4 className={styles.itemTitle}>{name}</h4>
+        <p className={styles.itemDescription}>{showDescription}</p>
       </a>
     </li>
   );

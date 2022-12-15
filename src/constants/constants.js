@@ -14,6 +14,12 @@ const BACK_BUTTON_TITLE = "Back";
 
 const FAVORITES_DATA = JSON.parse(window.localStorage.getItem("favorites"));
 
+const ERROR_TEXT = {
+  ERR_NETWORK: "You are offline. Try later!",
+  NO_AUTH: "Authenticate, pleace!",
+  NO_USER: "No users with username",
+};
+
 export {
   INITIAL_STATE,
   HEADER_TITLES,
@@ -21,4 +27,5 @@ export {
   FAVORITES_DATA,
   BACK_BUTTON_TITLE,
   PAGE_STEP,
+  ERROR_TEXT,
 };

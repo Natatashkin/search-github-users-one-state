@@ -4,8 +4,6 @@ import IconButton from "../IconButton/IconButton";
 import ArrowUpIcon from "../icons/ArrowUpIcon/ArrowUpIcon";
 import ArrowDownIcon from "../icons/ArrowDownIcon/ArrowDownIcon";
 import ReposList from "../ReposList/ReposList";
-import ReposListItem from "../ReposList/ReposListItem/ReposListItem";
-// import ReposHeader from "../ReposHeader/ReposHeader";
 import styles from "./UserRepos.module.scss";
 
 const UserRepos = ({ reposQuantity, repos }) => {
@@ -36,19 +34,7 @@ const UserRepos = ({ reposQuantity, repos }) => {
       {/* Repos List */}
       {open && (
         <div className={styles.listContainer}>
-          <ReposList>
-            {repos.map((repo) => {
-              const showDescription = repo.description || "No description";
-              return (
-                <ReposListItem
-                  key={repo.id}
-                  repo={repo}
-                  showDescription={showDescription}
-                  showItem={open}
-                />
-              );
-            })}
-          </ReposList>
+          <ReposList repos={repos} openList={open} />
         </div>
       )}
     </div>

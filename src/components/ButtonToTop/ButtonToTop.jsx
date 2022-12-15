@@ -10,9 +10,8 @@ const ButtonToTop = ({ onClick }) => {
       variant="sticky"
       onClick={onClick}
       aria-label="Scroll to top"
-    >
-      <ArrowUpIcon size={25} />
-    </IconButton>
+      Icon={<ArrowUpIcon size={25} />}
+    />
   );
 };
 

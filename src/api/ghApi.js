@@ -1,6 +1,6 @@
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { USERS_PER_PAGE } from "../constants/constants";
+import { USERS_PER_PAGE, ERROR_TEXT } from "../constants/constants";
 
 axios.defaults.baseURL = "https://api.github.com";
 axios.defaults.headers.common["Authorization"] = "token ";
@@ -17,10 +17,17 @@ const getUser = async (username) => {
 
 const getUserRepos = async (username) => {
   try {
-    const response = await axios.get(`/users/${username}/repos?type=owner`);
-    return response;
+    const { data } = await axios.get(`/users/${username}/repos?type=owner`);
+    return data;
   } catch (error) {
-    return error;
+    if (error.code === "ERR_NETWORK") {
+      error.message = ERROR_TEXT.ERR_NETWORK;
+    }
+    if (error?.response?.status === 401) {
+      error.message = ERROR_TEXT.NO_AUTH;
+    }
+    toast.error(error.message, { duration: 2000 });
+    return;
   }
 };
 
@@ -30,7 +37,7 @@ const searchUsers = async (name, page) => {
       `/search/users?q=${name}&type=user&in=name&per_page=${USERS_PER_PAGE}&page=${page}`
     );
     if (!data.total_count) {
-      throw new Error(`No users with username "${name}"`);
+      throw new Error(`${ERROR_TEXT.NO_USER} "${name}"`);
     }
     const findUsers = data.items.map(({ login }) => {
       const response = getUser(login);
@@ -40,11 +47,11 @@ const searchUsers = async (name, page) => {
     return { usersData, totalUsers: data.total_count };
   } catch (error) {
     if (error.code === "ERR_NETWORK") {
-      error.message = "You are offline. Try later!";
+      error.message = ERROR_TEXT.ERR_NETWORK;
     }
 
     if (error?.response?.status === 401) {
-      error.message = "Authenticate, pleace!";
+      error.message = ERROR_TEXT.NO_AUTH;
     }
 
     toast.error(error.message, { duration: 2000 });

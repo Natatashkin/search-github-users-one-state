@@ -10,16 +10,6 @@ import {
 } from "../constants/constants";
 import * as ghApi from "../api/ghApi";
 
-// перенести состояние инпута в хедер ++
-// объединить список с айтемами (юзерслист ++,)
-// перенести обработку ошибок в апи ++
-// пересмотреть стейт ++
-//    -убрать стейт ошибки, перенести в нотификашки ++
-//    -пейджу и общее кол-во страниц вынести в реф объектом ++
-// иконки передавать через проп ++
-// пофиксить подгрузку страниц и отпавку запроса за юзерами при скроле репозиториев +
-// пофиксить адаптивность title и search
-
 const Header = lazy(() => import("./Header/Header"));
 const Container = lazy(() => import("./Container/Container"));
 
@@ -177,11 +167,11 @@ const App = () => {
   const onScroll = useCallback(
     (e) => {
       handleShowButtonTop(e);
-      if (!showFavList) {
+      if (showSearch) {
         debouncedScroll(e);
       }
     },
-    [debouncedScroll, showFavList]
+    [debouncedScroll, showSearch]
   );
 
   // ScrollToTop button handlers
@@ -214,11 +204,7 @@ const App = () => {
       <Container ref={scrollRef} onScroll={onScroll}>
         {showSpinner && <Spinner />}
         {state?.user && (
-          <UserView
-            user={state.user}
-            onFavClick={toggleFavoriteClick}
-            errorHandler={setState}
-          />
+          <UserView user={state.user} onFavClick={toggleFavoriteClick} />
         )}
         {listToRender && !state.user && (
           <UsersListView

@@ -52,6 +52,7 @@ const PersonalInfo = ({ data, onFavClick }) => {
           />
         </div>
       </div>
+
       {/* Subscription Block --------------------------- */}
       <div className={classNames([styles.subscriptions, styles.marginTop])}>
         <FollowersIcon />
