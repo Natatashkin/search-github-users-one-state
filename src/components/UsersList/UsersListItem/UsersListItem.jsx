@@ -49,7 +49,7 @@ const UsersListItem = ({ item, onGetUser, onFavClick }) => {
       <div className={styles.container}>
         {userStats.map(({ name, data }) => {
           return (
-            <div className={styles.stats}>
+            <div key={name} className={styles.stats}>
               <h3>{name}</h3>
               <p>{data}</p>
             </div>

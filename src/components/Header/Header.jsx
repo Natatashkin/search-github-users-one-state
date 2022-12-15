@@ -24,10 +24,12 @@ const Header = ({
   const favButtonColor = showFavList ? variables.yellow : variables.lightgrey;
 
   const title = showFavList
-    ? HEADER_TITLES.favorites
+    ? HEADER_TITLES.FAVORITES_TITLE
     : showSearch
-    ? HEADER_TITLES.search
-    : HEADER_TITLES.user;
+    ? window.innerWidth < 1024
+      ? HEADER_TITLES.SHIRT_SEARCH_TITLE
+      : HEADER_TITLES.SEARCH_TITLE
+    : HEADER_TITLES.USER_TITLE;
 
   const handleInputChange = ({ target: { value } }) => {
     setQuery(value);

@@ -55,10 +55,6 @@
   white-space: nowrap;
   transition: font-size $transition;
 
-  @include mixins.breakpoint(min-width, $tablet) {
-    font-size: $h2;
-  }
-
   @include mixins.breakpoint(min-width, $laptop) {
     font-size: $h1;
   }

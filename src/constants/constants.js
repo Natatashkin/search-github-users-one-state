@@ -4,9 +4,10 @@ const INITIAL_STATE = {
 };
 
 const HEADER_TITLES = {
-  search: "Search GitHub Users",
-  favorites: "Favorite Users",
-  user: "User Profile",
+  SEARCH_TITLE: "Search GitHub Users",
+  SHIRT_SEARCH_TITLE: "Search Users",
+  FAVORITES_TITLE: "Favorite Users",
+  USER_TITLE: "User Profile",
 };
 const USERS_PER_PAGE = 15;
 const PAGE_STEP = 1;
